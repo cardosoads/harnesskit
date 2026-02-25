@@ -1,0 +1,44 @@
+workflow:
+  id: tech-debt-audit
+  name: "Audit Technical Debt"
+  phase: analysis
+  agent: raj
+  required: true
+
+  description: "Guides the user through a systematic audit of technical debt, using the codebase analysis as foundation"
+
+  instructions: "tech-debt-instructions.md"
+  template: "tech-debt-template.md"
+  checklist: "tech-debt-checklist.md"
+
+  inputs:
+    - "artifacts/analysis/codebase-analysis.md"
+
+  output:
+    path: "artifacts/analysis/tech-debt-report.md"
+    handoff_to: [raj]
+
+  steps:
+    - id: "review-analysis"
+      action: "ask"
+      prompt: "I've reviewed the codebase analysis. Let me highlight the areas of concern I found. Do you want me to focus on specific areas?"
+      required: true
+
+    - id: "known-pain"
+      action: "ask"
+      prompt: "Beyond what I found, are there known pain points your team deals with regularly?"
+      required: false
+
+    - id: "scan-debt"
+      action: "generate"
+      description: "Systematically scan the codebase for technical debt: outdated dependencies, missing tests, code smells, security concerns, documentation gaps"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the tech debt report with findings classified by severity, effort, and recommended action"
+      save_to: "artifacts/analysis/tech-debt-report.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "tech-debt-checklist.md"
