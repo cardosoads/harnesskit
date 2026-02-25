@@ -1,0 +1,45 @@
+workflow:
+  id: design-audit
+  name: "Design Audit & Improvement"
+  phase: design
+  agent: design-specialist
+  required: false
+
+  description: "Emily audits the existing design system, identifies inconsistencies, and produces an incremental improvement plan with design tokens to standardize what exists. Optional phase."
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/analysis/codebase-analysis.md"
+    - "artifacts/planning/improvement-plan.md"
+
+  output:
+    path: "artifacts/design/design-audit.md"
+    handoff_to: [howard]
+
+  steps:
+    - id: "scan-existing"
+      action: "generate"
+      description: "Scan existing UI: colors in use, fonts, spacing patterns, component patterns, CSS approach. Document what exists."
+      required: true
+
+    - id: "gaps"
+      action: "generate"
+      description: "Identify gaps and inconsistencies: multiple blues, mixed spacing, no token system, accessibility issues, broken responsive behavior."
+      required: true
+
+    - id: "improvement-plan"
+      action: "ask"
+      prompt: "Here's what I found in the existing design. I'll present an incremental improvement plan — evolution, not revolution. Want to adjust priorities?"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Compile the design audit with current state, gaps, proposed tokens, and improvement plan."
+      save_to: "artifacts/design/design-audit.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"
