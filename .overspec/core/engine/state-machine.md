@@ -87,6 +87,35 @@ for each phase in phase_list:
     stop
 ```
 
+### Optional Phases
+
+Some phases have `required: false` in overspec.yaml (e.g., `discuss`, `design`). These phases are **optional** — they can be skipped without breaking the flow.
+
+When the orchestrator (Sheldon) encounters an optional phase:
+
+1. **Ask the user** whether they want to execute the phase or skip it
+2. If the user wants to **execute**: set the phase status to `unlocked` and proceed normally
+3. If the user wants to **skip**: set the phase status to `completed` with a skip marker and advance to the next phase
+
+```
+# When transitioning to the next phase:
+next_phase = next phase in phase_list
+
+if next_phase has required: false:
+  ask user: "Do you want to execute the [phase_name] phase? (optional)"
+  if user says skip:
+    next_phase.status = "completed"
+    add skip_reason to the phase: "Skipped by user (optional phase)"
+    advance to the phase after next_phase
+  else:
+    next_phase.status = "unlocked"
+    proceed normally
+```
+
+Optional phases currently defined:
+- **discuss** (greenfield, order 2.5) — Multi-agent discussion
+- **design** (all tracks, order 2.5 or 3.5) — UI/UX design with Emily
+
 ---
 
 ## Handoffs

@@ -1,0 +1,46 @@
+workflow:
+  id: feature-ui-design
+  name: "Feature UI Design"
+  phase: design
+  agent: design-specialist
+  required: false
+
+  description: "Emily designs the UI for new features, integrating with existing design system when available or creating a minimal viable one. Optional phase."
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/architecture/feature-design.md"
+    - "artifacts/specification/feature-stories.md"
+    - "artifacts/discovery/impact-analysis.md"
+
+  output:
+    path: "artifacts/design/feature-ui.md"
+    handoff_to: [howard]
+
+  steps:
+    - id: "context"
+      action: "generate"
+      description: "Analyze existing design system (if any). Check artifacts/design/ for prior design-system.md, tokens, or specifications. If none exists, prepare to create a minimal viable design system."
+      required: true
+
+    - id: "feature-design"
+      action: "generate"
+      description: "Design the feature UI: art direction (new or inherited), tokens (new or extended), components needed (Atomic Design classification), layouts, and interaction states."
+      required: true
+
+    - id: "integration"
+      action: "ask"
+      prompt: "Here's the feature UI design. It integrates with the existing design system / creates a minimal one. Want to adjust anything before I finalize?"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Compile the feature UI design document with all specifications and code examples."
+      save_to: "artifacts/design/feature-ui.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

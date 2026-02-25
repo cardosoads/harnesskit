@@ -1,0 +1,57 @@
+workflow:
+  id: design-system
+  name: "Design System — Atomic Design & Art Direction"
+  phase: design
+  agent: design-specialist
+  required: false
+
+  description: "Emily creates a complete design system using Atomic Design methodology with intentional art direction, design tokens, UI specifications, and production-grade frontend code. Optional phase — skip for projects without UI."
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/architecture/architecture.md"
+    - "artifacts/architecture/tech-stack.md"
+    - "artifacts/discovery/requirements.md"
+    - "artifacts/specification/user-stories.md"
+
+  output:
+    path: "artifacts/design/design-system.md"
+    handoff_to: [howard]
+
+  steps:
+    - id: "brief"
+      action: "ask"
+      prompt: "I need to understand the design context: purpose, target user, primary action, content density, and constraints (framework, dark/light, a11y requirements). What are we designing?"
+      required: true
+
+    - id: "art-direction"
+      action: "generate"
+      description: "Define art direction: pick an explicit aesthetic (not 'safe default'), name it, write rationale, define 3 signature motifs. Present 2-3 options if requirements are weak."
+      required: true
+
+    - id: "design-tokens"
+      action: "generate"
+      description: "Create design tokens as CSS variables: colors (background, surface, text, muted, accent), typography (display + body font, type scale), spacing scale (4-8 steps), effects (shadows, borders, radius)."
+      required: true
+
+    - id: "components"
+      action: "generate"
+      description: "Define Atomic Design hierarchy: atoms (base elements, form elements, display elements), molecules (combinations), organisms (complex components), templates (page layouts), pages (with real content). Include all interaction states."
+      required: true
+
+    - id: "motion-a11y"
+      action: "generate"
+      description: "Motion pass (orchestrated entrance, coherent durations, prefers-reduced-motion) and accessibility gates (semantic HTML, keyboard nav, focus-visible, contrast, responsive, performance)."
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Compile the complete design system document with all sections."
+      save_to: "artifacts/design/design-system.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

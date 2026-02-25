@@ -39,7 +39,7 @@
         },
         "model_role": {
           "type": "string",
-          "enum": ["orchestrator", "analyst", "architect", "developer", "reviewer"],
+          "enum": ["orchestrator", "analyst", "architect", "designer", "developer", "reviewer"],
           "description": "Maps this agent to a role in overspec.yaml > model_profiles. Determines which AI model is used for this agent based on the active profile."
         }
       },
@@ -87,6 +87,7 @@
           "specification",
           "discuss",
           "architecture",
+          "design",
           "implementation",
           "review",
           "analysis",

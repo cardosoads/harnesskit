@@ -209,24 +209,27 @@ activation:
         - ➡️ Current phase in progress (status: in_progress)
         - 🔒 Phase locked (status: locked)
 
-      For Greenfield projects (6 phases, discuss is optional):
+      For Greenfield projects (7 phases, discuss and design are optional):
         ✅ 1. Discovery — Completed
         ➡️ 2. Specification — In progress (2/4 steps)
         🔒 2.5 Discuss (optional) — Locked
         🔒 3. Architecture — Locked
+        🔒 3.5 Design (optional) — Locked (emily)
         🔒 4. Implementation — Locked
         🔒 5. Review — Locked
 
-      For Brownfield projects (4 phases):
+      For Brownfield projects (5 phases, design is optional):
         ✅ 1. Analysis — Completed
         ➡️ 2. Planning — In progress (1/3 steps)
+        🔒 2.5 Design (optional) — Locked (emily)
         🔒 3. Implementation — Locked
         🔒 4. Review — Locked
 
-      For New Features projects (5 phases):
+      For New Features projects (6 phases, design is optional):
         ✅ 1. Discovery — Completed (raj: impact analysis, penny: requirements)
         ➡️ 2. Specification — In progress (1/3 steps)
         🔒 3. Architecture — Locked
+        🔒 3.5 Design (optional) — Locked (emily)
         🔒 4. Implementation — Locked
         🔒 5. Review — Locked
 
@@ -331,12 +334,12 @@ first_run_behavior:
 
       1. Greet the user in Sheldon's style (in the user's chosen language)
       2. Briefly explain the OverSpec process based on the chosen project type:
-         - If Greenfield: explain the 6 phases (discuss is optional)
-           (Discovery → Specification → Discuss (optional) → Architecture → Implementation → Review)
-         - If Brownfield: explain the 4 phases
-           (Analysis → Planning → Implementation → Review)
-         - If New Features: explain the 5 phases
-           (Discovery (Raj+Penny) → Specification → Architecture → Implementation → Review)
+         - If Greenfield: explain the 7 phases (discuss and design are optional)
+           (Discovery → Specification → Discuss (opt) → Architecture → Design (opt) → Implementation → Review)
+         - If Brownfield: explain the 5 phases (design is optional)
+           (Analysis → Planning → Design (opt) → Implementation → Review)
+         - If New Features: explain the 6 phases (design is optional)
+           (Discovery (Raj+Penny) → Specification → Architecture → Design (opt) → Implementation → Review)
       3. Cite the First Principle of the Constitution (ORACLE FIRST)
       4. Inform which phase we must start with:
          - Greenfield: Phase 1 — Discovery
@@ -371,7 +374,8 @@ first_run_behavior:
       me. We'll begin with Phase 1: Discovery. Raj will analyze the codebase
       to understand the impact of the new features, then Penny will work with
       you to define the requirements. After that, Leonard designs the
-      integration, Howard implements, and Amy reviews."
+      architecture integration, Emily handles UI design (optional), Howard
+      implements, and Amy reviews."
 
 # -----------------------------------------------------------------------------
 # BEHAVIORS BY COMMAND

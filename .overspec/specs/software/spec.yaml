@@ -27,6 +27,7 @@ components:
     - howard.agent.yaml      # Developer
     - amy.agent.yaml         # Quality Reviewer
     - raj.agent.yaml         # Brownfield Analyst
+    - design-specialist.agent.yaml  # Design Specialist
   workflows:
     greenfield:
       - 1-discovery/workflow.yaml
@@ -34,12 +35,14 @@ components:
       - 2-specification/workflow.yaml
       - 2.5-discuss/workflow.yaml
       - 3-architecture/workflow.yaml
+      - 3.5-design/workflow.yaml
       - 4-implementation/workflow.yaml
       - 5-review/workflow.yaml
     brownfield:
       - bf-1-analysis/workflow.yaml
       - bf-1-analysis/tech-debt-workflow.yaml
       - bf-2-planning/workflow.yaml
+      - bf-2.5-design/workflow.yaml
       - bf-3-implementation/workflow.yaml
       - 5-review/workflow.yaml
     newfeatures:
@@ -47,6 +50,7 @@ components:
       - nf-1-discovery/feature-requirements-workflow.yaml
       - nf-2-specification/workflow.yaml
       - nf-3-architecture/workflow.yaml
+      - nf-3.5-design/workflow.yaml
       - nf-4-implementation/workflow.yaml
       - 5-review/workflow.yaml
   templates:
@@ -56,12 +60,14 @@ components:
       - 2-specification/template.md
       - 2.5-discuss/template.md
       - 3-architecture/template.md
+      - 3.5-design/template.md
       - 4-implementation/template.md
       - 5-review/template.md
     brownfield:
       - bf-1-analysis/template.md
       - bf-1-analysis/tech-debt-template.md
       - bf-2-planning/template.md
+      - bf-2.5-design/template.md
       - bf-3-implementation/template.md
       - 5-review/template.md
     newfeatures:
@@ -69,6 +75,7 @@ components:
       - nf-1-discovery/feature-requirements-template.md
       - nf-2-specification/template.md
       - nf-3-architecture/template.md
+      - nf-3.5-design/template.md
       - nf-4-implementation/template.md
       - 5-review/template.md
 
