@@ -13,6 +13,7 @@ agent:
   icon: "\U0001F9EC"
   version: "1.0.0"
   inspiration: "Bernadette Rostenkowski-Wolowitz — The Big Bang Theory"
+  model_role: "orchestrator"
 
 # -----------------------------------------------------------------------------
 # PERSONA

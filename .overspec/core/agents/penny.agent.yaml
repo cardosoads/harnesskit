@@ -12,6 +12,7 @@ agent:
   icon: "🎯"
   version: "1.1.0"
   inspiration: "Penny — The Big Bang Theory"
+  model_role: "analyst"
 
 # -----------------------------------------------------------------------------
 # PERSONA

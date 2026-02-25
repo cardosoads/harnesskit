@@ -13,6 +13,7 @@ agent:
   icon: "🔎"
   version: "1.0.0"
   inspiration: "Raj Koothrappali — The Big Bang Theory"
+  model_role: "analyst"
 
 # -----------------------------------------------------------------------------
 # PERSONA

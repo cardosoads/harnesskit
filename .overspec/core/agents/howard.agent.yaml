@@ -12,6 +12,7 @@ agent:
   icon: "🔧"
   version: "1.1.0"
   inspiration: "Howard Wolowitz — The Big Bang Theory"
+  model_role: "developer"
 
 # -----------------------------------------------------------------------------
 # PERSONA

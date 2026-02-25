@@ -12,6 +12,7 @@ agent:
   icon: "🏗️"
   version: "1.0.0"
   inspiration: "Leonard Hofstadter — The Big Bang Theory"
+  model_role: "architect"
 
 # -----------------------------------------------------------------------------
 # PERSONA
