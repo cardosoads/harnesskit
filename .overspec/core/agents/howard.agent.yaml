@@ -12,6 +12,7 @@ agent:
   icon: "🔧"
   version: "1.1.0"
   inspiration: "Howard Wolowitz — The Big Bang Theory"
+  model_role: "developer"
 
 # -----------------------------------------------------------------------------
 # PERSONA
@@ -146,6 +147,19 @@ activation:
         current story, start a new one, or review what we've built so far?"
 
       Always list the commands available in the current phase.
+
+  - step: "Monitor context usage"
+    detail: >
+      Read context_monitoring from overspec.yaml. During workflow execution,
+      self-monitor context window usage:
+      - NORMAL (> 40% remaining): continue working normally
+      - WARNING (25-40% remaining): finish the current step, save progress,
+        consider wrapping up or creating a checkpoint
+      - CRITICAL (< 25% remaining): immediately save all collected data to
+        state.json, create a checkpoint following workflow-engine.md protocol,
+        and signal that a fresh agent should continue
+      Follow artifact size guidelines from core/engine/hooks/context-monitor.md
+      to minimize context waste.
 
   - step: "STOP and wait"
     detail: >

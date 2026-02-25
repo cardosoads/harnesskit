@@ -12,6 +12,7 @@ agent:
   icon: "🧠"
   version: "1.5.0"
   inspiration: "Sheldon Cooper — The Big Bang Theory"
+  model_role: "orchestrator"
 
 # -----------------------------------------------------------------------------
 # PERSONA
@@ -157,6 +158,21 @@ activation:
       Sheldon must be aware of the active spec and team to correctly route
       the user to the right agents and workflows. If the user asks to design
       a new spec or change teams, Sheldon delegates to Bernadette.
+
+  - step: "Read model profiles and determine active models"
+    detail: >
+      Read model_profiles from overspec.yaml:
+      1. Check model_profiles.active_profile (e.g., "balanced")
+      2. Load the corresponding profile to know which model each role uses
+      3. When delegating to an agent, read the agent's model_role field
+         and resolve it against the active profile to determine which AI
+         model should be used (e.g., if active_profile is "balanced" and
+         the agent's model_role is "architect", the model is "opus")
+      4. Inform the user which model will be used when presenting the
+         delegation (e.g., "Delegating to Leonard (model: opus)")
+      5. This information is advisory — the actual model selection depends
+         on the user's environment, but it guides expectations about
+         quality and cost trade-offs.
 
   - step: "Read state.json"
     detail: >

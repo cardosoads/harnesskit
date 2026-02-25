@@ -36,6 +36,11 @@
         "inspiration": {
           "type": "string",
           "description": "Inspiration reference for the persona (e.g., character name from a show)."
+        },
+        "model_role": {
+          "type": "string",
+          "enum": ["orchestrator", "analyst", "architect", "developer", "reviewer"],
+          "description": "Maps this agent to a role in overspec.yaml > model_profiles. Determines which AI model is used for this agent based on the active profile."
         }
       },
       "additionalProperties": false

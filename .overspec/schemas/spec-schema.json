@@ -58,7 +58,7 @@
     },
     "components": {
       "type": "object",
-      "description": "References to all agents, tasks, workflows, and templates included in this spec.",
+      "description": "References to all agents, workflows, and templates included in this spec.",
       "properties": {
         "agents": {
           "type": "array",
@@ -66,13 +66,6 @@
             "type": "string"
           },
           "description": "List of agent definition file paths relative to the spec."
-        },
-        "tasks": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "List of task definition file paths relative to the spec."
         },
         "workflows": {
           "description": "Workflow definitions. Can be a flat array of paths (simple specs) or an object with named tracks like 'greenfield'/'brownfield' (multi-track specs).",
