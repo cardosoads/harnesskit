@@ -1,0 +1,48 @@
+workflow:
+  id: impact-analysis
+  name: "Impact Analysis for New Feature"
+  phase: discovery
+  agent: raj
+  required: true
+
+  description: "Raj analyzes the existing codebase to understand where a new feature fits, what components are affected, and what risks exist. This is the first half of the new-features discovery phase."
+
+  instructions: "impact-analysis-instructions.md"
+  template: "impact-analysis-template.md"
+  checklist: "impact-analysis-checklist.md"
+
+  inputs: []
+
+  output:
+    path: "artifacts/discovery/impact-analysis.md"
+    handoff_to: [penny]
+
+  steps:
+    - id: "feature-description"
+      action: "ask"
+      prompt: "Describe the feature(s) you want to add. What should they do? What problem do they solve?"
+      required: true
+
+    - id: "scan-codebase"
+      action: "generate"
+      description: "Scan the existing codebase to understand the current architecture, components, and patterns. Identify which areas will be affected by the new feature."
+      required: true
+
+    - id: "impact-assessment"
+      action: "generate"
+      description: "Assess the impact: which files/components need changes, what new components are needed, what risks exist, and what dependencies are involved."
+      required: true
+
+    - id: "user-concerns"
+      action: "ask"
+      prompt: "Based on my analysis, here are the areas that will be affected. Do you have any concerns or constraints I should consider?"
+      required: false
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the impact analysis report with affected components, risk assessment, and recommendations for the feature implementation approach."
+      save_to: "artifacts/discovery/impact-analysis.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "impact-analysis-checklist.md"
