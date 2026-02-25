@@ -3,7 +3,7 @@
   "spec": "software",
   "created_at": "2026-02-25T00:00:00Z",
   "cycle": 2,
-  "current_phase": "review",
+  "current_phase": "completed",
   "phases": {
     "analysis": {
       "status": "completed",
@@ -57,14 +57,14 @@
       ]
     },
     "review": {
-      "status": "unlocked",
+      "status": "completed",
       "steps": [
         {
           "id": "review-artifact",
-          "status": "pending",
-          "artifact": null,
+          "status": "completed",
+          "artifact": "artifacts/review/review-report.md",
           "agent": "amy",
-          "completed_at": null
+          "completed_at": "2026-02-25T20:00:00Z"
         }
       ]
     }
@@ -74,6 +74,12 @@
       "cycle": 1,
       "completed_at": "2026-02-25T16:30:00Z",
       "summary": "Tech debt remediation: 4 epics, 14 stories — schema alignment, workflow completeness, feature activation, documentation polish",
+      "review_verdict": "APPROVED"
+    },
+    {
+      "cycle": 2,
+      "completed_at": "2026-02-25T20:00:00Z",
+      "summary": "New Features track: 3 epics, 12 stories — infrastructure (3-track routing, dynamic state machine), workflows (5 phases with 20 files), integration (shared review, artifact dirs)",
       "review_verdict": "APPROVED"
     }
   ],
@@ -90,7 +96,7 @@
       "to": "amy",
       "artifact": "artifacts/implementation/bf-setup-report.md",
       "created_at": "2026-02-25T19:30:00Z",
-      "consumed": false
+      "consumed": true
     }
   ]
 }
