@@ -12,6 +12,7 @@ team:
   spec: "software"
   agents:
     - raj         # Brownfield Analyst
+    - design-specialist  # Design Audit (optional phase)
     - howard      # Developer
     - amy         # Quality Reviewer
   purpose: >

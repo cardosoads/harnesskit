@@ -13,6 +13,7 @@ team:
   agents:
     - penny       # Requirements Analyst
     - leonard     # Software Architect
+    - design-specialist  # Design Specialist (optional phase)
     - howard      # Developer
     - amy         # Quality Reviewer
   purpose: >
