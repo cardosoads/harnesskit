@@ -6,7 +6,7 @@ project:
   description: "Improving and evolving the OverSpec framework itself"
   language: "en"
   spec: "software"
-  project_type: "brownfield"
+  project_type: "new-features"
 
 user_preferences:
   # The language Sheldon and other agents use to communicate with the user.
@@ -81,18 +81,21 @@ model_profiles:
       orchestrator: "opus"    # Sheldon
       analyst: "opus"         # Penny, Raj
       architect: "opus"       # Leonard
+      designer: "opus"        # Emily
       developer: "opus"       # Howard
       reviewer: "sonnet"      # Amy
     balanced:
       orchestrator: "sonnet"  # Sheldon
       analyst: "sonnet"       # Penny, Raj
       architect: "opus"       # Leonard
+      designer: "opus"        # Emily
       developer: "sonnet"     # Howard
       reviewer: "sonnet"      # Amy
     budget:
       orchestrator: "sonnet"  # Sheldon
       analyst: "sonnet"       # Penny, Raj
       architect: "sonnet"     # Leonard
+      designer: "sonnet"      # Emily
       developer: "sonnet"     # Howard
       reviewer: "haiku"       # Amy
 
@@ -103,7 +106,7 @@ specs:
 
 # Active team
 teams:
-  active: "team-brownfield"    # Brownfield team for existing project improvement
+  active: "team-newfeatures"    # New Features team for adding features to existing projects
   path: "teams/"
 
 # Context monitoring configuration
