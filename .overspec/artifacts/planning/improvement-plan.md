@@ -1,268 +1,209 @@
-# Improvement Plan: overspec-dev
+# Improvement Plan: overspec-dev (Ciclo 2)
 
-| Field    | Value                |
-|----------|----------------------|
-| Project  | overspec-dev         |
-| Date     | 2026-02-25           |
-| Version  | 1.0                  |
-| Agent    | raj                  |
-| Phase    | Planning             |
+| Field    | Value                         |
+|----------|-------------------------------|
+| Project  | overspec-dev                  |
+| Date     | 2026-02-25                    |
+| Version  | 2.0                           |
+| Agent    | raj                           |
+| Phase    | Planning (Cycle 2)            |
 
 ---
 
 ## Executive Summary
 
-O OverSpec é um framework bem arquitetado mas com dívida técnica concentrada em schemas desalinhados, workflows incompletos e features não conectadas. Este plano organiza 12 findings do tech debt audit em 4 epics com 14 stories, priorizando **consistência interna primeiro** (schemas) para garantir que toda adição futura seja validável. Abordagem moderada: agrupa quick wins, valida antes de mexer em coisas críticas.
+Adicionar o track **New Features** ao OverSpec — um terceiro fluxo de trabalho para adicionar features a projetos existentes. O track combina Raj (análise de impacto no codebase) + Penny (requisitos da feature) na discovery, seguido por especificação, arquitetura, implementação e review. O plano organiza o trabalho em 3 epics com 10 stories.
 
 ---
 
 ## Goals & Objectives
 
-| Goal                                    | Priority | Success Metric                               |
-|-----------------------------------------|----------|----------------------------------------------|
-| Alinhar schemas com a realidade         | P0       | Todos os 7 agentes e o spec.yaml passam validação contra seus schemas |
-| Completar workflows faltantes           | P1       | Flow greenfield e brownfield executáveis end-to-end sem gaps |
-| Conectar features configuradas          | P2       | Model profiles e context monitor funcionais   |
-| Criar diretórios e paths ausentes       | P0       | Zero referências a caminhos inexistentes      |
-
----
-
-## Current State Summary
-
-> Extraído do codebase analysis e tech debt report.
-
-- **12 findings** identificados: 1 critical, 4 high, 5 medium, 2 low
-- **Schemas** rejeitam os próprios arquivos do framework (agent schema, spec schema)
-- **Workflows** com gaps no flow greenfield (requirements) e brownfield (tech-debt-audit)
-- **Features** configuradas mas sem efeito (model profiles, context monitor)
-- **Diretórios** referenciados mas inexistentes (discuss, discussions, analysis, planning, review)
-- **Workflow engine** não documenta actions usadas na prática (auto, party)
-
----
-
-## Proposed Changes
-
-| ID   | Change                                    | Type     | Priority | Effort | Risk   | Ref    |
-|------|-------------------------------------------|----------|----------|--------|--------|--------|
-| C-01 | Reescrever agent schema (_schema.json)    | fix      | P0       | M      | Medium | TD-01  |
-| C-02 | Corrigir spec schema (workflows structure)| fix      | P0       | S      | Low    | TD-02  |
-| C-03 | Corrigir spec.yaml templates paths        | fix      | P0       | S      | Low    | TD-03  |
-| C-04 | Criar diretórios faltantes (discuss, discussions, analysis, planning, review) | fix | P0 | XS | Low | TD-10, TD-11 |
-| C-05 | Criar workflow requirements (Penny)       | feature  | P1       | M      | Low    | TD-09  |
-| C-06 | Criar workflow tech-debt-audit (Raj)      | feature  | P1       | M      | Low    | TD-07  |
-| C-07 | Documentar actions auto/party no engine   | fix      | P1       | S      | Low    | TD-12  |
-| C-08 | Documentar review compartilhado bf/gf     | fix      | P1       | XS     | Low    | TD-08  |
-| C-09 | Integrar model profiles no sistema        | feature  | P2       | M      | Medium | TD-05  |
-| C-10 | Implementar context monitor hook          | feature  | P2       | M      | Medium | TD-06  |
-| C-11 | Decidir futuro do sistema de tasks        | refactor | P2       | S      | Low    | TD-04  |
-| C-12 | Adicionar script de validação de schemas  | feature  | P2       | M      | Low    | —      |
-
----
-
-## Implementation Roadmap
-
-### Phase 1: Foundation — Consistência Interna
-**Timeline:** Imediato (quick wins + schemas)
-**Focus:** Garantir que o framework é internamente consistente e validável
-**Changes included:** C-01, C-02, C-03, C-04
-
-### Phase 2: Completude — Workflows & Docs
-**Timeline:** Após Phase 1
-**Focus:** Preencher gaps nos workflows e documentação do engine
-**Changes included:** C-05, C-06, C-07, C-08
-
-### Phase 3: Features — Conectar o Desconectado
-**Timeline:** Após Phase 2
-**Focus:** Ativar features configuradas e limpar indefinições
-**Changes included:** C-09, C-10, C-11, C-12
+| Goal                                           | Priority | Success Metric                                    |
+|------------------------------------------------|----------|---------------------------------------------------|
+| Track new-features funcional end-to-end        | P0       | Sheldon reconhece, roteia e executa o novo track   |
+| Discovery com Raj + Penny integrada            | P0       | Handoff intra-fase funciona (raj → penny)          |
+| State machine dinâmica                         | P1       | Suporta qualquer número de tracks sem hardcode     |
+| Workflows completos com 4 arquivos cada        | P0       | Todos os workflows têm yaml + instructions + template + checklist |
 
 ---
 
 ## Epics & Stories
 
-### Epic 1: Schema Alignment — Alinhar Schemas com a Realidade
+### Epic 1: Infraestrutura do Track — Configuração e Roteamento
 
-**Goal:** Todos os arquivos de configuração do framework passam validação contra seus schemas.
+**Goal:** O framework reconhece "new-features" como um terceiro project_type e Sheldon consegue rotear o usuário pelo novo fluxo.
 
-#### Story 1.1: Reescrever Agent Schema
+#### Story 1.1: Adicionar newfeatures_phases no overspec.yaml
 
-- **Description:** Reescrever `core/agents/_schema.json` para refletir a estrutura real dos agentes. Suportar fases brownfield (`analysis`, `planning`), o valor especial `all`, campos como `language_protocol`, `behaviors`, `activation` (como array de objetos), e variações por tipo de agente (orchestrator vs. specialist).
-- **Effort:** M
-- **Priority:** P0
-- **Acceptance Criteria:**
-  - [ ] Todos os 7 agentes existentes passam validação contra o novo schema
-  - [ ] Schema suporta `phases` com valores brownfield e `all`
-  - [ ] Schema suporta `activation` como array de objetos com `step` e `detail`
-  - [ ] Schema suporta campos opcionais: `language_protocol`, `behaviors`, `first_run_behavior`, `atomic_commits`, `deviation_rules`, `verification_protocol`
-  - [ ] Menu items suportam tanto `workflow` quanto `action` como triggers
-  - [ ] `additionalProperties` configurado corretamente para não rejeitar campos válidos
-
-#### Story 1.2: Corrigir Spec Schema
-
-- **Description:** Atualizar `schemas/spec-schema.json` para aceitar `components.workflows` como objeto aninhado (com chaves como `greenfield`, `brownfield`) além do formato flat existente.
-- **Effort:** S
-- **Priority:** P0
-- **Acceptance Criteria:**
-  - [ ] Schema aceita workflows como array flat OU como objeto com sub-arrays
-  - [ ] `specs/software/spec.yaml` passa validação contra o schema corrigido
-
-#### Story 1.3: Corrigir Spec Templates Paths
-
-- **Description:** Atualizar `specs/software/spec.yaml` para que os paths em `components.templates` apontem para os caminhos reais dos templates no disco, ou definir a convenção de resolução de paths no spec-loader.
-- **Effort:** S
-- **Priority:** P0
-- **Acceptance Criteria:**
-  - [ ] Paths em `spec.yaml` correspondem aos arquivos reais no disco
-  - [ ] Convenção de resolução de paths documentada no spec-loader
-
-#### Story 1.4: Criar Diretórios de Artifacts Faltantes
-
-- **Description:** Criar todos os diretórios de artifacts referenciados por workflows: `artifacts/analysis/`, `artifacts/planning/`, `artifacts/review/`, `artifacts/discuss/`, `artifacts/discussions/`.
+- **Description:** Adicionar a seção `newfeatures_phases` com as 5 fases: discovery, specification, architecture, implementation, review.
 - **Effort:** XS
-- **Priority:** P0
 - **Acceptance Criteria:**
-  - [ ] Todos os diretórios referenciados por workflows existem com `.gitkeep`
-  - [ ] Zero caminhos de output que apontem para diretórios inexistentes
+  - [ ] Seção `newfeatures_phases` existe em `overspec.yaml`
+  - [ ] 5 fases definidas com `enabled: true` e `order` correto
+
+#### Story 1.2: Atualizar Sheldon para suportar 3 tracks
+
+- **Description:** Atualizar `sheldon.agent.yaml` para: (1) apresentar 3 opções no `project_type_detection`, (2) adicionar phase map para new-features, (3) atualizar `new_project_detection` com texto para o novo track, (4) explicar que Raj + Penny trabalham juntos na discovery.
+- **Effort:** M
+- **Acceptance Criteria:**
+  - [ ] `project_type_detection` apresenta 3 opções (greenfield, brownfield, new-features)
+  - [ ] Phase map inclui visualização do novo track
+  - [ ] `new_project_detection` tem texto específico para new-features
+  - [ ] Sheldon sabe que discovery usa Raj + Penny
+
+#### Story 1.3: Tornar state-machine.md dinâmico
+
+- **Description:** Substituir a lista hardcoded de fases (linha 77-81) por instrução genérica que lê as fases do `overspec.yaml` baseado no `project_type`.
+- **Effort:** S
+- **Acceptance Criteria:**
+  - [ ] Nenhuma lista hardcoded de fases no state-machine.md
+  - [ ] Instrução genérica referencia `overspec.yaml > {project_type}_phases`
+
+#### Story 1.4: Criar team-newfeatures.yaml
+
+- **Description:** Criar preset de team para o track new-features com os agentes: penny, raj, leonard, howard, amy.
+- **Effort:** XS
+- **Acceptance Criteria:**
+  - [ ] Arquivo `teams/team-newfeatures.yaml` existe
+  - [ ] Inclui os 5 agentes necessários
+
+#### Story 1.5: Registrar track no spec.yaml
+
+- **Description:** Adicionar seção `newfeatures` em `components.workflows` e `components.templates` no `specs/software/spec.yaml`.
+- **Effort:** XS
+- **Acceptance Criteria:**
+  - [ ] Workflows do track listados em spec.yaml
+  - [ ] Templates do track listados em spec.yaml
 
 ---
 
-### Epic 2: Workflow Completeness — Preencher Gaps nos Workflows
+### Epic 2: Workflows — Discovery, Specification, Architecture, Implementation
 
-**Goal:** Flows greenfield e brownfield executáveis end-to-end sem gaps ou referências quebradas.
+**Goal:** Todos os workflows do track new-features estão completos com os 4 arquivos padrão (yaml + instructions + template + checklist).
 
-#### Story 2.1: Criar Workflow Requirements (Penny)
+#### Story 2.1: Criar workflow nf-1-discovery (Raj: impact analysis)
 
-- **Description:** Criar workflow completo para elicitação de requisitos em `1-discovery/`. Penny referencia este workflow no menu mas ele não existe. Leonard e o workflow de arquitetura dependem do artefato `artifacts/discovery/requirements.md` como input obrigatório.
+- **Description:** Criar o primeiro sub-workflow da discovery: Raj analisa o codebase existente e avalia o impacto da feature proposta. Produz um relatório de análise de impacto.
 - **Effort:** M
-- **Priority:** P1
 - **Acceptance Criteria:**
-  - [ ] Arquivo `requirements-workflow.yaml` criado em `core/workflows/1-discovery/`
-  - [ ] Template `requirements-template.md` criado
-  - [ ] Checklist `requirements-checklist.md` criado
-  - [ ] Instructions `requirements-instructions.md` criado
-  - [ ] Workflow produz `artifacts/discovery/requirements.md`
-  - [ ] Output tem `handoff_to: [leonard]`
+  - [ ] `nf-1-discovery/impact-analysis-workflow.yaml` criado
+  - [ ] `nf-1-discovery/impact-analysis-instructions.md` criado
+  - [ ] `nf-1-discovery/impact-analysis-template.md` criado
+  - [ ] `nf-1-discovery/impact-analysis-checklist.md` criado
+  - [ ] Output: `artifacts/discovery/impact-analysis.md`
+  - [ ] Handoff: raj → penny
 
-#### Story 2.2: Criar Workflow Tech-Debt-Audit (Raj)
+#### Story 2.2: Criar workflow nf-1-discovery (Penny: feature requirements)
 
-- **Description:** Criar workflow dedicado para auditoria de dívida técnica no flow brownfield. Atualmente Raj tem behavior para isso mas sem workflow formal com template e checklist.
+- **Description:** Criar o segundo sub-workflow da discovery: Penny recebe a análise de impacto do Raj e levanta os requisitos da feature com o usuário via brainstorm. Produz um documento de requisitos da feature.
 - **Effort:** M
-- **Priority:** P1
 - **Acceptance Criteria:**
-  - [ ] Workflow YAML criado (pode ser no mesmo diretório `bf-1-analysis/` ou em subdiretório)
-  - [ ] Template para tech-debt-report criado
-  - [ ] Checklist para validação criado
-  - [ ] Instructions com procedimento de auditoria criado
-  - [ ] Workflow produz `artifacts/analysis/tech-debt-report.md`
+  - [ ] `nf-1-discovery/feature-requirements-workflow.yaml` criado
+  - [ ] `nf-1-discovery/feature-requirements-instructions.md` criado
+  - [ ] `nf-1-discovery/feature-requirements-template.md` criado
+  - [ ] `nf-1-discovery/feature-requirements-checklist.md` criado
+  - [ ] Input: `artifacts/discovery/impact-analysis.md`
+  - [ ] Output: `artifacts/discovery/feature-requirements.md`
+  - [ ] Handoff: penny → penny (specification)
 
-#### Story 2.3: Documentar Actions Não-Padrão no Workflow Engine
+#### Story 2.3: Criar workflow nf-2-specification
 
-- **Description:** Adicionar documentação para as actions `auto` e `party` no `workflow-engine.md`, que são usadas pelo party-mode mas não estão documentadas no engine.
-- **Effort:** S
-- **Priority:** P1
+- **Description:** Criar o workflow de especificação: Penny detalha os requisitos em user stories com acceptance criteria. Adaptado para features em projeto existente (referencia arquitetura e codebase existentes).
+- **Effort:** M
 - **Acceptance Criteria:**
-  - [ ] Actions `auto` e `party` documentadas no workflow-engine.md com instruções de processamento
-  - [ ] Exemplos de uso incluídos
+  - [ ] 4 arquivos padrão criados em `nf-2-specification/`
+  - [ ] Input: `artifacts/discovery/feature-requirements.md`
+  - [ ] Output: `artifacts/specification/feature-stories.md`
+  - [ ] Handoff: penny → leonard
 
-#### Story 2.4: Documentar Review Compartilhado
+#### Story 2.4: Criar workflow nf-3-architecture
 
-- **Description:** Adicionar nota explicativa no workflow `5-review/` e/ou na spec.yaml que a fase de review é compartilhada entre greenfield e brownfield, justificando por que não existe `bf-4-review/`.
-- **Effort:** XS
-- **Priority:** P1
+- **Description:** Criar o workflow de arquitetura: Leonard analisa como a feature se encaixa na arquitetura existente. Foco em integração, não em criação do zero. Produz um design document.
+- **Effort:** M
 - **Acceptance Criteria:**
-  - [ ] Documentação clara sobre o compartilhamento em pelo menos um dos arquivos relevantes
+  - [ ] 4 arquivos padrão criados em `nf-3-architecture/`
+  - [ ] Input: `artifacts/specification/feature-stories.md`
+  - [ ] Output: `artifacts/architecture/feature-design.md`
+  - [ ] Handoff: leonard → howard
+
+#### Story 2.5: Criar workflow nf-4-implementation
+
+- **Description:** Criar o workflow de implementação: Howard implementa as stories seguindo o design. Similar ao bf-3-implementation mas orientado por feature stories em vez de improvement plan.
+- **Effort:** M
+- **Acceptance Criteria:**
+  - [ ] 4 arquivos padrão criados em `nf-4-implementation/`
+  - [ ] Input: `artifacts/architecture/feature-design.md`
+  - [ ] Output: `artifacts/implementation/feature-report.md`
+  - [ ] Handoff: howard → amy
 
 ---
 
-### Epic 3: Feature Activation — Conectar Features Desconectadas
+### Epic 3: Integração e Polimento
 
-**Goal:** Features configuradas no framework passam a ter efeito real no comportamento dos agentes.
+**Goal:** O track funciona end-to-end e está documentado.
 
-#### Story 3.1: Integrar Model Profiles
+#### Story 3.1: Criar diretórios de artifacts para new-features
 
-- **Description:** Conectar `model_profiles` do `overspec.yaml` ao sistema de agentes. Quando Sheldon delega para um agente, a ativação deveria indicar qual modelo usar baseado no perfil ativo (`quality`, `balanced`, `budget`).
-- **Effort:** M
-- **Priority:** P2
+- **Description:** Garantir que todos os diretórios de artifacts referenciados pelos workflows existam.
+- **Effort:** XS
 - **Acceptance Criteria:**
-  - [ ] Sheldon lê o perfil ativo ao delegar para agentes
-  - [ ] A ativação dos agentes inclui indicação do modelo recomendado
-  - [ ] Documentação de como os perfis afetam o comportamento
+  - [ ] Todos os paths de output dos workflows apontam para diretórios existentes
 
-#### Story 3.2: Implementar Context Monitor
+#### Story 3.2: Atualizar 5-review/workflow.yaml para mencionar 3 tracks
 
-- **Description:** Transformar o context-monitor.md de documentação pura em funcionalidade real. Implementar como instruções nos agentes para auto-monitorar o uso de contexto e criar checkpoints proativamente.
-- **Effort:** M
-- **Priority:** P2
+- **Description:** Atualizar o comentário do review para mencionar que é compartilhado entre greenfield, brownfield e new-features.
+- **Effort:** XS
 - **Acceptance Criteria:**
-  - [ ] Agentes incluem instruções de auto-monitoramento de contexto
-  - [ ] Integração com o sistema de checkpoints do workflow engine
-  - [ ] Pelo menos 2 agentes (os que rodam workflows longos) têm a instrução
+  - [ ] Comentário menciona os 3 tracks
 
-#### Story 3.3: Decidir Futuro do Sistema de Tasks
+---
 
-- **Description:** O `core/tasks/` está vazio e o spec schema suporta tasks, mas nada existe. Decidir: implementar como unidades granulares dentro de workflows, ou remover do schema.
-- **Effort:** S
-- **Priority:** P2
-- **Acceptance Criteria:**
-  - [ ] Decisão documentada (implementar ou remover)
-  - [ ] Se remover: limpar referências do schema e da estrutura
-  - [ ] Se implementar: criar pelo menos 1 task de exemplo e documentar a diferença entre tasks e steps
+## Implementation Roadmap
 
-#### Story 3.4: Criar Script de Validação
+### Phase 1: Infraestrutura (Epic 1)
+**Stories:** 1.1, 1.2, 1.3, 1.4, 1.5
+**Focus:** O framework reconhece o novo track
 
-- **Description:** Criar um script simples (shell) que valida todos os YAML/JSON files contra seus schemas, para detectar inconsistências automaticamente.
-- **Effort:** M
-- **Priority:** P2
-- **Acceptance Criteria:**
-  - [ ] Script valida agents contra _schema.json
-  - [ ] Script valida spec.yaml contra spec-schema.json
-  - [ ] Script valida team files contra team-schema.json
-  - [ ] Script reporta erros claramente com file paths
+### Phase 2: Workflows (Epic 2)
+**Stories:** 2.1, 2.2, 2.3, 2.4, 2.5
+**Focus:** Workflows completos para cada fase
+
+### Phase 3: Integração (Epic 3)
+**Stories:** 3.1, 3.2
+**Focus:** Polimento e consistência
+
+---
+
+## Dependencies
+
+- Story 1.1 deve ser feita antes de 1.2 (Sheldon precisa conhecer as fases)
+- Story 2.1 deve ser feita antes de 2.2 (Penny depende do output do Raj)
+- Epic 1 deve estar completo antes do Epic 2 (infraestrutura antes de workflows)
+- Epic 2 deve estar completo antes do Epic 3 (workflows antes de integração)
 
 ---
 
 ## Risk Assessment
 
-| Risk                                    | Probabilidade | Impacto | Mitigação                                  |
-|-----------------------------------------|---------------|---------|---------------------------------------------|
-| Mudança no agent schema quebra Bernadette (gera specs com schema antigo) | Média | Alto | Atualizar Bernadette's spec-designer-guide junto com o schema |
-| Novo workflow requirements não se encaixa no flow existente de Penny | Baixa | Médio | Seguir o padrão dos workflows existentes (1-discovery/project-brief como referência) |
-| Model profiles adicionam complexidade sem valor claro | Baixa | Baixo | Implementar de forma opt-in — se o perfil não está configurado, comportamento padrão |
-| Muitas mudanças simultâneas criam inconsistências | Média | Alto | Seguir o roadmap em fases — validar Phase 1 antes de iniciar Phase 2 |
-
----
-
-## Dependencies & Constraints
-
-**Dependencies:**
-
-- C-01 (agent schema) deve ser feito antes de C-12 (script de validação)
-- C-02 (spec schema) deve ser feito antes de C-12 (script de validação)
-- C-04 (diretórios) deve ser feito antes de C-05 e C-06 (novos workflows que geram artefatos)
-- C-05 (workflow requirements) é pré-requisito para o flow greenfield funcionar end-to-end
-- Phase 1 completa antes de Phase 2; Phase 2 completa antes de Phase 3
-
-**Constraints:**
-
-- Sem restrições declaradas pelo usuário — tudo pode ser modificado
-- Abordagem moderada: agrupar quick wins, validar antes de mexer em coisas críticas
-- Manter retrocompatibilidade da spec software com o flow atual
+| Risk | Probabilidade | Impacto | Mitigação |
+|------|---------------|---------|-----------|
+| Discovery com 2 agentes é padrão novo — pode confundir | Média | Médio | Documentar claramente o handoff intra-fase no workflow |
+| Muitos arquivos novos (~20) | Baixa | Baixo | Seguir padrão dos workflows existentes |
+| State machine hardcoded quebra com novo track | Alta | Alto | Story 1.3 resolve antes de qualquer coisa |
 
 ---
 
 ## Success Metrics
 
-- **Schema Compliance:** 100% dos arquivos de configuração passam validação contra seus schemas (Target: 100%)
-- **Workflow Coverage:** Zero gaps em flows greenfield e brownfield — todos os steps no state.json têm workflow correspondente (Target: 0 gaps)
-- **Feature Activation:** Model profiles e context monitor funcionais e documentados (Target: 2/2 features ativas)
-- **Path Integrity:** Zero referências a caminhos inexistentes em workflows (Target: 0 broken paths)
+- **Track funcional:** Sheldon consegue iniciar e rotear um projeto new-features end-to-end
+- **Workflow coverage:** 5 fases com workflows completos (4 novos + 1 reutilizado)
+- **Validation:** Script de validação continua passando 100%
+- **Consistência:** Todos os workflows seguem o padrão de 4 arquivos
 
 ---
 
 ## Next Steps
 
-> Section automatically filled by the system.
-
 - [ ] Plan reviewed and approved by the user
-- [ ] Handoff created for the next agent (howard)
+- [ ] Handoff created for howard
 - [ ] State.json updated with status `completed`
