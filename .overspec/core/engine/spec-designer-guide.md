@@ -3,7 +3,7 @@
 ## Overview
 
 The Spec Designer (Bernadette) can analyze any domain and generate a
-complete spec with agents, tasks, workflows, and templates.
+complete spec with agents, workflows, and templates.
 
 ## Design Process
 
@@ -32,9 +32,8 @@ For each stakeholder/role, Bernadette recommends an agent:
   - 0.5-0.6: Moderate evidence, may be optional
   - Below 0.5: Speculative, needs user validation
 
-### Step 4: Task & Workflow Design
+### Step 4: Workflow Design
 For each agent, Bernadette designs:
-- Tasks they can execute
 - Workflows they participate in
 - Templates they produce
 - Checklists for validation
