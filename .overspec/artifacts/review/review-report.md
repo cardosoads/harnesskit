@@ -1,18 +1,18 @@
 # Review Report
 
-| Field             | Value                                          |
-|-------------------|------------------------------------------------|
-| Reviewer          | amy                                            |
-| Date              | 2026-02-25                                     |
-| Artifact Reviewed | New Features Track Implementation (Cycle 2)    |
-| Phase             | review                                         |
-| Version           | 2.0                                            |
+| Field             | Value                                                |
+|-------------------|------------------------------------------------------|
+| Reviewer          | amy                                                  |
+| Date              | 2026-02-25                                           |
+| Artifact Reviewed | Design Specialist Implementation (Cycle 3)           |
+| Phase             | review                                               |
+| Version           | 3.0                                                  |
 
 ---
 
 ## Executive Summary
 
-Revisão da implementação completa do track New Features — o terceiro track adicionado ao framework OverSpec. A implementação abrange 3 epics, 12 stories e 26 arquivos entre infraestrutura, workflows e integração. Todos os três níveis de verificação passaram sem issues. O track está production-ready.
+Revisão da implementação completa da Design Specialist (Emily Sweeney) — uma nova agente especializada em Atomic Design, art direction, design tokens, acessibilidade e código frontend production-grade. A implementação abrange 3 epics, 12 stories e ~14 arquivos novos + ~10 modificados. Todos os três níveis de verificação passaram sem issues. A agente está production-ready.
 
 ---
 
@@ -28,13 +28,18 @@ Revisão da implementação completa do track New Features — o terceiro track 
 
 | Item | Status |
 |------|--------|
-| 20 workflow files em 4 diretórios (nf-1 a nf-4) | PASS |
-| Seção `newfeatures_phases` em overspec.yaml (5 fases) | PASS |
-| Sheldon atualizado com roteamento de 3 tracks | PASS |
-| State-machine.md com resolução dinâmica de fases | PASS |
-| Team preset `team-newfeatures.yaml` | PASS |
-| `spec.yaml` referencia todos os novos workflows e templates | PASS |
-| `5-review/workflow.yaml` menciona 3 tracks no comentário | PASS |
+| `design-specialist.agent.yaml` criado com 334 linhas | PASS |
+| `"designer"` adicionado ao enum `model_role` em `_schema.json` | PASS |
+| `designer` adicionado a `model_profiles` (quality, balanced, budget) | PASS |
+| Design phase adicionada a greenfield, brownfield e new-features em `overspec.yaml` | PASS |
+| `3.5-design/` — 4 arquivos (workflow, instructions, template, checklist) | PASS |
+| `bf-2.5-design/` — 4 arquivos (workflow, instructions, template, checklist) | PASS |
+| `nf-3.5-design/` — 4 arquivos (workflow, instructions, template, checklist) | PASS |
+| `spec.yaml` referencia agente, workflows e templates | PASS |
+| 3 team presets atualizados com `design-specialist` | PASS |
+| Sheldon phase maps atualizados para 3 tracks | PASS |
+| `state-machine.md` documenta fases opcionais | PASS |
+| `artifacts/design/.gitkeep` criado | PASS |
 
 ---
 
@@ -42,13 +47,15 @@ Revisão da implementação completa do track New Features — o terceiro track 
 
 | Item | Status |
 |------|--------|
-| Nenhum placeholder de template em instruction files | PASS |
-| Nenhuma seção vazia em instruction files | PASS |
-| Conteúdo específico do projeto (não boilerplate) | PASS |
-| Todos os workflow.yaml com schema completo (id, name, phase, agent, instructions, template, checklist, inputs, output, steps) | PASS |
-| Todos os checklists com items required e critérios mensuráveis | PASS |
-| Todos os instructions seguem estrutura padrão (Who You Are, Objective, Before You Start, Processing Steps, Communication Tone) | PASS |
-| Sem terminologia "tasks" remanescente | PASS |
+| Agent definition completa: persona, princípios, behaviors, outputs, consumes | PASS |
+| 8 princípios cobrem art direction, Atomic Design, tokens, anti-generic, a11y, motion, production-grade, composition | PASS |
+| Greenfield workflow com 7 steps substantivos (brief → art-direction → tokens → components → motion-a11y → generate → validate) | PASS |
+| Brownfield workflow com 5 steps de audit e evolução incremental | PASS |
+| New-features workflow com 5 steps de context analysis e integração | PASS |
+| Instructions files com conteúdo específico e actionable (sem placeholders) | PASS |
+| Templates com seções completas (art direction, tokens, atomic hierarchy, states, motion, a11y, code examples) | PASS |
+| Checklists com critérios mensuráveis (required + optional items) | PASS |
+| Design phase marcada como `required: false` em todos os tracks | PASS |
 
 ---
 
@@ -56,15 +63,16 @@ Revisão da implementação completa do track New Features — o terceiro track 
 
 | Item | Status |
 |------|--------|
-| Cadeia de handoff completa: raj → penny → penny → leonard → howard → amy | PASS |
-| Cadeia input/output: cada workflow consome o output do anterior | PASS |
-| Paths de artifacts consistentes entre workflows, spec.yaml e diretórios existentes | PASS |
-| Fases no overspec.yaml (5) correspondem aos workflows criados (5) | PASS |
-| Rastreabilidade do improvement plan: 12 stories → 10 commits, todas cobertas | PASS |
-| Phase map do Sheldon corresponde à configuração `newfeatures_phases` | PASS |
-| Terminologia consistente entre instructions, templates e checklists | PASS |
-| Sem referências órfãs | PASS |
-| Sem contradições entre configuração e workflows | PASS |
+| Cadeia de handoff: leonard → emily → howard (greenfield) | PASS |
+| Cadeia de handoff: raj → emily → howard (brownfield) | PASS |
+| Cadeia de handoff: leonard → emily → howard (new-features) | PASS |
+| Inputs/outputs consistentes entre workflows conectados | PASS |
+| `spec.yaml` lista agent + 3 workflows + 3 templates nos tracks corretos | PASS |
+| Team presets posicionam `design-specialist` entre architect/analyst e developer | PASS |
+| Sheldon phase maps mostram Design (optional) com emily nos 3 tracks | PASS |
+| `state-machine.md` documenta skip behavior para fases opcionais | PASS |
+| `model_profiles` incluem `designer` com modelo apropriado por perfil | PASS |
+| Sem referências órfãs ou contradições | PASS |
 
 ---
 
@@ -76,12 +84,12 @@ _No issues found. All criteria passed._
 
 ## Strengths Identified
 
-- **Padrão de Discovery inovador**: A discovery dual-agent (Raj análise de impacto → Penny requisitos) é um padrão novo que aproveita a especialidade de cada agente
-- **State Machine dinâmico**: Resolução de fases lê de overspec.yaml em vez de hardcode, suportando N tracks sem modificação
-- **Review phase compartilhado**: Um único workflow de review compartilhado entre 3 tracks evita duplicação mantendo qualidade
-- **Qualidade uniforme nos workflows**: Todos os 20 arquivos seguem o mesmo padrão de 4 arquivos com qualidade consistente
-- **Checklists claros**: Cada checklist tem critérios mensuráveis com equilíbrio entre items required e optional
-- **Integração transparente do Sheldon**: Roteamento de 3 tracks é transparente para o usuário com phase maps e lógica de detecção claros
+- **Persona rica e consistente**: Emily Sweeney como neurocientista artística é uma escolha excelente — combina rigor analítico com sensibilidade estética
+- **8 princípios completos**: Cobrem todo o espectro da skill de Frontend Design sem redundância
+- **Anti-generic guardrails**: O princípio ANTI-GENERIC garante que os designs nunca serão genéricos — um diferencial importante
+- **3 workflows diferenciados**: Cada track tem workflow específico (sistema completo, audit incremental, feature-specific) em vez de one-size-fits-all
+- **Fase opcional bem documentada**: O padrão `required: false` com skip behavior documentado no state-machine.md é reutilizável para futuras fases opcionais
+- **Production-grade focus**: A agente não para no design — gera código frontend real com tokens CSS e componentes implementáveis
 
 ---
 
@@ -89,7 +97,7 @@ _No issues found. All criteria passed._
 
 **APPROVED**
 
-Todos os três níveis de verificação passaram sem issues. O track New Features está estruturalmente completo, arquiteturalmente sólido, integrado corretamente e production-ready. As 12 stories do improvement plan são totalmente rastreáveis aos 10 commits atômicos que as implementam.
+Todos os três níveis de verificação passaram sem issues. A Design Specialist (Emily) está estruturalmente completa, com definição de agente rica (334 linhas), 12 workflow files diferenciados por track, integração correta em spec.yaml/teams/Sheldon, e documentação de fases opcionais. As 12 stories do improvement plan são totalmente rastreáveis aos commits atômicos que as implementam.
 
 ---
 
