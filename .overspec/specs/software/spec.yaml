@@ -29,6 +29,7 @@ components:
   workflows:
     greenfield:
       - 1-discovery/workflow.yaml
+      - 1-discovery/requirements-workflow.yaml
       - 2-specification/workflow.yaml
       - 2.5-discuss/workflow.yaml
       - 3-architecture/workflow.yaml
@@ -36,12 +37,14 @@ components:
       - 5-review/workflow.yaml
     brownfield:
       - bf-1-analysis/workflow.yaml
+      - bf-1-analysis/tech-debt-workflow.yaml
       - bf-2-planning/workflow.yaml
       - bf-3-implementation/workflow.yaml
       - 5-review/workflow.yaml
   templates:
     greenfield:
       - 1-discovery/template.md
+      - 1-discovery/requirements-template.md
       - 2-specification/template.md
       - 2.5-discuss/template.md
       - 3-architecture/template.md
@@ -49,6 +52,7 @@ components:
       - 5-review/template.md
     brownfield:
       - bf-1-analysis/template.md
+      - bf-1-analysis/tech-debt-template.md
       - bf-2-planning/template.md
       - bf-3-implementation/template.md
       - 5-review/template.md
