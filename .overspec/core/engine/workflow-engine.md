@@ -99,6 +99,40 @@ Objective: validate the generated artifact against quality criteria.
    - Ask if they want to fix it now or move forward
 5. When all required items pass, the artifact is approved
 
+### action: "auto"
+
+Objective: execute an automated decision or computation without user input.
+
+1. Read the `description` field of the step — it explains what the agent should do automatically
+2. The agent uses its own judgment, context, and available data to complete the step
+3. No user interaction is required — this is a machine-driven step
+4. The agent should explain its reasoning after completing the step
+5. Mark the step as `completed`
+6. Proceed to the next step
+
+Use cases:
+- Agent selection in Party Mode (Sheldon selects agents based on topic)
+- Automated classification or analysis
+- Data-driven decisions that don't need human input
+
+### action: "party"
+
+Objective: run an iterative multi-agent discussion loop.
+
+1. Read the `description` field for discussion rules
+2. The orchestrator (Sheldon) moderates a multi-round discussion:
+   a. Present the topic to selected agents
+   b. Each agent responds in character (3-5 sentences per response)
+   c. Agents reference and respond to each other's points
+   d. Sheldon summarizes key points after each round
+   e. Ask the user: continue, follow up, or wrap up?
+3. The loop continues until the user ends the discussion
+4. Exit conditions: user says "exit", "done", "end party", "wrap up"
+5. After exit, generate a summary artifact
+6. Mark the step as `completed`
+
+This action is only used by Party Mode workflows. It combines elements of `ask` (user interaction between rounds) and `generate` (summary at the end).
+
 ---
 
 ## 4. Save the Artifact
