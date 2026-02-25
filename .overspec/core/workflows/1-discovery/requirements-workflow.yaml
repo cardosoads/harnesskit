@@ -1,0 +1,59 @@
+workflow:
+  id: requirements
+  name: "Elicit Detailed Requirements"
+  phase: discovery
+  agent: penny
+  required: true
+
+  description: "Guides the user through eliciting detailed functional and non-functional requirements based on the project brief"
+
+  instructions: "requirements-instructions.md"
+  template: "requirements-template.md"
+  checklist: "requirements-checklist.md"
+
+  inputs:
+    - "artifacts/discovery/brief.md"
+
+  output:
+    path: "artifacts/discovery/requirements.md"
+    handoff_to: [leonard]
+
+  steps:
+    - id: "review-brief"
+      action: "ask"
+      prompt: "I've read the project brief. Let me confirm my understanding before we dive into requirements."
+      required: true
+
+    - id: "functional"
+      action: "ask"
+      prompt: "What should the system DO? List the main features and capabilities."
+      required: true
+
+    - id: "non-functional"
+      action: "ask"
+      prompt: "How should the system BEHAVE? Think about performance, security, scalability, accessibility."
+      required: true
+
+    - id: "business-rules"
+      action: "ask"
+      prompt: "Are there any business rules or domain constraints the system must follow?"
+      required: false
+
+    - id: "integrations"
+      action: "ask"
+      prompt: "Does the system need to integrate with any external services, APIs, or systems?"
+      required: false
+
+    - id: "prioritize"
+      action: "ask"
+      prompt: "Let's prioritize: which requirements are Must-Have, Should-Have, Could-Have, and Won't-Have?"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the complete requirements document based on the collected responses"
+      save_to: "artifacts/discovery/requirements.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "requirements-checklist.md"
