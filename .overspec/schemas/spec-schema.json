@@ -75,11 +75,20 @@
           "description": "List of task definition file paths relative to the spec."
         },
         "workflows": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "List of workflow definition file paths relative to the spec."
+          "description": "Workflow definitions. Can be a flat array of paths (simple specs) or an object with named tracks like 'greenfield'/'brownfield' (multi-track specs).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          ]
         },
         "templates": {
           "type": "array",
