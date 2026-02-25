@@ -1,0 +1,45 @@
+workflow:
+  id: feature-specification
+  name: "Feature Specification — User Stories"
+  phase: specification
+  agent: penny
+  required: true
+
+  description: "Penny transforms feature requirements into detailed user stories with acceptance criteria, optimized for implementation in an existing codebase."
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/discovery/feature-requirements.md"
+    - "artifacts/discovery/impact-analysis.md"
+
+  output:
+    path: "artifacts/specification/feature-stories.md"
+    handoff_to: [leonard]
+
+  steps:
+    - id: "review-requirements"
+      action: "ask"
+      prompt: "I've reviewed the feature requirements. Let me walk through the user stories I've drafted. Do you want to adjust priorities or add stories?"
+      required: true
+
+    - id: "generate-stories"
+      action: "generate"
+      description: "Generate user stories from the feature requirements. Each story follows the Given/When/Then format with clear acceptance criteria. Reference the impact analysis for technical context."
+      required: true
+
+    - id: "prioritize"
+      action: "ask"
+      prompt: "Here are the stories organized by feature. How would you like to prioritize them? MoSCoW (Must/Should/Could/Won't) or sequential order?"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the final feature stories document with all stories prioritized and grouped by feature."
+      save_to: "artifacts/specification/feature-stories.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

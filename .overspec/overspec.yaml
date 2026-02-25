@@ -53,6 +53,25 @@ brownfield_phases:
     enabled: true
     order: 4
 
+# New Features phases (adding features to existing projects)
+newfeatures_phases:
+  discovery:
+    enabled: true
+    order: 1
+    agents: [raj, penny]  # Raj does impact analysis, Penny gathers requirements
+  specification:
+    enabled: true
+    order: 2
+  architecture:
+    enabled: true
+    order: 3
+  implementation:
+    enabled: true
+    order: 4
+  review:
+    enabled: true
+    order: 5
+
 # Model profiles — which model each agent uses
 # Profiles: quality (best results), balanced (good results, lower cost), budget (fast, cheapest)
 model_profiles:

@@ -5,15 +5,16 @@ workflow:
   agent: amy
   required: true
 
-  # NOTE: This review workflow is shared between greenfield and brownfield flows.
-  # Both project types use the same 3-level goal-backward verification protocol.
-  # Greenfield references it as phase 5 (5-review/), brownfield references it
-  # in the spec.yaml under the brownfield track. There is no separate bf-4-review/
-  # directory because the review process is identical regardless of project type —
-  # Amy reviews artifacts the same way whether they came from a greenfield or
-  # brownfield workflow.
+  # NOTE: This review workflow is shared across all three project tracks:
+  # greenfield, brownfield, and new-features. All tracks use the same 3-level
+  # goal-backward verification protocol. Greenfield references it as phase 5
+  # (5-review/), brownfield and new-features reference it in spec.yaml under
+  # their respective tracks. There is no separate review directory per track
+  # because the review process is identical regardless of project type —
+  # Amy reviews artifacts the same way whether they came from a greenfield,
+  # brownfield, or new-features workflow.
 
-  description: "Guides Amy through reviewing a project artifact using the 3-level goal-backward verification protocol (Existence, Substance, Connection) and producing a verdict. Used by both greenfield and brownfield flows."
+  description: "Guides Amy through reviewing a project artifact using the 3-level goal-backward verification protocol (Existence, Substance, Connection) and producing a verdict. Used by all three tracks: greenfield, brownfield, and new-features."
 
   instructions: "instructions.md"
   template: "template.md"

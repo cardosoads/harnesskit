@@ -198,7 +198,7 @@ activation:
       ## 🧠 Sheldon — Project Status
 
       **Project**: [project name]
-      **Project Type**: [Greenfield | Brownfield]
+      **Project Type**: [Greenfield | Brownfield | New Features]
       **Current Phase**: [N]/[total] — [phase name]
 
 
@@ -222,6 +222,13 @@ activation:
         ➡️ 2. Planning — In progress (1/3 steps)
         🔒 3. Implementation — Locked
         🔒 4. Review — Locked
+
+      For New Features projects (5 phases):
+        ✅ 1. Discovery — Completed (raj: impact analysis, penny: requirements)
+        ➡️ 2. Specification — In progress (1/3 steps)
+        🔒 3. Architecture — Locked
+        🔒 4. Implementation — Locked
+        🔒 5. Review — Locked
 
 
       ### Current Phase Steps
@@ -291,23 +298,29 @@ first_run_behavior:
     instructions: >
       After the language is established, ask the user what type of project this is:
 
-      1. Present the two options clearly (in the user's chosen language):
+      1. Present the three options clearly (in the user's chosen language):
          "Now I need to know: what type of project is this?
 
          1. Greenfield — A new project from scratch. We'll go through the full
             cycle: Discovery → Specification → Architecture → Implementation → Review.
 
-         2. Brownfield — An existing project that needs improvements, new features,
-            or refactoring. We'll analyze what exists first, then plan and implement
-            changes: Analysis → Planning → Implementation → Review."
+         2. Brownfield — An existing project that needs fixes, refactoring, or
+            tech debt remediation. We'll analyze what exists first, then plan
+            and implement changes: Analysis → Planning → Implementation → Review.
+
+         3. New Features — Adding new features to an existing project. Raj will
+            analyze the codebase impact, Penny will gather feature requirements,
+            then we design, implement, and review:
+            Discovery (Raj+Penny) → Specification → Architecture → Implementation → Review."
 
       2. Wait for the user's response.
       3. Save the chosen type to overspec.yaml under project.project_type
-         ("greenfield" or "brownfield").
+         ("greenfield", "brownfield", or "new-features").
       4. Initialize state.json with the correct phase structure based on the
          project type:
          - Greenfield: discovery, specification, discuss (optional), architecture, implementation, review
          - Brownfield: analysis, planning, implementation, review
+         - New Features: discovery (raj+penny), specification, architecture, implementation, review
       5. Proceed with the appropriate flow.
 
   new_project_detection:
@@ -322,13 +335,17 @@ first_run_behavior:
            (Discovery → Specification → Discuss (optional) → Architecture → Implementation → Review)
          - If Brownfield: explain the 4 phases
            (Analysis → Planning → Implementation → Review)
+         - If New Features: explain the 5 phases
+           (Discovery (Raj+Penny) → Specification → Architecture → Implementation → Review)
       3. Cite the First Principle of the Constitution (ORACLE FIRST)
       4. Inform which phase we must start with:
          - Greenfield: Phase 1 — Discovery
          - Brownfield: Phase 1 — Analysis
+         - New Features: Phase 1 — Discovery (Raj analyzes impact, then Penny gathers requirements)
       5. Introduce the agent responsible for the first phase:
          - Greenfield Discovery: Penny (Requirements Analyst)
-         - Brownfield Analysis: the appropriate analysis agent
+         - Brownfield Analysis: Raj (Brownfield Analyst)
+         - New Features Discovery: Raj (Impact Analysis) followed by Penny (Feature Requirements)
       6. Show the full phase map for the chosen project type
       7. Indicate the command to begin
       8. STOP and wait
@@ -347,6 +364,14 @@ first_run_behavior:
       according to the Third Principle — NO PHASE SKIP — we must follow the
       order. Therefore, we will begin with Phase 1: Analysis. We need to
       understand what already exists before planning any changes."
+
+      Example speech for New Features (adapt to user's chosen language):
+      "New features for an existing project. Excellent. According to the First
+      Principle of the Constitution — ORACLE FIRST — every feature starts with
+      me. We'll begin with Phase 1: Discovery. Raj will analyze the codebase
+      to understand the impact of the new features, then Penny will work with
+      you to define the requirements. After that, Leonard designs the
+      integration, Howard implements, and Amy reviews."
 
 # -----------------------------------------------------------------------------
 # BEHAVIORS BY COMMAND

@@ -2,19 +2,20 @@
 # OverSpec Spec — Software Development
 # =============================================================================
 # The default built-in spec for full-stack software development.
-# Covers both greenfield (new projects) and brownfield (existing projects).
+# Covers greenfield (new projects), brownfield (existing projects),
+# and new-features (adding features to existing projects).
 # =============================================================================
 
 spec:
   name: software
   version: "1.0.0"
-  description: "Full-stack software development spec with greenfield and brownfield support"
+  description: "Full-stack software development spec with greenfield, brownfield, and new-features support"
   domain: "software-engineering"
   author: "OverSpec Core Team"
   license: "MIT"
   overspec_min_version: "1.0.0"
   icon: "💻"
-  tags: [software, development, fullstack, greenfield, brownfield]
+  tags: [software, development, fullstack, greenfield, brownfield, new-features]
 
 # -----------------------------------------------------------------------------
 # COMPONENTS — Agents, workflows, and templates included in this spec
@@ -41,6 +42,13 @@ components:
       - bf-2-planning/workflow.yaml
       - bf-3-implementation/workflow.yaml
       - 5-review/workflow.yaml
+    newfeatures:
+      - nf-1-discovery/impact-analysis-workflow.yaml
+      - nf-1-discovery/feature-requirements-workflow.yaml
+      - nf-2-specification/workflow.yaml
+      - nf-3-architecture/workflow.yaml
+      - nf-4-implementation/workflow.yaml
+      - 5-review/workflow.yaml
   templates:
     greenfield:
       - 1-discovery/template.md
@@ -55,6 +63,13 @@ components:
       - bf-1-analysis/tech-debt-template.md
       - bf-2-planning/template.md
       - bf-3-implementation/template.md
+      - 5-review/template.md
+    newfeatures:
+      - nf-1-discovery/impact-analysis-template.md
+      - nf-1-discovery/feature-requirements-template.md
+      - nf-2-specification/template.md
+      - nf-3-architecture/template.md
+      - nf-4-implementation/template.md
       - 5-review/template.md
 
 # -----------------------------------------------------------------------------

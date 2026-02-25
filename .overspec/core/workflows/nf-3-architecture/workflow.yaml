@@ -1,0 +1,45 @@
+workflow:
+  id: feature-design
+  name: "Feature Design — Architecture Integration"
+  phase: architecture
+  agent: leonard
+  required: true
+
+  description: "Leonard designs how new features integrate into the existing architecture. Focus is on adaptation, not creation from scratch."
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/specification/feature-stories.md"
+    - "artifacts/discovery/impact-analysis.md"
+
+  output:
+    path: "artifacts/architecture/feature-design.md"
+    handoff_to: [howard]
+
+  steps:
+    - id: "review-stories"
+      action: "ask"
+      prompt: "I've reviewed the feature stories and Raj's impact analysis. Let me present my proposed design for integrating these features. Any architectural constraints I should know about?"
+      required: true
+
+    - id: "design-integration"
+      action: "generate"
+      description: "Design how each feature integrates into the existing architecture. Define new components, modified interfaces, data flow changes, and migration strategy if needed."
+      required: true
+
+    - id: "trade-offs"
+      action: "ask"
+      prompt: "Here are the key trade-offs in my design. Which approach do you prefer for each?"
+      required: false
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the feature design document with integration architecture, component diagrams, and implementation plan for Howard."
+      save_to: "artifacts/architecture/feature-design.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"
