@@ -40,11 +40,18 @@ components:
       - bf-3-implementation/workflow.yaml
       - 5-review/workflow.yaml
   templates:
-    - discovery/template.md
-    - specification/template.md
-    - architecture/template.md
-    - implementation/template.md
-    - review/template.md
+    greenfield:
+      - 1-discovery/template.md
+      - 2-specification/template.md
+      - 2.5-discuss/template.md
+      - 3-architecture/template.md
+      - 4-implementation/template.md
+      - 5-review/template.md
+    brownfield:
+      - bf-1-analysis/template.md
+      - bf-2-planning/template.md
+      - bf-3-implementation/template.md
+      - 5-review/template.md
 
 # -----------------------------------------------------------------------------
 # CONFIG — How this spec integrates with others
