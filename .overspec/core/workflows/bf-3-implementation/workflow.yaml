@@ -1,0 +1,50 @@
+workflow:
+  id: brownfield-setup
+  name: "Prepare Brownfield Implementation"
+  phase: implementation (brownfield)
+  agent: howard
+  required: true
+
+  description: "Guides the user through preparing and executing changes in an existing codebase based on the improvement plan"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/planning/improvement-plan.md"
+    - "artifacts/analysis/codebase-analysis.md"
+
+  output:
+    path: "artifacts/implementation/bf-setup-report.md"
+    handoff_to: [amy]
+
+  steps:
+    - id: "review-plan"
+      action: "ask"
+      prompt: "I've reviewed the improvement plan. Let me confirm the priorities with you."
+      required: true
+
+    - id: "safety-net"
+      action: "ask"
+      prompt: "Before we start changing things: what's the current test coverage and backup strategy?"
+      required: true
+
+    - id: "first-change"
+      action: "ask"
+      prompt: "Which epic/story should we tackle first?"
+      required: true
+
+    - id: "approach"
+      action: "ask"
+      prompt: "For this change, here's my approach: [describe]. Does this look right?"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the brownfield setup report based on the plan and collected responses"
+      save_to: "artifacts/implementation/bf-setup-report.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

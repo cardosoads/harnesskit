@@ -1,0 +1,54 @@
+workflow:
+  id: project-setup
+  name: "Set Up Project Structure"
+  phase: implementation
+  agent: howard
+  required: true
+
+  description: "Guides the user through setting up the project structure, dependencies, and tooling based on the architecture document"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/architecture/architecture.md"
+
+  output:
+    path: "artifacts/implementation/setup-report.md"
+    handoff_to: [amy]
+
+  steps:
+    - id: "review-arch"
+      action: "ask"
+      prompt: "I've reviewed the architecture. Let me confirm the tech stack with you: [show stack from architecture]. Is this correct?"
+      required: true
+
+    - id: "project-structure"
+      action: "ask"
+      prompt: "Based on the architecture, here's the proposed folder structure. Any adjustments?"
+      required: true
+
+    - id: "dependencies"
+      action: "ask"
+      prompt: "These are the core dependencies I'll set up. Any additions or removals?"
+      required: true
+
+    - id: "dev-environment"
+      action: "ask"
+      prompt: "Any specific dev environment requirements? (Docker, env vars, etc.)"
+      required: false
+
+    - id: "coding-standards"
+      action: "ask"
+      prompt: "Any coding standards or conventions to follow? (linting, naming, etc.)"
+      required: false
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the setup report based on the collected responses"
+      save_to: "artifacts/implementation/setup-report.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

@@ -1,0 +1,25 @@
+# =============================================================================
+# TEAM — Full-Stack Development
+# =============================================================================
+# Complete team for full-stack software projects — from discovery to review.
+# Uses the full greenfield lifecycle with all core agents.
+# =============================================================================
+
+team:
+  name: "Full-Stack Development"
+  description: "Complete team for full-stack software projects — from discovery to review"
+  icon: "🚀"
+  spec: "software"
+  agents:
+    - penny       # Requirements Analyst
+    - leonard     # Software Architect
+    - howard      # Developer
+    - amy         # Quality Reviewer
+  purpose: >
+    The full-stack team covers the entire software development lifecycle.
+    Use this team for greenfield projects that need the complete cycle:
+    discovery, specification, architecture, implementation, and review.
+  when_to_use: "New projects requiring full lifecycle coverage"
+  party_mode:
+    enabled: true
+    max_agents_per_turn: 3

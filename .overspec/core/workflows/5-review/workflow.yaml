@@ -1,0 +1,50 @@
+workflow:
+  id: review-artifact
+  name: "Review Project Artifact — 3-Level Goal-Backward Verification"
+  phase: review
+  agent: amy
+  required: true
+
+  description: "Guides Amy through reviewing a project artifact using the 3-level goal-backward verification protocol (Existence, Substance, Connection) and producing a verdict"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs: []
+
+  output:
+    path: "artifacts/review/review-report.md"
+
+  steps:
+    - id: "select-artifact"
+      action: "ask"
+      prompt: "Which artifact would you like me to review? I can see the following completed artifacts: [list from state.json]"
+      required: true
+      depends_on: []
+
+    - id: "level-1-existence"
+      action: "generate"
+      description: "Level 1 — Existence check: verify the artifact exists at the expected path, is non-empty, and has the correct format. If this level fails, the verdict is REJECTED and the review stops here."
+      depends_on: ["select-artifact"]
+
+    - id: "level-2-substance"
+      action: "generate"
+      description: "Level 2 — Substance check: read the artifact thoroughly and verify it contains real, project-specific content — not stubs, placeholders, or boilerplate. Check against minimum quality thresholds. Only runs if Level 1 passed. If this level fails, the verdict is NEEDS_REVISION."
+      depends_on: ["level-1-existence"]
+
+    - id: "level-3-connection"
+      action: "generate"
+      description: "Level 3 — Connection check: cross-reference the artifact with all other existing artifacts. Verify requirements traceability, terminology consistency, scope alignment, no orphaned references, and no contradictions. Only runs if Level 2 passed. If this level fails, the verdict is NEEDS_REVISION."
+      depends_on: ["level-2-substance"]
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the formal review report combining results from all 3 verification levels, with the final verdict, all issues found with severity and location, strengths noted, and actionable recommendations."
+      save_to: "artifacts/review/review-report.md"
+      depends_on: ["level-1-existence", "level-2-substance", "level-3-connection"]
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"
+      depends_on: ["generate"]

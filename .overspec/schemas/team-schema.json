@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://overspec.dev/schemas/team-schema.json",
+  "title": "OverSpec Team Schema",
+  "description": "JSON Schema for validating OverSpec team definition files — named groupings of agents for specific workflows.",
+  "type": "object",
+  "required": ["team"],
+  "properties": {
+    "team": {
+      "type": "object",
+      "description": "Team definition containing agent composition and behavior settings.",
+      "required": ["name", "description", "agents"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable name of the team."
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of the team's focus and capabilities."
+        },
+        "icon": {
+          "type": "string",
+          "description": "Emoji or icon representing this team."
+        },
+        "spec": {
+          "type": "string",
+          "description": "Which spec this team belongs to. Must match a loaded spec name."
+        },
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Agent IDs to include in this team. Use '*' for all agents in the spec."
+        },
+        "purpose": {
+          "type": "string",
+          "description": "Detailed purpose description explaining when and why to use this team."
+        },
+        "when_to_use": {
+          "type": "string",
+          "description": "Short guidance on the scenarios where this team is the best fit."
+        },
+        "party_mode": {
+          "type": "object",
+          "description": "Configuration for multi-agent collaboration within a single turn.",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "description": "Whether multiple agents can participate in a single turn."
+            },
+            "max_agents_per_turn": {
+              "type": "integer",
+              "minimum": 2,
+              "maximum": 4,
+              "description": "Maximum number of agents that can contribute in a single turn."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

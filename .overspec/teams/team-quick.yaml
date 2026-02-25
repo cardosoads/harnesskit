@@ -1,0 +1,20 @@
+# =============================================================================
+# TEAM — Quick Fix
+# =============================================================================
+# Minimal team for small, well-defined changes.
+# Howard handles quick fixes solo with self-verification.
+# =============================================================================
+
+team:
+  name: "Quick Fix"
+  description: "Minimal team for small, well-defined changes"
+  icon: "⚡"
+  spec: "software"
+  agents:
+    - howard      # Developer
+  purpose: >
+    For small, surgical changes that don't need the full workflow.
+    Howard handles quick fixes with atomic commits and self-verification.
+  when_to_use: "Bug fixes, small features, config changes, dependency updates"
+  party_mode:
+    enabled: false

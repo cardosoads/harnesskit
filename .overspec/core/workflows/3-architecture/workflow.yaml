@@ -1,0 +1,60 @@
+workflow:
+  id: system-architecture
+  name: "Design System Architecture"
+  phase: architecture
+  agent: leonard
+  required: true
+
+  description: "Guides the user through designing the system architecture based on the project brief and requirements"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/discovery/brief.md"
+    - "artifacts/discovery/requirements.md"
+
+  output:
+    path: "artifacts/architecture/architecture.md"
+    handoff_to: [howard]
+
+  steps:
+    - id: "system-overview"
+      action: "ask"
+      prompt: "Based on the brief and requirements, what type of system is this? (web app, mobile, API, CLI, etc.)"
+      required: true
+
+    - id: "components"
+      action: "ask"
+      prompt: "What are the main components/modules of the system?"
+      required: true
+
+    - id: "data-model"
+      action: "ask"
+      prompt: "What are the key data entities and their relationships?"
+      required: true
+
+    - id: "integrations"
+      action: "ask"
+      prompt: "Are there external systems or APIs to integrate with?"
+      required: false
+
+    - id: "non-functional"
+      action: "ask"
+      prompt: "What are the key non-functional requirements? (performance, scalability, security)"
+      required: true
+
+    - id: "tech-preferences"
+      action: "ask"
+      prompt: "Do you have any technology preferences or constraints?"
+      required: false
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the complete architecture document based on the collected responses"
+      save_to: "artifacts/architecture/architecture.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

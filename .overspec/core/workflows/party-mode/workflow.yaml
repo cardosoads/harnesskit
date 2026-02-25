@@ -1,0 +1,43 @@
+workflow:
+  id: party-mode
+  name: "Party Mode — Multi-Agent Discussion"
+  phase: any    # Can be used in any phase
+  agent: sheldon  # Sheldon orchestrates
+  required: false
+
+  description: >
+    A collaborative discussion mode where Sheldon selects 2-3 relevant agents
+    to discuss a topic, problem, or decision. Each agent responds in character
+    with their unique perspective. Agents can agree, disagree, and build on
+    each other's ideas.
+
+  instructions: "instructions.md"
+
+  steps:
+    - id: "select-topic"
+      action: "ask"
+      prompt: "What would you like to discuss? Describe the topic, problem, or decision."
+      required: true
+
+    - id: "select-agents"
+      action: "auto"
+      description: >
+        Sheldon analyzes the topic and selects 2-3 agents most relevant to the
+        discussion based on their expertise and the topic's domain.
+      required: true
+
+    - id: "discussion"
+      action: "party"
+      description: >
+        Iterative discussion loop. Each round:
+        1. Sheldon presents the topic/question to selected agents
+        2. Each agent responds in character
+        3. Agents can reference and respond to each other
+        4. User can interject, ask follow-ups, or redirect
+        5. Continue until user says 'exit', 'done', or 'end party'
+      required: true
+
+    - id: "summary"
+      action: "generate"
+      description: "Generate a summary of the discussion with key insights and decisions"
+      save_to: "artifacts/discussions/party-{{date}}.md"

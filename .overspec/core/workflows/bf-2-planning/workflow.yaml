@@ -1,0 +1,49 @@
+workflow:
+  id: improvement-plan
+  name: "Create Improvement Plan"
+  phase: planning
+  agent: raj
+  required: true
+
+  description: "Guides the user through creating a prioritized improvement plan based on the codebase analysis"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/analysis/codebase-analysis.md"
+
+  output:
+    path: "artifacts/planning/improvement-plan.md"
+    handoff_to: [howard]
+
+  steps:
+    - id: "goals"
+      action: "ask"
+      prompt: "What are your main goals? New features, refactoring, performance, security, or a mix?"
+      required: true
+
+    - id: "priorities"
+      action: "ask"
+      prompt: "What's most important right now? What can wait?"
+      required: true
+
+    - id: "constraints"
+      action: "ask"
+      prompt: "Any constraints? Budget, timeline, team size, areas that can't be touched?"
+      required: true
+
+    - id: "risk-tolerance"
+      action: "ask"
+      prompt: "How much risk are you comfortable with? Conservative (small changes) or aggressive (big refactors)?"
+      required: false
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the improvement plan based on the analysis and collected responses"
+      save_to: "artifacts/planning/improvement-plan.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

@@ -1,0 +1,24 @@
+# =============================================================================
+# TEAM — Brownfield Improvement
+# =============================================================================
+# Team specialized in analyzing and improving existing projects.
+# Raj leads analysis, Howard implements, Amy reviews.
+# =============================================================================
+
+team:
+  name: "Brownfield Improvement"
+  description: "Team specialized in analyzing and improving existing projects"
+  icon: "🔄"
+  spec: "software"
+  agents:
+    - raj         # Brownfield Analyst
+    - howard      # Developer
+    - amy         # Quality Reviewer
+  purpose: >
+    The brownfield team focuses on existing projects that need analysis,
+    improvement planning, and incremental implementation. Raj leads the
+    analysis, Howard implements changes safely, and Amy reviews quality.
+  when_to_use: "Existing projects needing improvements, refactoring, or new features"
+  party_mode:
+    enabled: true
+    max_agents_per_turn: 3

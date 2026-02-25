@@ -1,0 +1,48 @@
+workflow:
+  id: codebase-analysis
+  name: "Analyze Existing Codebase"
+  phase: analysis
+  agent: raj
+  required: true
+
+  description: "Guides the user through analyzing an existing codebase to map its structure, tech stack, and health"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs: []
+
+  output:
+    path: "artifacts/analysis/codebase-analysis.md"
+    handoff_to: [raj]
+
+  steps:
+    - id: "project-location"
+      action: "ask"
+      prompt: "Where is the existing project located? Provide the root directory path."
+      required: true
+
+    - id: "overview"
+      action: "ask"
+      prompt: "Give me a brief overview: what does this project do and how long has it been in development?"
+      required: true
+
+    - id: "known-issues"
+      action: "ask"
+      prompt: "Are there known pain points or issues you want me to focus on?"
+      required: false
+
+    - id: "scan-structure"
+      action: "generate"
+      description: "Scan the project structure, identify the tech stack, and map the architecture"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the codebase analysis document based on the scan and collected responses"
+      save_to: "artifacts/analysis/codebase-analysis.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

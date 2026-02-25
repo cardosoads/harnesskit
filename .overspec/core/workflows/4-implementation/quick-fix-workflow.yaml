@@ -1,0 +1,48 @@
+workflow:
+  id: quick-fix
+  name: "Quick Fix"
+  phase: implementation
+  agent: howard
+  required: false
+
+  description: >
+    A minimal workflow for small, well-defined changes that do not need
+    the full implementation workflow. Designed for quick fixes, minor
+    adjustments, and small improvements that can be described in 1-2
+    sentences and affect 3 or fewer files.
+
+  instructions: "instructions.md"
+
+  guardrails:
+    exit_to_full_workflow:
+      - "Change affects more than 3 files"
+      - "Change requires architectural decisions"
+      - "Change has unclear requirements"
+      - "Change affects public APIs"
+
+  steps:
+    - id: "describe"
+      action: "ask"
+      prompt: "What needs to be fixed or changed?"
+      required: true
+
+    - id: "confirm"
+      action: "ask"
+      prompt: "Here's my plan: [describe approach]. Proceed?"
+      required: true
+
+    - id: "execute"
+      action: "generate"
+      description: >
+        Implement the change following the atomic commit protocol.
+        Stage only the affected files. Create a single atomic commit
+        with the standardized format. Run relevant tests to verify
+        the change does not break anything.
+
+    - id: "report"
+      action: "generate"
+      description: >
+        Report what was done: files changed, commit created, tests
+        run and their results. If any guardrail was triggered during
+        execution, inform the user that the full workflow should be
+        used instead.

@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "overspec-agent-schema",
+  "title": "OverSpec Agent Definition",
+  "description": "JSON Schema to validate OverSpec .agent.yaml files",
+  "type": "object",
+  "required": ["agent", "persona", "phases", "menu"],
+  "properties": {
+    "agent": {
+      "type": "object",
+      "required": ["id", "name", "title"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique agent identifier (e.g., sheldon, penny)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Agent display name"
+        },
+        "title": {
+          "type": "string",
+          "description": "Agent title/role"
+        },
+        "icon": {
+          "type": "string",
+          "description": "Representative emoji for the agent"
+        },
+        "version": {
+          "type": "string",
+          "description": "Agent definition version (semver)"
+        },
+        "inspiration": {
+          "type": "string",
+          "description": "Inspiration reference for the persona"
+        }
+      },
+      "additionalProperties": false
+    },
+    "persona": {
+      "type": "object",
+      "required": ["role"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "Functional role of the agent within the framework"
+        },
+        "identity": {
+          "type": "string",
+          "description": "Description of the agent's identity and behavior"
+        },
+        "style": {
+          "type": "string",
+          "description": "Agent's communication style"
+        },
+        "catchphrase": {
+          "type": "string",
+          "description": "Agent's signature catchphrase"
+        },
+        "principles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Principles that guide the agent's behavior"
+        }
+      },
+      "additionalProperties": false
+    },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["discovery", "specification", "architecture", "implementation", "review"]
+      },
+      "minItems": 1,
+      "description": "Phases in which this agent operates"
+    },
+    "menu": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["trigger", "workflow", "description"],
+        "properties": {
+          "trigger": {
+            "type": "string",
+            "description": "Command that activates this menu item"
+          },
+          "workflow": {
+            "type": "string",
+            "description": "Path to the associated workflow"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description of what this item does"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Available menu options for the agent"
+    },
+    "activation": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Sequence of actions when activating the agent"
+    },
+    "outputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "path"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of artifact produced"
+          },
+          "path": {
+            "type": "string",
+            "description": "Path where the artifact will be saved"
+          },
+          "template": {
+            "type": "string",
+            "description": "Path to the template used to generate the artifact"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Artifacts that this agent produces"
+    },
+    "consumes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type"],
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Type of artifact consumed"
+          },
+          "path": {
+            "type": "string",
+            "description": "Path to the consumed artifact"
+          }
+        },
+        "additionalProperties": false
+      },
+      "description": "Artifacts that this agent consumes from other agents"
+    }
+  },
+  "additionalProperties": false
+}

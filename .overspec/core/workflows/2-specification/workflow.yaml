@@ -1,0 +1,50 @@
+workflow:
+  id: user-stories
+  name: "Create User Stories"
+  phase: specification
+  agent: penny
+  required: true
+
+  description: "Transforms requirements into structured user stories organized by epic with acceptance criteria and priorities"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/discovery/brief.md"
+    - "artifacts/discovery/requirements.md"
+
+  output:
+    path: "artifacts/specification/user-stories.md"
+    handoff_to: [leonard]
+
+  steps:
+    - id: "review-requirements"
+      action: "ask"
+      prompt: "I've reviewed the requirements. Let me walk through them and create user stories. Ready?"
+      required: true
+
+    - id: "identify-epics"
+      action: "ask"
+      prompt: "What are the main feature groups/epics for this project?"
+      required: true
+
+    - id: "create-stories"
+      action: "ask"
+      prompt: "For each epic, let's define the user stories. Format: As a [user], I want [action] so that [benefit]"
+      required: true
+
+    - id: "prioritize"
+      action: "ask"
+      prompt: "Let's prioritize: which stories are Must-Have, Should-Have, Could-Have?"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the complete user stories document based on the collected responses"
+      save_to: "artifacts/specification/user-stories.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

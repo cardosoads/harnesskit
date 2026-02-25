@@ -1,0 +1,63 @@
+workflow:
+  id: project-brief
+  name: "Create Project Brief"
+  phase: discovery
+  agent: penny
+  required: true
+
+  description: "Guides the user through creating the initial project brief via structured questions"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs: []
+
+  output:
+    path: "artifacts/discovery/brief.md"
+    handoff_to: [leonard]
+
+  steps:
+    - id: "context"
+      action: "ask"
+      prompt: "Describe the project in 2-3 sentences. What does it do?"
+      required: true
+
+    - id: "problem"
+      action: "ask"
+      prompt: "What problem does it solve? For whom?"
+      required: true
+
+    - id: "target-users"
+      action: "ask"
+      prompt: "Who are the target users? Describe their profiles and main needs."
+      required: true
+
+    - id: "scope"
+      action: "ask"
+      prompt: "What is the initial scope? What is IN scope and what is OUT of scope?"
+      required: true
+
+    - id: "success-metrics"
+      action: "ask"
+      prompt: "How would you measure the success of this project? What metrics matter?"
+      required: false
+
+    - id: "constraints"
+      action: "ask"
+      prompt: "Are there any technical, timeline, or budget constraints?"
+      required: false
+
+    - id: "references"
+      action: "ask"
+      prompt: "Do you have any references or inspirations? Similar products, benchmarks?"
+      required: false
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the complete brief based on the collected responses"
+      save_to: "artifacts/discovery/brief.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

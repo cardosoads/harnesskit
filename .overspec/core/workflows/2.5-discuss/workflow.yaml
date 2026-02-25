@@ -1,0 +1,61 @@
+workflow:
+  id: discuss-implementation
+  name: "Discuss Implementation Vision"
+  phase: discuss
+  agent: penny
+  required: false  # Optional but recommended
+
+  description: "Captures the user's vision and preferences for HOW the project should be built, before architecture begins. Identifies gray areas and ambiguities."
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/discovery/brief.md"
+    - "artifacts/discovery/requirements.md"
+    - "artifacts/specification/user-stories.md"
+
+  output:
+    path: "artifacts/discuss/implementation-vision.md"
+    handoff_to: [leonard]
+
+  steps:
+    - id: "tech-preferences"
+      action: "ask"
+      prompt: "Do you have any technology preferences? Languages, frameworks, databases, cloud providers?"
+      required: true
+
+    - id: "patterns"
+      action: "ask"
+      prompt: "Any architectural patterns you prefer or want to avoid? (monolith, microservices, serverless, etc.)"
+      required: true
+
+    - id: "constraints-deep"
+      action: "ask"
+      prompt: "Let's go deeper on constraints: team size, deployment environment, existing infrastructure, compliance requirements?"
+      required: true
+
+    - id: "quality-priorities"
+      action: "ask"
+      prompt: "What matters most: speed of development, performance, maintainability, scalability, or cost? Rank your top 3."
+      required: true
+
+    - id: "gray-areas"
+      action: "ask"
+      prompt: "Looking at the requirements, are there any areas where you're unsure HOW something should work? Any ambiguities we should resolve now?"
+      required: false
+
+    - id: "inspiration"
+      action: "ask"
+      prompt: "Any existing systems or codebases you'd like this to be similar to in terms of architecture or tech choices?"
+      required: false
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the implementation vision document"
+      save_to: "artifacts/discuss/implementation-vision.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"
