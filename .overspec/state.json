@@ -2,7 +2,7 @@
   "project": "overspec-dev",
   "spec": "software",
   "created_at": "2026-02-25T00:00:00Z",
-  "current_phase": "implementation",
+  "current_phase": "review",
   "phases": {
     "analysis": {
       "status": "completed",
@@ -36,7 +36,7 @@
       ]
     },
     "implementation": {
-      "status": "in_progress",
+      "status": "completed",
       "steps": [
         {
           "id": "project-setup",
@@ -71,15 +71,16 @@
         },
         {
           "id": "epic-4-documentation-polish",
-          "status": "pending",
+          "status": "completed",
           "artifact": null,
           "agent": "howard",
-          "completed_at": null
+          "completed_at": "2026-02-25T16:00:00Z",
+          "stories": ["4.1", "4.2"]
         }
       ]
     },
     "review": {
-      "status": "locked",
+      "status": "unlocked",
       "steps": [
         {
           "id": "review-artifact",
