@@ -74,7 +74,14 @@ The `current_phase` field in `state.json` must always point to the **first phase
 After updating the status of any phase, recalculate `current_phase`:
 
 ```
-for each phase in order [discovery, specification, architecture, implementation, review]:
+# Read the phase order from overspec.yaml based on the active project_type:
+#   - greenfield:    greenfield_phases (ordered by 'order' field)
+#   - brownfield:    brownfield_phases (ordered by 'order' field)
+#   - new-features:  newfeatures_phases (ordered by 'order' field)
+
+phase_list = read overspec.yaml > {project_type}_phases, sorted by order
+
+for each phase in phase_list:
   if phase.status != "completed":
     current_phase = this phase
     stop
