@@ -1,0 +1,49 @@
+workflow:
+  id: feature-requirements
+  name: "Feature Requirements Gathering"
+  phase: discovery
+  agent: penny
+  required: true
+
+  description: "Penny gathers detailed requirements for new features, using Raj's impact analysis as foundation. This is the second half of the new-features discovery phase."
+
+  instructions: "feature-requirements-instructions.md"
+  template: "feature-requirements-template.md"
+  checklist: "feature-requirements-checklist.md"
+
+  inputs:
+    - "artifacts/discovery/impact-analysis.md"
+
+  output:
+    path: "artifacts/discovery/feature-requirements.md"
+    handoff_to: [penny]
+
+  steps:
+    - id: "review-impact"
+      action: "ask"
+      prompt: "I've reviewed Raj's impact analysis. Based on his findings, let me highlight the key points. Do you want to adjust the scope or priorities of any features?"
+      required: true
+
+    - id: "functional-requirements"
+      action: "ask"
+      prompt: "Let's detail the functional requirements for each feature. For each one, tell me: what should the user be able to do? What are the inputs and outputs?"
+      required: true
+
+    - id: "non-functional"
+      action: "ask"
+      prompt: "Any non-functional requirements? Performance targets, security needs, compatibility constraints?"
+      required: false
+
+    - id: "acceptance-criteria"
+      action: "ask"
+      prompt: "How will we know each feature is done? Let's define the acceptance criteria — what must be true for each feature to be considered complete?"
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the feature requirements document combining user responses with Raj's impact analysis. Each feature gets functional requirements, non-functional requirements, and acceptance criteria."
+      save_to: "artifacts/discovery/feature-requirements.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "feature-requirements-checklist.md"
