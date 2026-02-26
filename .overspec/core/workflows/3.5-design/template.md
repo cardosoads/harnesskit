@@ -76,6 +76,8 @@
 
 {{motion_spec}}
 
+> 💡 **Tip:** Always specify `prefers-reduced-motion` behavior for accessibility compliance.
+
 **prefers-reduced-motion behavior:** {{reduced_motion}}
 
 ---
@@ -94,7 +96,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Design system reviewed and approved by the user
 - [ ] Handoff created for Howard (implementation)

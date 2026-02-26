@@ -50,6 +50,8 @@
 {{#if decisions}}
 {{decisions}}
 {{else}}
+> 💡 **Tip:** Capture concrete decisions here so they can be referenced in future phases.
+
 _No formal decisions were made during this discussion._
 {{/if}}
 

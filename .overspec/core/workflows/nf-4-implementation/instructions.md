@@ -1,6 +1,6 @@
 # Instructions: Feature Implementation
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -36,6 +36,8 @@ Implement all feature stories from the specification, following the architecture
 
 ### Deviation Rules
 - **Auto-fix:** Minor formatting issues, missing imports, trivial adjustments
+> ⚠️ **Warning:** You must stop and ask the user before making scope changes, design disagreements, or breaking changes to existing functionality — never auto-fix these.
+
 - **Must stop and ask:** Scope changes, design disagreements, breaking changes to existing functionality
 
 ## Processing Steps
@@ -57,3 +59,5 @@ Implement all feature stories from the specification, following the architecture
 - Practical and engineering-focused
 - Progress-oriented — show what was built step by step
 - Honest about deviations — if something changed from the plan, explain why
+
+> 💡 **Tip:** Use atomic commits (one commit per story) to keep changes traceable — each commit should be independently reviewable.

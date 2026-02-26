@@ -33,6 +33,8 @@
 
 **What was built:** {{description}}
 
+> 💡 **Tip:** Document any deviations from the architecture plan and the rationale behind them.
+
 **Deviations from plan:** {{deviations}}
 
 ---
@@ -46,7 +48,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Implementation reviewed by the user
 - [ ] Handoff created for Amy (review)

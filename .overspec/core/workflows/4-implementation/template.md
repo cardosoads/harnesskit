@@ -53,7 +53,7 @@
 {{#if dev_environment}}
 {{dev_environment}}
 {{else}}
-_No specific dev environment configuration defined. Standard local setup assumed._
+> 📌 **Note:** No specific dev environment configuration defined. Standard local setup assumed.
 {{/if}}
 
 ---
@@ -102,7 +102,7 @@ _No specific coding standards defined. Default language conventions apply._
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Project structure created on disk
 - [ ] Dependencies installed successfully

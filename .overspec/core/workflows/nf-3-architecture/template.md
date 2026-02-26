@@ -18,7 +18,26 @@
 
 ## Existing Architecture Overview
 
+> 📌 **Note:** Summarized from the current codebase analysis and architecture artifacts.
+
 {{existing_architecture}}
+
+---
+
+## Integration Diagram
+
+**How new features integrate with the existing architecture:**
+
+```mermaid
+graph TD
+    A[Existing System] --> B[Feature 1]
+    A --> C[Feature 2]
+    B --> D[Shared Component]
+    C --> D
+```
+
+> 📌 **Note:** Replace this placeholder with the actual integration diagram
+> showing how new features connect to existing components.
 
 ---
 
@@ -73,7 +92,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Design reviewed and approved by the user
 - [ ] Handoff created for Howard (implementation)

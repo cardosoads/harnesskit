@@ -1,6 +1,6 @@
 # Instructions: Workflow Codebase Analysis
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -74,6 +74,7 @@ After scanning the codebase:
 1. Load the `template.md` from the same directory as the workflow
 2. Fill in each section of the template with findings from the scan and user responses
 3. Be factual — only document what you can observe, not assumptions
+> 💡 **Tip:** Mark uncertain findings with "[Needs Verification]" — honesty about unknowns is better than false confidence.
 4. Mark uncertain findings with a note: "[Needs Verification]"
 5. Fill in the metadata: project name, date, version 1.0, agent "raj"
 6. Save the artifact at the path defined in `output.path`: `artifacts/analysis/codebase-analysis.md`
@@ -86,6 +87,7 @@ After generating the analysis:
 2. Validate each checklist item against the generated analysis
 3. Required items that fail: inform the user and go back to the relevant step
 4. Optional items that fail: inform but do not block
+> ⚠️ **Warning:** Do not mark the analysis as approved until ALL required checklist items pass.
 5. If all required items pass, the analysis is approved
 
 ## After Completing

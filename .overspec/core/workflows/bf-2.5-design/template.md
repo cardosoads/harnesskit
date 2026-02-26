@@ -52,6 +52,9 @@
 {{proposed_tokens}}
 
 ### Migration Strategy
+
+> 💡 **Tip:** Define a gradual migration path so existing styles are replaced incrementally, not all at once.
+
 {{migration_strategy}}
 
 ---
@@ -68,7 +71,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Design audit reviewed and approved by the user
 - [ ] Handoff created for Howard (implementation)

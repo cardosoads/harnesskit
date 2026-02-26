@@ -55,6 +55,8 @@
 
 ## Priorização Recomendada
 
+> 💡 **Tip:** Group findings by action urgency. Quick Wins are low-effort, high-impact items to tackle first.
+
 ### Quick Wins (Fix Now — esforço S)
 {{#each quick_wins}}
 - {{id}} — {{title}}
@@ -79,7 +81,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Report reviewed and approved by the user
 - [ ] Handoff created for the next phase (planning)

@@ -1,6 +1,6 @@
 # Instructions: Feature UI Design
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -17,6 +17,8 @@ Produce a **Feature UI Design Document** — UI specification for the new featur
 3. Read `artifacts/specification/feature-stories.md` — stories to design for
 4. Read `artifacts/discovery/impact-analysis.md` — Raj's impact analysis
 5. **Check `artifacts/design/` for existing design artifacts** — if a design-system.md or design-tokens.md exists from a previous cycle, use them as foundation
+
+> 📋 **Important:** If an existing design system exists, you must integrate with it — never override established tokens or components without explicit user approval.
 
 ## Processing Steps
 
@@ -76,6 +78,8 @@ If this is the first design work on the project:
 2. Define core tokens: 5 colors, 1 font pair, spacing scale, 1 shadow
 3. Classify components with Atomic Design but keep the hierarchy simple
 4. Document clearly that this is a foundation to be extended
+
+> 💡 **Tip:** When creating a minimal viable design system from scratch, keep it intentionally small — 5 colors, 1 font pair, and a spacing scale are enough to start.
 
 ## After Completing
 

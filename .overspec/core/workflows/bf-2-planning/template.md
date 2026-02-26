@@ -28,7 +28,7 @@
 
 ## Current State Summary
 
-> Extracted from the codebase analysis artifact.
+> 📌 **Note:** Extracted automatically from the codebase analysis artifact.
 
 {{current_state_summary}}
 
@@ -45,6 +45,22 @@
 **Type:** feature | refactor | fix | security | performance
 **Effort:** XS | S | M | L | XL
 **Risk:** Low | Medium | High
+
+---
+
+## Change Impact Diagram
+
+**Visual overview of proposed changes and their dependencies:**
+
+```mermaid
+graph TD
+    A[Current State] --> B[Phase 1 Changes]
+    B --> C[Phase 2 Changes]
+    C --> D[Improved State]
+```
+
+> 📌 **Note:** Replace this placeholder with the actual change dependency
+> diagram. Show which changes depend on others and the implementation order.
 
 ---
 
@@ -120,7 +136,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Plan reviewed and approved by the user
 - [ ] Handoff created for the next agent ({{handoff_to}})

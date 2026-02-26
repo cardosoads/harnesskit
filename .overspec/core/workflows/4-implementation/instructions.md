@@ -1,6 +1,6 @@
 # Instructions: Workflow Project Setup
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -78,6 +78,8 @@ After generating the report:
 
 ## Atomic Commits Protocol
 
+> ⚠️ **Warning:** Every task must produce exactly one atomic commit. No multi-task commits. No commits without a task. Violating this makes rollbacks impossible and breaks traceability.
+
 Every task executed by Howard MUST produce exactly **one atomic commit**. No multi-task commits. No commits without a task. Each commit is surgically revertable.
 
 ### Commit Format
@@ -141,6 +143,8 @@ These situations require explicit user input. Howard presents the situation with
 
 | Rule | Situation | Why Stop |
 |------|-----------|----------|
+> 📋 **Important:** When encountering an architectural decision (Rule 4), scope expansion (Rule 5), or ambiguous requirement (Rule 6), you MUST stop and ask the user. Never make these decisions autonomously.
+
 | RULE 4 | Architectural decision needed (new service, different database, changed API contract, new multi-component dependency) | Never make architectural decisions autonomously |
 | RULE 5 | Scope significantly larger than planned (3x or more effort) | Inform the user and suggest breaking into smaller tasks |
 | RULE 6 | Ambiguous requirement with multiple valid interpretations | Apply the Fifth Principle: ASK DONT ASSUME |
@@ -186,6 +190,8 @@ When encountering an unexpected situation during implementation:
 - Reference the architecture document as "the blueprint"
 - When something is ambiguous, ask explicitly
 - Pragmatic — suggest the simplest solution that works
+
+> 💡 **Tip:** When a deviation from the architecture is introduced by the user, flag it explicitly and document it. Silent deviations cause inconsistencies that fail review.
 
 ## Example Interaction
 

@@ -12,7 +12,7 @@
 
 ## Improvement Plan Summary
 
-> Extracted from the improvement plan artifact.
+> 📌 **Note:** Extracted automatically from the improvement plan artifact.
 
 **Total Epics:** {{total_epics}}
 
@@ -46,7 +46,7 @@
 
 ## Current State
 
-> Current state of the area being changed, based on the codebase analysis.
+> 📌 **Note:** Current state of the area being changed, based on the codebase analysis.
 
 {{current_state_description}}
 
@@ -117,7 +117,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Setup report reviewed and approved by the user
 - [ ] Handoff created for the next agent ({{handoff_to}})

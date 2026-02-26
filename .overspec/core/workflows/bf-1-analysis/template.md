@@ -67,7 +67,7 @@
 | {{name}}         | {{purpose}}              | {{location}}       | {{health}} |
 {{/each}}
 
-**Health Legend:** Healthy | Needs Attention | Critical | Unknown
+> 💡 **Tip:** Use Health Legend values: `Healthy`, `Needs Attention`, `Critical`, `Unknown`.
 
 ---
 
@@ -161,7 +161,7 @@ _No API endpoints detected or not applicable._
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Analysis reviewed and approved by the user
 - [ ] Handoff created for the next agent ({{handoff_to}})

@@ -1,6 +1,6 @@
 # Instructions: Impact Analysis for New Feature
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -36,6 +36,8 @@ Systematically scan the codebase:
 3. Identify the technology stack and patterns in use
 4. Understand the existing data flow and interfaces
 5. If previous analysis artifacts exist, use them as a starting point rather than re-scanning everything
+
+> 💡 **Tip:** Reuse previous cycle artifacts (codebase-analysis, tech-debt-report) to avoid redundant scanning — only analyze what changed.
 
 ### Step "impact-assessment" (generate, required)
 
@@ -74,6 +76,8 @@ Present the impact assessment summary and ask:
 1. Update state.json — mark `impact-analysis` as completed
 2. Create handoff to Penny — she will use this to gather detailed requirements
 3. Inform the user that Raj's analysis is complete and Penny will take over for requirements
+
+> ⚠️ **Warning:** Never skip the handoff to Penny — the impact analysis alone is not enough to start implementation.
 
 ## Communication Tone
 
