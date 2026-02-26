@@ -16,6 +16,19 @@
 
 ---
 
+## Compliance Summary
+
+{{compliance_bar}}
+
+{{#if severity_breakdown}}
+🔴 Critical: {{critical_count}} | 🟡 Warning: {{warning_count}} | 🟢 Passed: {{passed_count}}
+{{/if}}
+
+> 📌 **Note:** Compliance bar uses the format `████████░░ 80% (N/M passed)`.
+> See `core/style-guide.md` for progress bar specification.
+
+---
+
 ## Review Criteria Applied
 
 {{#each criteria}}
@@ -72,7 +85,7 @@ _No actions required. Artifact is approved._
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Review report delivered to the user
 - [ ] Required actions communicated to the responsible agent
