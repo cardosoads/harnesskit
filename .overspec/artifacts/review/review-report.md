@@ -4,15 +4,26 @@
 |-------------------|------------------------------------------------------|
 | Reviewer          | amy                                                  |
 | Date              | 2026-02-25                                           |
-| Artifact Reviewed | Design Specialist Implementation (Cycle 3)           |
+| Artifact Reviewed | Visual CLI Enhancement Implementation (Cycle 4)     |
 | Phase             | review                                               |
-| Version           | 3.0                                                  |
+| Version           | 4.0                                                  |
 
 ---
 
 ## Executive Summary
 
-Revisão da implementação completa da Design Specialist (Emily Sweeney) — uma nova agente especializada em Atomic Design, art direction, design tokens, acessibilidade e código frontend production-grade. A implementação abrange 3 epics, 12 stories e ~14 arquivos novos + ~10 modificados. Todos os três níveis de verificação passaram sem issues. A agente está production-ready.
+Revisão da implementação completa do Visual CLI Enhancement — um conjunto de melhorias visuais para a apresentação CLI do OverSpec. A implementação abrange 4 epics, 15 stories e ~40 arquivos modificados + 1 arquivo novo. Inclui: style guide centralizado, sistema de callouts (6 tipos em 39 arquivos), progress bars (Sheldon + review template), diagramas Mermaid (3 templates de arquitetura) e formatting directives em todos os 8 agentes. Uma issue crítica foi encontrada (Bernadette sem formatting directive) e corrigida durante a review.
+
+---
+
+## Compliance Summary
+
+██████████ 100% (31/31 passed)
+
+🔴 Critical: 1 (fixed) | 🟡 Warning: 0 | 🟢 Passed: 31
+
+> 📌 **Note:** Compliance bar uses the format `████████░░ 80% (N/M passed)`.
+> See `core/style-guide.md` for progress bar specification.
 
 ---
 
@@ -24,72 +35,76 @@ Revisão da implementação completa da Design Specialist (Emily Sweeney) — um
 
 ---
 
-## Level 1: Existence Check — PASS
+## Level 1: Existence Check — PASS (13/13)
 
 | Item | Status |
 |------|--------|
-| `design-specialist.agent.yaml` criado com 334 linhas | PASS |
-| `"designer"` adicionado ao enum `model_role` em `_schema.json` | PASS |
-| `designer` adicionado a `model_profiles` (quality, balanced, budget) | PASS |
-| Design phase adicionada a greenfield, brownfield e new-features em `overspec.yaml` | PASS |
-| `3.5-design/` — 4 arquivos (workflow, instructions, template, checklist) | PASS |
-| `bf-2.5-design/` — 4 arquivos (workflow, instructions, template, checklist) | PASS |
-| `nf-3.5-design/` — 4 arquivos (workflow, instructions, template, checklist) | PASS |
-| `spec.yaml` referencia agente, workflows e templates | PASS |
-| 3 team presets atualizados com `design-specialist` | PASS |
-| Sheldon phase maps atualizados para 3 tracks | PASS |
-| `state-machine.md` documenta fases opcionais | PASS |
-| `artifacts/design/.gitkeep` criado | PASS |
+| `core/style-guide.md` criado com 177 linhas (6 seções) | PASS |
+| Sheldon: progress bar em activation + Mermaid em show-map | PASS |
+| Penny: formatting directive adicionada a persona.style | PASS |
+| Leonard: formatting directive adicionada a persona.style | PASS |
+| Howard: formatting directive adicionada a persona.style | PASS |
+| Amy: formatting directive adicionada a persona.style | PASS |
+| Raj: formatting directive adicionada a persona.style | PASS |
+| Emily: formatting directive adicionada a persona.style | PASS |
+| Bernadette: formatting directive adicionada a persona.style | PASS (fixed) |
+| Callouts adicionados em ~39 instruction/template files | PASS |
+| Compliance bar + severity breakdown no review template | PASS |
+| Mermaid diagrams nos 3 architecture templates (GF, BF, NF) | PASS |
+| Mermaid guidance nas architecture instructions | PASS |
 
 ---
 
-## Level 2: Substance Check — PASS
+## Level 2: Substance Check — PASS (11/11)
 
 | Item | Status |
 |------|--------|
-| Agent definition completa: persona, princípios, behaviors, outputs, consumes | PASS |
-| 8 princípios cobrem art direction, Atomic Design, tokens, anti-generic, a11y, motion, production-grade, composition | PASS |
-| Greenfield workflow com 7 steps substantivos (brief → art-direction → tokens → components → motion-a11y → generate → validate) | PASS |
-| Brownfield workflow com 5 steps de audit e evolução incremental | PASS |
-| New-features workflow com 5 steps de context analysis e integração | PASS |
-| Instructions files com conteúdo específico e actionable (sem placeholders) | PASS |
-| Templates com seções completas (art direction, tokens, atomic hierarchy, states, motion, a11y, code examples) | PASS |
-| Checklists com critérios mensuráveis (required + optional items) | PASS |
-| Design phase marcada como `required: false` em todos os tracks | PASS |
+| Style guide cobre 6 padrões: callouts, progress bars, Mermaid, emphasis, structure, anti-patterns | PASS |
+| 6 tipos de callout definidos com emoji + formato blockquote consistente | PASS |
+| Progress bar format usa caracteres Unicode corretos (█ U+2588, ░ U+2591) com 10-char width | PASS |
+| Formatting directives são específicas por agente (não genéricas) | PASS |
+| Callouts em instructions usam tipos semanticamente corretos (📋 para regras, ⚠️ para riscos, 💡 para dicas) | PASS |
+| Mermaid diagrams nos templates usam tipos adequados (flowchart para componentes, sequence para fluxo) | PASS |
+| Anti-patterns documentados no style guide previnem uso incorreto | PASS |
+| Review template com compliance bar e severity breakdown é actionable | PASS |
+| Sheldon show-map com Mermaid pipeline é visualmente informativo | PASS |
+| Callouts migrados de formato inconsistente (> **IMPORTANT:**) para formato padronizado (> 📋 **Important:**) | PASS |
+| Templates mantêm callouts com conteúdo placeholder adequado (📌 Note para seções auto-preenchidas) | PASS |
 
 ---
 
-## Level 3: Connection Check — PASS
+## Level 3: Connection Check — PASS (7/7)
 
 | Item | Status |
 |------|--------|
-| Cadeia de handoff: leonard → emily → howard (greenfield) | PASS |
-| Cadeia de handoff: raj → emily → howard (brownfield) | PASS |
-| Cadeia de handoff: leonard → emily → howard (new-features) | PASS |
-| Inputs/outputs consistentes entre workflows conectados | PASS |
-| `spec.yaml` lista agent + 3 workflows + 3 templates nos tracks corretos | PASS |
-| Team presets posicionam `design-specialist` entre architect/analyst e developer | PASS |
-| Sheldon phase maps mostram Design (optional) com emily nos 3 tracks | PASS |
-| `state-machine.md` documenta skip behavior para fases opcionais | PASS |
-| `model_profiles` incluem `designer` com modelo apropriado por perfil | PASS |
-| Sem referências órfãs ou contradições | PASS |
+| Todos os 8 agentes referenciam `core/style-guide.md` nos formatting directives | PASS |
+| Style guide é consistente com os padrões efetivamente usados nos arquivos | PASS |
+| 15 stories do feature-stories.md são rastreáveis aos 13 commits atômicos | PASS |
+| Feature design de Leonard é consistente com a implementação de Howard | PASS |
+| Callout types no style guide (6) correspondem aos tipos usados nos arquivos | PASS |
+| Progress bar format no style guide corresponde ao usado em Sheldon e review template | PASS |
+| Mermaid guidance nas instructions é consistente com os exemplos nos templates | PASS |
 
 ---
 
 ## Issues Found
 
-_No issues found. All criteria passed._
+| ID  | Severity | Description | Location | Recommendation |
+|-----|----------|-------------|----------|----------------|
+| ISS-001 | 🔴 Critical | Bernadette sem formatting directive em persona.style — única agente sem referência ao style-guide.md | `bernadette.agent.yaml` | Adicionar formatting directive (**FIXED**) |
+
+> ✅ **Success:** ISS-001 foi corrigida durante a review com commit `fix(US-009): add formatting directive to Bernadette`.
 
 ---
 
 ## Strengths Identified
 
-- **Persona rica e consistente**: Emily Sweeney como neurocientista artística é uma escolha excelente — combina rigor analítico com sensibilidade estética
-- **8 princípios completos**: Cobrem todo o espectro da skill de Frontend Design sem redundância
-- **Anti-generic guardrails**: O princípio ANTI-GENERIC garante que os designs nunca serão genéricos — um diferencial importante
-- **3 workflows diferenciados**: Cada track tem workflow específico (sistema completo, audit incremental, feature-specific) em vez de one-size-fits-all
-- **Fase opcional bem documentada**: O padrão `required: false` com skip behavior documentado no state-machine.md é reutilizável para futuras fases opcionais
-- **Production-grade focus**: A agente não para no design — gera código frontend real com tokens CSS e componentes implementáveis
+- **Style guide centralizado**: Um único arquivo de referência (`core/style-guide.md`) que todos os agentes apontam — facilita manutenção e evolução dos padrões visuais
+- **Formatting directives específicos por agente**: Cada agente tem instruções de formatação personalizadas ao seu domínio (Amy usa compliance bars, Leonard usa trade-off tables, etc.)
+- **Cobertura abrangente de callouts**: 39 arquivos atualizados com callouts semânticos — migração completa do formato antigo para o padronizado
+- **Anti-patterns documentados**: O style guide não apenas mostra o que fazer, mas o que NÃO fazer — essencial para consistência
+- **Commits atômicos**: 13 commits com prefixo `feat(US-XXX)` permitem rastreabilidade total entre stories e implementação
+- **Mermaid com text fallback**: Diagramas Mermaid sempre acompanhados de descrição textual — garante acessibilidade quando rendering não está disponível
 
 ---
 
@@ -97,13 +112,13 @@ _No issues found. All criteria passed._
 
 **APPROVED**
 
-Todos os três níveis de verificação passaram sem issues. A Design Specialist (Emily) está estruturalmente completa, com definição de agente rica (334 linhas), 12 workflow files diferenciados por track, integração correta em spec.yaml/teams/Sheldon, e documentação de fases opcionais. As 12 stories do improvement plan são totalmente rastreáveis aos commits atômicos que as implementam.
+Todos os três níveis de verificação passaram (31/31 items). Uma issue crítica foi encontrada (Bernadette sem formatting directive) e corrigida durante a review. Após a correção, a implementação está 100% compliant. O Visual CLI Enhancement adiciona uma camada de consistência visual significativa ao framework com style guide centralizado, 6 tipos de callout em 39 arquivos, progress bars em pontos estratégicos, diagramas Mermaid nos templates de arquitetura, e formatting directives em todos os 8 agentes.
 
 ---
 
 ## Required Actions
 
-_No actions required. Artifact is approved._
+_No actions required. All issues were fixed during the review._
 
 ---
 
@@ -111,5 +126,6 @@ _No actions required. Artifact is approved._
 
 - [x] Review report delivered to the user
 - [x] Required actions communicated to the responsible agent
+- [x] ISS-001 fixed and committed
 - [ ] State.json updated with review result
 - [ ] Return to Sheldon for next phase routing
