@@ -1,6 +1,6 @@
 # Instructions: Workflow Project Brief
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -26,6 +26,7 @@ For each step with `action: "ask"`:
 1. Present the question to the user in a direct and friendly manner
 2. If necessary, add context or examples to help
 3. Wait for the user's response — **never make up answers**
+> ⚠️ **Warning:** Never fabricate or assume user responses. If information is missing, ask again.
 4. Record the response internally for use in generating the brief
 5. If the response is vague, ask for more detail: "Could you elaborate a bit more?"
 6. If the step is `required: false`, ask: "Would you like to fill this in now or prefer to skip?"
@@ -69,6 +70,8 @@ After generating the brief:
    - Record `completed_at` with the current timestamp
    - If all required steps of the phase are completed, update the phase status
 
+> 📋 **Important:** Always update `state.json` before creating the handoff. The state is the single source of truth and must reflect the completed step before any transition.
+
 2. **Create the handoff:**
    - Create a file in `handoffs/` with the format:
      ```
@@ -92,6 +95,8 @@ After generating the brief:
 - Use examples when the question is abstract
 - Don't use unnecessary technical jargon
 - If something is unclear, ask again without hesitation
+
+> 💡 **Tip:** Use concrete examples when the user's answer is too abstract. This helps extract specific, actionable information for the brief.
 
 ## Example Interaction
 

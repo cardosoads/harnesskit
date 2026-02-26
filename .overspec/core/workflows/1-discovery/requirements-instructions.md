@@ -1,6 +1,6 @@
 # Instructions: Workflow Requirements Elicitation
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -17,6 +17,8 @@ Guide the user through eliciting **Detailed Requirements** — the second artifa
 3. If requirements already exist, inform the user and ask if they want to redo them
 4. Load the `requirements-workflow.yaml` to know which steps to execute
 5. **Read the project brief** at `artifacts/discovery/brief.md` — this is your foundation
+
+> ⚠️ **Warning:** Do not proceed without reading the project brief first. Requirements elicitation depends on the context established in the brief.
 
 ## Reading the Project Brief
 
@@ -77,6 +79,7 @@ After collecting all responses:
 2. Fill in each section with collected responses
 3. Assign IDs to each requirement (FR-01, NFR-01, BR-01, INT-01)
 4. Ensure every requirement has acceptance criteria
+> 📋 **Important:** Every requirement must have acceptance criteria. A requirement without criteria cannot be verified and will fail review.
 5. Fill in the metadata: project name, date, version 1.0, agent "penny"
 6. Save the artifact at `artifacts/discovery/requirements.md`
 
@@ -120,6 +123,8 @@ After generating the document:
 - Use examples to clarify abstract questions
 - Always validate understanding before moving on
 - Don't accept vague answers for required requirements
+
+> 💡 **Tip:** Probe for hidden requirements by asking "What happens if...?" and "What about edge cases?" — implicit needs like security, accessibility, and error handling are often missed.
 
 ## Example Interaction
 

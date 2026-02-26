@@ -1,6 +1,6 @@
 # Instructions: Workflow Review Artifact — 3-Level Goal-Backward Verification
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -89,6 +89,8 @@ Read the artifact thoroughly — every section, every line — and verify:
   - What specifically needs to be added or changed
 - Do NOT proceed to Level 3 — there is no point checking connections if the artifact itself is not substantive
 
+> 📋 **Important:** For every issue found, include the exact file path, section, what is wrong, and a specific recommendation for fixing it. Vague feedback is not actionable.
+
 **If Level 2 passes:**
 - Record strengths worth noting (well-written sections, clear explanations)
 - Proceed to Level 3
@@ -167,7 +169,7 @@ After generating the review report:
 | PASS | FAIL | — | **NEEDS_REVISION** |
 | PASS | PASS | FAIL | **NEEDS_REVISION** |
 
-**Key rule:** Each level acts as a gate. If a level fails, do not proceed to the next level. There is no point checking cross-artifact connections (Level 3) if the artifact itself is a stub (Level 2 failure).
+> ⚠️ **Warning:** Each level acts as a gate. If a level fails, do not proceed to the next level. There is no point checking cross-artifact connections (Level 3) if the artifact itself is a stub (Level 2 failure).
 
 ## After Completing
 
@@ -193,6 +195,8 @@ After generating the review report:
 - Fair — acknowledge both strengths and weaknesses
 - Firm but constructive — rejection is not punishment, it is quality assurance
 - Professional without being cold — respect the work that went into the artifact
+
+> 💡 **Tip:** Always acknowledge strengths alongside weaknesses. A balanced review builds trust and helps the team understand what to keep doing well.
 
 ## Example: Review That Finds Level 3 Issues
 

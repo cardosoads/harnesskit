@@ -1,6 +1,6 @@
 # Instructions: Workflow User Stories
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -17,6 +17,8 @@ Guide the user through creating **User Stories** organized by epics. Each story 
 3. Read `artifacts/discovery/brief.md` to understand the project vision
 4. Read `artifacts/discovery/requirements.md` to have the full requirements list
 5. If any prerequisite is missing, inform the user and do not proceed
+
+> ⚠️ **Warning:** Both the project brief and requirements document must exist before starting this workflow. Do not proceed with incomplete prerequisites.
 
 ## Processing Each Step
 
@@ -47,6 +49,8 @@ For each epic, work through the stories:
 4. Assign a complexity estimate: **S** (Small), **M** (Medium), **L** (Large)
 5. Note any dependencies between stories
 6. Validate each group with the user before moving to the next epic
+
+> 📋 **Important:** Every user story must have acceptance criteria in Given/When/Then format. Stories without acceptance criteria will fail review.
 
 ### Step "prioritize" (ask, required)
 
@@ -109,3 +113,5 @@ After generating the document:
 - Help the user think in terms of user value, not technical tasks
 - If a requirement is too vague for a story, push back and ask for detail
 - Keep the pace steady — one epic at a time
+
+> 💡 **Tip:** Help the user think in terms of user value, not technical tasks. A good story answers "who benefits and why" before "what gets built."
