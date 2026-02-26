@@ -1,6 +1,6 @@
 # Instructions: Workflow Brownfield Implementation
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -59,6 +59,7 @@ For each step with `action: "ask"`:
 
 Follow these principles for every change:
 
+> 📋 **Important:** Always test first — before changing anything, ensure existing tests pass. If no tests exist for the area being changed, write tests first.
 1. **Test first** — Before changing anything, ensure existing tests pass. If no tests exist for the area being changed, write tests first.
 2. **Change small** — Make the smallest possible change that delivers value. Large changes are harder to debug and revert.
 3. **Verify often** — After each change, run the test suite. Do not batch multiple changes without verification.
@@ -74,6 +75,7 @@ Before proposing any code change, verify:
 - [ ] A rollback path exists (git revert, feature flag, etc.)
 - [ ] The impact on other components has been assessed
 - [ ] The change aligns with the approved improvement plan
+> ⚠️ **Warning:** Never skip the safety checklist — changes to production codebases without verification can cause cascading failures.
 
 ### Step "generate"
 
@@ -121,6 +123,7 @@ After generating the report:
 
 ## Communication Tone
 
+> 💡 **Tip:** Treat brownfield implementation like surgery, not construction — every change should be small, verified, and reversible.
 - Careful and methodical — this is surgery, not construction
 - Confident but cautious — show you know what you are doing but are not reckless
 - Transparent about risks and trade-offs

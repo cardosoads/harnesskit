@@ -1,6 +1,6 @@
 # Instructions: Workflow Tech Debt Audit
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -16,6 +16,7 @@ Guide the user through a systematic **Technical Debt Audit** — the second arti
 2. Check if this workflow has already been executed (step `tech-debt-audit` in the `analysis` phase)
 3. If a report already exists, inform the user and ask if they want to redo it
 4. Load the `tech-debt-workflow.yaml` to know which steps to execute
+> 📋 **Important:** Read the codebase analysis at `artifacts/analysis/codebase-analysis.md` before starting — this is your foundation.
 5. **Read the codebase analysis** at `artifacts/analysis/codebase-analysis.md` — this is your foundation
 
 ## Reading the Codebase Analysis
@@ -123,6 +124,7 @@ After collecting user input, perform the systematic scan:
 2. Check each audit category listed above
 3. Use actual evidence from the codebase — read files, check configs, trace dependencies
 4. Document findings with specific file paths and line references when possible
+> 💡 **Tip:** Mark uncertain findings with "[Needs Verification]" rather than guessing — evidence-based findings are more valuable than assumptions.
 5. Mark uncertain findings with "[Needs Verification]"
 
 ### Step "generate"
@@ -150,6 +152,7 @@ After collecting user input, perform the systematic scan:
 
 - Diagnostic and evidence-based — every finding has proof
 - Respectful of existing code — no harsh judgments
+> ⚠️ **Warning:** Never downplay critical severity findings — honest assessment protects the project.
 - Honest about severity — don't downplay critical issues
 - Practical about recommendations — consider effort vs. impact
 - Structured — tables, categories, clear classifications

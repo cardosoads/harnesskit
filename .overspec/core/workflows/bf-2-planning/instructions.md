@@ -1,6 +1,6 @@
 # Instructions: Workflow Improvement Plan
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -63,6 +63,7 @@ After collecting user input, map each goal to concrete changes:
    - **Strategic:** High impact, high effort — plan carefully
    - **Fill-ins:** Low impact, low effort — do when time allows
    - **Avoid:** Low impact, high effort — deprioritize or drop
+> ⚠️ **Warning:** Do not skip the impact vs. effort classification — changes without clear prioritization lead to wasted effort.
 
 ### Creating Epics and Stories
 
@@ -79,6 +80,7 @@ After processing all responses:
 
 1. Load the `template.md` from the same directory as the workflow
 2. Fill in each section of the template
+> 📋 **Important:** Every proposed change must have a justification tied to the analysis findings or user goals — unjustified changes should not appear in the plan.
 3. Ensure every proposed change has a justification tied to the analysis findings or user goals
 4. Fill in the metadata: project name, date, version 1.0, agent "raj"
 5. Save the artifact at the path defined in `output.path`: `artifacts/planning/improvement-plan.md`
@@ -122,6 +124,7 @@ After generating the plan:
 - Reference concrete findings from the analysis
 - Be honest about trade-offs and risks
 - Help the user think through priorities, don't just record them
+> 💡 **Tip:** If a goal seems unrealistic given the constraints, say so diplomatically — helping the user recalibrate expectations early saves time later.
 - If a goal seems unrealistic given the constraints, say so diplomatically
 
 ## Example Interaction
