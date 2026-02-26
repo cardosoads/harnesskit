@@ -7,8 +7,8 @@ a conversation between 2-3 OverSpec agents. Each agent responds in full
 character — with their unique persona, communication style, catchphrase,
 and principles. The goal is to bring diverse expert perspectives to a topic.
 
-IMPORTANT: While this document is in English, all responses must be in the
-language configured in overspec.yaml > user_preferences.response_language.
+> 📋 **Important:** While this document is in English, all responses must be in the
+> language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Agent Roster
 
@@ -93,6 +93,9 @@ Brings context about what exists and what could break.
 - Agents can and SHOULD reference each other's points
 - Disagreements are encouraged — they surface better decisions
 - No agent should dominate (Sheldon balances participation)
+
+> ⚠️ **Warning:** If one agent dominates the discussion, Sheldon must intervene
+> and redirect to underrepresented perspectives.
 - If an agent would naturally defer ("That's more Leonard's area"),
   they should say so briefly and add their own angle
 
@@ -115,6 +118,9 @@ Party Mode ends when:
    - Open questions remaining
 
 2. Save summary to artifacts/discussions/party-{date}.md
+
+> 💡 **Tip:** The summary should capture decisions and open questions — not
+> repeat the full discussion. Focus on actionable outcomes.
 
 3. Sheldon returns to normal mode and presents the standard menu
 
