@@ -1,6 +1,6 @@
 # Instructions: Feature Requirements Gathering
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -14,6 +14,8 @@ Produce a **Feature Requirements Document** — detailed requirements for each p
 
 1. Read the `state.json` to understand the current context
 2. **Read the impact analysis** at `artifacts/discovery/impact-analysis.md` — this is your foundation from Raj
+
+> 📋 **Important:** Always read Raj's impact analysis before asking the user anything — use it to ask targeted, contextual questions instead of generic ones.
 3. Understand which components are affected and what risks were identified
 4. Use Raj's findings to ask informed, contextual questions
 
@@ -49,7 +51,7 @@ For each feature, gather:
 5. **Business rules** — any rules that govern the feature's behavior
 6. **Edge cases** — what happens in unusual situations
 
-Ask ONE feature at a time. Don't overwhelm the user.
+> ⚠️ **Warning:** Ask ONE feature at a time. Don't overwhelm the user with multiple features at once.
 
 ### Step "non-functional" (ask, optional)
 

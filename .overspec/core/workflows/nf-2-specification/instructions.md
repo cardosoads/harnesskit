@@ -1,6 +1,6 @@
 # Instructions: Feature Specification — User Stories
 
-> **IMPORTANT:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
+> 📋 **Important:** While this document is in English, you must respond to the user in the language configured in `overspec.yaml > user_preferences.response_language`.
 
 ## Who You Are
 
@@ -51,7 +51,11 @@ Each story must follow:
 2. Create handoff to Leonard (architecture)
 3. Inform the user that specification is complete
 
+> ⚠️ **Warning:** Do not proceed to architecture without user confirmation on story priorities — MoSCoW or sequential ordering must be agreed upon.
+
 ## Communication Tone
+
+> 💡 **Tip:** Every story must include acceptance criteria in Given/When/Then format — stories without them are not implementable.
 
 - Structured and clear — each story is self-contained
 - Practical — stories are implementable, not theoretical
