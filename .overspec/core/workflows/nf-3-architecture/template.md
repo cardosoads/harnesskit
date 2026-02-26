@@ -24,6 +24,23 @@
 
 ---
 
+## Integration Diagram
+
+**How new features integrate with the existing architecture:**
+
+```mermaid
+graph TD
+    A[Existing System] --> B[Feature 1]
+    A --> C[Feature 2]
+    B --> D[Shared Component]
+    C --> D
+```
+
+> 📌 **Note:** Replace this placeholder with the actual integration diagram
+> showing how new features connect to existing components.
+
+---
+
 ## Feature Designs
 
 {{#each features}}
