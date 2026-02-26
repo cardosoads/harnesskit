@@ -29,25 +29,27 @@
 {{#if component_diagram}}
 {{component_diagram}}
 {{else}}
+
+**Components and their connections:**
+
+The system follows a layered architecture with Client, API, and Data layers.
+Components communicate through well-defined interfaces.
+
+```mermaid
+graph TD
+    A[Client Layer] --> B[API Layer]
+    B --> C[Service Layer]
+    C --> D[Data Layer]
+    A --> E[Component A]
+    A --> F[Component B]
+    E --> B
+    F --> B
 ```
-┌─────────────────────────────────────────────────┐
-│                   [Client Layer]                 │
-│  ┌─────────────┐  ┌─────────────┐               │
-│  │  Component A │  │  Component B │              │
-│  └──────┬──────┘  └──────┬──────┘               │
-│         │                │                       │
-│         └───────┬────────┘                       │
-│                 ▼                                 │
-│         ┌──────────────┐                         │
-│         │   API Layer   │                        │
-│         └──────┬───────┘                         │
-│                ▼                                  │
-│         ┌──────────────┐                         │
-│         │  Data Layer   │                        │
-│         └──────────────┘                         │
-└─────────────────────────────────────────────────┘
-```
-> 💡 **Tip:** Replace this placeholder with the actual component diagram for the project.
+
+> 💡 **Tip:** Replace this placeholder Mermaid diagram with the actual component
+> diagram for the project. Keep under 15 nodes for readability. The text
+> description above serves as fallback when Mermaid doesn't render.
+
 {{/if}}
 
 ---
