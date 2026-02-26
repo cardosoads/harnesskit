@@ -15,6 +15,9 @@
 ## Technology Preferences
 
 ### Languages
+
+> 💡 **Tip:** Fill each section with the user's stated preferences. Leave as `[placeholder]` if not discussed.
+
 [Primary and secondary languages chosen, with rationale if provided]
 
 ### Frameworks
@@ -102,5 +105,7 @@ Other considerations: [any additional quality attributes mentioned]
 ---
 
 ## Open Questions
+
+> 📌 **Note:** Open questions will be carried forward and resolved during the Architecture phase.
 
 - [Any questions that remain unanswered and need resolution during architecture]

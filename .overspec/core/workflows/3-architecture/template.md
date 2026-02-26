@@ -47,7 +47,7 @@
 │         └──────────────┘                         │
 └─────────────────────────────────────────────────┘
 ```
-_Replace this placeholder with the actual component diagram for the project._
+> 💡 **Tip:** Replace this placeholder with the actual component diagram for the project.
 {{/if}}
 
 ---
@@ -170,7 +170,7 @@ _No significant architectural risks identified at this time._
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Architecture reviewed and approved by the user
 - [ ] Technology stack validated against team capabilities

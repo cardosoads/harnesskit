@@ -18,6 +18,8 @@
 
 ## Current Architecture Summary
 
+> 📌 **Note:** Populated from the existing codebase analysis or architecture artifact.
+
 {{architecture_summary}}
 
 ---
@@ -76,7 +78,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Impact analysis reviewed and approved by the user
 - [ ] Handoff created for Penny (feature requirements)

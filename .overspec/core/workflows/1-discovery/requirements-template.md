@@ -12,7 +12,7 @@
 
 ## Brief Summary
 
-> Key context extracted from the project brief.
+> 📌 **Note:** Key context extracted automatically from the project brief.
 
 {{brief_summary}}
 
@@ -94,7 +94,7 @@ _No external integrations required at this time._
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Requirements reviewed and approved by the user
 - [ ] Handoff created for the next agent ({{handoff_to}})

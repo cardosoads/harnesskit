@@ -66,13 +66,15 @@
 {{/each}}
 {{else}}
 _No inter-story dependencies identified._
+
+> 💡 **Tip:** Map dependencies between stories to help define the implementation order.
 {{/if}}
 
 ---
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] User stories reviewed and approved by the user
 - [ ] Handoff created for the next agent ({{handoff_to}})

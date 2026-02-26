@@ -53,7 +53,9 @@
 {{#if success_metrics}}
 {{success_metrics}}
 {{else}}
-_Not defined in this version. Will be revisited during the Specification phase._
+_Not defined in this version._
+
+> 💡 **Tip:** Success metrics can be added here or revisited during the Specification phase.
 {{/if}}
 
 ---
@@ -85,7 +87,7 @@ _No references provided._
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Brief reviewed and approved by the user
 - [ ] Handoff created for the next agent ({{handoff_to}})

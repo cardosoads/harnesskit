@@ -26,6 +26,8 @@
 
 **User/Persona:** {{user_persona}}
 
+> 📌 **Note:** Impact summary carried over from Raj's impact analysis.
+
 **Impact Summary (from Raj):** {{impact_summary}}
 
 #### Functional Requirements
@@ -80,7 +82,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Requirements reviewed and approved by the user
 - [ ] Handoff created for specification phase (penny)

@@ -28,7 +28,7 @@
 
 ## Current State Summary
 
-> Extracted from the codebase analysis artifact.
+> 📌 **Note:** Extracted automatically from the codebase analysis artifact.
 
 {{current_state_summary}}
 
@@ -120,7 +120,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Plan reviewed and approved by the user
 - [ ] Handoff created for the next agent ({{handoff_to}})

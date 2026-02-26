@@ -34,6 +34,9 @@
 {{/each}}
 
 ### Inherited Tokens
+
+> 📌 **Note:** Inherited tokens come from the existing design system. Only list new or overridden tokens above.
+
 {{inherited_tokens}}
 
 ---
@@ -82,7 +85,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Feature UI design reviewed and approved by the user
 - [ ] Handoff created for Howard (implementation)

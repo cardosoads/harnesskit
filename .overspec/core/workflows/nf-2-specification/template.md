@@ -38,6 +38,8 @@
 {{number}}. Given {{given}}, When {{when}}, Then {{then}}
 {{/each}}
 
+> 💡 **Tip:** Include notes on integration with existing code, migration concerns, or known constraints.
+
 **Technical Notes:** {{technical_notes}}
 **Priority:** {{priority}}
 **Effort:** {{effort}}
@@ -58,7 +60,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Stories reviewed and approved by the user
 - [ ] Handoff created for Leonard (architecture)

@@ -18,6 +18,8 @@
 
 ## Existing Architecture Overview
 
+> 📌 **Note:** Summarized from the current codebase analysis and architecture artifacts.
+
 {{existing_architecture}}
 
 ---
@@ -73,7 +75,7 @@
 
 ## Next Steps
 
-> Section automatically filled by the system.
+> 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Design reviewed and approved by the user
 - [ ] Handoff created for Howard (implementation)
