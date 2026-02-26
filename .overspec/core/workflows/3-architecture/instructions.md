@@ -54,7 +54,13 @@ After collecting all responses:
 2. Fill in each section of the template with the collected responses and the information from the brief and requirements
 3. Expand responses when necessary — transform short notes into clear architectural descriptions
 4. Include trade-off analysis for significant decisions
-5. Add Architecture Decision Records (ADRs) for each major decision made during the conversation
+5. Include **Mermaid diagrams** for component visualization and data flow:
+   - Use `graph TD` flowcharts for component diagrams showing modules and their connections
+   - Use `sequenceDiagram` for data flow between components
+   - Always include a text description as fallback before or after the diagram
+   - Keep diagrams under 10-15 nodes for readability
+   - See `core/style-guide.md` section 3 for Mermaid formatting patterns
+6. Add Architecture Decision Records (ADRs) for each major decision made during the conversation
 > 📋 **Important:** Every significant architectural decision must be recorded as an ADR with context, options considered, and rationale. These are essential for review traceability.
 6. Fill in the metadata: project name, date, version 1.0, agent "leonard"
 7. Save the artifact at the path defined in `output.path`: `artifacts/architecture/architecture.md`
