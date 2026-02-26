@@ -1,263 +1,324 @@
-# Feature Stories: overspec-dev
+# Feature Stories: Visual CLI Enhancement
 
 | Field    | Value                          |
 |----------|--------------------------------|
 | Project  | overspec-dev                   |
 | Date     | 2026-02-25                     |
-| Version  | 3.0                            |
+| Version  | 4.0                            |
 | Agent    | penny                          |
 | Phase    | Specification (New Features)   |
+| Cycle    | 4                              |
 
 ---
 
 ## Executive Summary
 
-User stories para adicionar a **Design Specialist** ao OverSpec — uma agente completa de design com Atomic Design, art direction, design tokens, UI specification, motion, acessibilidade e código frontend production-grade. Organizadas em 3 features (agent, workflows, integration) com 12 stories.
+User stories para a **melhoria visual completa** do framework OverSpec para ambiente CLI com Markdown rendering. Organizadas em 3 epics (Foundation, Application, Advanced) com 15 stories cobrindo style guide, callouts, progress bars, Mermaid diagrams e agent formatting enhancement.
 
-**Total Stories:** 12
-- Must Have: 9
-- Should Have: 2
+**Total Stories:** 15
+- Must Have: 11
+- Should Have: 3
 - Could Have: 1
 
 ---
 
 ## User Stories by Feature
 
-### Feature: F1 — Agent Definition
+### Epic 1 — Foundation (Style Guide)
 
-#### US-001 — Adicionar model_role "designer" ao schema
-
-**As a** framework maintainer,
-**I want to** ter o role "designer" disponível no agent schema,
-**So that** a design specialist possa ser validada corretamente.
-
-**Acceptance Criteria:**
-1. Given `_schema.json` é lido, When o campo model_role é inspecionado, Then o enum inclui "designer"
-2. Given overspec.yaml é lido, When model_profiles são inspecionados, Then cada profile (quality, balanced, budget) tem o role "designer" com modelo definido
-
-**Technical Notes:** Raj identificou que o enum model_role tem 5 valores; adicionar "designer" como 6º. Em model_profiles: quality=opus, balanced=opus, budget=sonnet.
-**Priority:** Must
-**Effort:** S
-
----
-
-#### US-002 — Criar design-specialist.agent.yaml
+#### US-001 — Criar Visual Style Guide
 
 **As a** framework maintainer,
-**I want to** ter uma agente de design com persona completa,
-**So that** o OverSpec possa guiar design de interfaces com Atomic Design e art direction.
+**I want to** ter um documento centralizado com todos os padrões visuais,
+**So that** todos os agentes formatem output de forma consistente.
 
 **Acceptance Criteria:**
-1. Given o arquivo `design-specialist.agent.yaml` existe, When validado contra `_schema.json`, Then passa sem erros e contém todas as seções obrigatórias (agent, persona, phases, menu, activation, behaviors, outputs, consumes)
-2. Given a agente é descrita, When sua persona é lida, Then inclui princípios de Atomic Design, art direction anti-genérica e frontend production-grade
-3. Given a agente tem behaviors, When listados, Then incluem: design-system, ui-specification, design-tokens, design-audit, feature-ui
-4. Given a agente tem activation, When a sequence é executada, Then inclui context monitoring (como os outros specialists)
+1. Given o arquivo `core/style-guide.md` existe, When lido, Then define os 6 tipos de callouts com emoji + formato
+2. Given o style guide é consultado, When progress bars são buscadas, Then encontra formato `████████░░ 80% (4/5)` com regras de uso
+3. Given o style guide é consultado, When Mermaid é buscado, Then encontra exemplos dos 3 tipos (flowchart, sequence, class/ER)
+4. Given o style guide é consultado, When emphasis patterns são buscados, Then encontra regras para bold, italic, code, strikethrough
+5. Given o style guide é consultado, When anti-patterns são buscados, Then encontra pelo menos 5 exemplos do que NÃO fazer
 
-**Technical Notes:** Base na estrutura de leonard.agent.yaml. Persona inspirada em personagem do Big Bang Theory. Incluir a skill completa de Frontend Design como referência nos princípios e behaviors. phases: [design].
-**Priority:** Must
-**Effort:** L
-
----
-
-#### US-003 — Definir outputs e consumes da design specialist
-
-**As a** framework maintainer,
-**I want to** que a agente tenha inputs/outputs claros,
-**So that** a cadeia de handoff funcione corretamente.
-
-**Acceptance Criteria:**
-1. Given a agente produz outputs, When listados, Then incluem: design-system.md, ui-specification.md, design-tokens.md (todos em artifacts/design/)
-2. Given a agente consome artifacts, When listados, Then incluem: requirements ou feature-requirements (de Penny), architecture ou feature-design (de Leonard), impact-analysis (de Raj, quando disponível)
-3. Given Howard lê os consumes, When os artifacts de design são listados, Then ele sabe exatamente o que consumir
-
-**Technical Notes:** Handoff chain: Leonard → Design Specialist → Howard. Amy também consome os artifacts de design para review.
-**Priority:** Must
-**Effort:** S
-
----
-
-### Feature: F2 — Design Workflows
-
-#### US-004 — Criar workflow de design greenfield (3.5-design)
-
-**As a** design specialist operando num projeto greenfield,
-**I want to** ter um workflow que me guie na criação de um design system completo,
-**So that** o output seja consistente e production-grade.
-
-**Acceptance Criteria:**
-1. Given o diretório `3.5-design/` existe, When inspecionado, Then contém 4 arquivos: workflow.yaml, instructions.md, template.md, checklist.md
-2. Given o workflow.yaml é lido, When os steps são listados, Then seguem o fluxo: brief → art-direction → design-tokens → components → motion → accessibility → generate → validate
-3. Given o instructions.md é lido, When o conteúdo é analisado, Then cobre Atomic Design completo (atoms → pages), art direction com guardrails anti-genéricos, design tokens (CSS variables), motion com prefers-reduced-motion, e accessibility gates (HTML semântico, keyboard nav, contraste, responsivo)
-4. Given o workflow é executado, When a agente conclui, Then produz artifacts em artifacts/design/ e faz handoff para howard
-
-**Technical Notes:** Input: artifacts de Leonard (architecture.md, tech-stack.md) e Penny (requirements.md, user-stories.md). Output: artifacts/design/design-system.md. Este é o workflow mais completo — cria o design system do zero.
-**Priority:** Must
-**Effort:** L
-
----
-
-#### US-005 — Criar workflow de design brownfield (bf-2.5-design)
-
-**As a** design specialist operando num projeto brownfield,
-**I want to** ter um workflow para auditar e melhorar o design existente,
-**So that** o design system seja padronizado incrementalmente.
-
-**Acceptance Criteria:**
-1. Given o diretório `bf-2.5-design/` existe, When inspecionado, Then contém 4 arquivos padrão
-2. Given o workflow é executado, When a agente analisa, Then audita o design existente antes de propor mudanças
-3. Given o instructions.md é lido, When o tom é analisado, Then enfatiza evolução incremental (não rewrite completo)
-4. Given o output é gerado, When o artifact é lido, Then contém: audit do estado atual, gaps identificados, design tokens para padronizar, plano de melhoria
-
-**Technical Notes:** Input: codebase-analysis.md (de Raj) e improvement-plan.md. Output: artifacts/design/design-audit.md. Handoff para howard.
+**Technical Notes:** Máximo ~200 linhas. Exemplos copy-pasteable. Referenciado por todos os agents.
 **Priority:** Must
 **Effort:** M
 
 ---
 
-#### US-006 — Criar workflow de design new-features (nf-3.5-design)
+### Epic 2 — Application (Callouts, Progress, Agent Enhancement)
 
-**As a** design specialist operando num projeto new-features,
-**I want to** ter um workflow para design de features específicas,
-**So that** as novas features integrem com o design system existente.
+#### US-002 — Aplicar callouts em instructions.md (greenfield)
+
+**As a** agent following greenfield workflows,
+**I want to** que instructions tenham callouts visuais nos pontos críticos,
+**So that** regras importantes, warnings e tips sejam visualmente destacados.
 
 **Acceptance Criteria:**
-1. Given o diretório `nf-3.5-design/` existe, When inspecionado, Then contém 4 arquivos padrão
-2. Given o workflow é executado, When um design system prévio existe, Then a agente integra a feature nele
-3. Given o workflow é executado, When NÃO existe design system prévio, Then a agente cria um mínimo viável
-4. Given o output é gerado, When o artifact é lido, Then contém: UI spec da feature, componentes novos (com código), tokens novos ou extensões
+1. Given cada instructions.md do greenfield é lido, When regras críticas existem, Then usam `> 📋 **Important:**`
+2. Given cada instructions.md do greenfield é lido, When há riscos ou cuidados, Then usam `> ⚠️ **Warning:**`
+3. Given callouts antigos (formato `> IMPORTANT:`) existem, When migrados, Then usam o novo formato padronizado
+4. Given cada arquivo é contado, When callouts são somados, Then nenhum tem mais de 5
 
-**Technical Notes:** Input: feature-design.md (de Leonard) e feature-stories.md (de Penny). Output: artifacts/design/feature-ui.md. Handoff para howard.
+**Technical Notes:** 7 instructions.md no greenfield track. Mudanças aditivas — conteúdo existente preservado.
 **Priority:** Must
 **Effort:** M
 
 ---
 
-### Feature: F3 — Integration
+#### US-003 — Aplicar callouts em instructions.md (brownfield)
 
-#### US-007 — Adicionar fase design nos 3 tracks do overspec.yaml
+**As a** agent following brownfield workflows,
+**I want to** que instructions tenham callouts padronizados,
+**So that** a experiência visual seja consistente entre tracks.
+
+**Acceptance Criteria:**
+1. Given cada instructions.md do brownfield é lido, When regras críticas existem, Then usam callouts padronizados
+2. Given o formato é comparado com greenfield, When analisado, Then usa os mesmos padrões de callout
+
+**Technical Notes:** 4 instructions.md no brownfield track.
+**Priority:** Must
+**Effort:** S
+
+---
+
+#### US-004 — Aplicar callouts em instructions.md (new-features)
+
+**As a** agent following new-features workflows,
+**I want to** que instructions tenham callouts padronizados,
+**So that** a experiência visual seja consistente entre tracks.
+
+**Acceptance Criteria:**
+1. Given cada instructions.md do new-features é lido, When regras críticas existem, Then usam callouts padronizados
+2. Given o formato é comparado com greenfield, When analisado, Then usa os mesmos padrões de callout
+
+**Technical Notes:** 4 instructions.md no new-features track. Inclui nf-1-discovery (2 workflows), nf-2-specification, nf-3-architecture, nf-3.5-design, nf-4-implementation.
+**Priority:** Must
+**Effort:** S
+
+---
+
+#### US-005 — Aplicar callouts em template.md (todos os tracks)
+
+**As a** agent producing artifacts,
+**I want to** que templates tenham callouts contextuais,
+**So that** notas e orientações sejam visualmente destacadas nos artefatos.
+
+**Acceptance Criteria:**
+1. Given cada template.md é lido, When contém notas como "preenchido automaticamente", Then usa `> 📌 **Note:**`
+2. Given cada template.md é lido, When contém orientação de preenchimento, Then usa `> 💡 **Tip:**`
+3. Given callouts são contados por template, When somados, Then nenhum tem mais de 4
+
+**Technical Notes:** ~16 template.md files. Callouts são supplementary — não alteram estrutura do template.
+**Priority:** Should
+**Effort:** M
+
+---
+
+#### US-006 — Adicionar progress bars ao Sheldon (status)
+
+**As a** user checking project status,
+**I want to** ver progress bars visuais no status do Sheldon,
+**So that** o progresso seja imediatamente visível.
+
+**Acceptance Criteria:**
+1. Given Sheldon apresenta status, When o projeto está 60% completo, Then mostra `██████░░░░ 60% (3/5 phases)`
+2. Given Sheldon apresenta status detalhado, When uma fase tem 3/5 steps, Then mostra `██████░░░░ 60% (3/5 steps)`
+3. Given a progress bar é renderizada, When medida, Then tem largura fixa de 10 chars
+
+**Technical Notes:** Atualizar `activation` > "Present visual status" no sheldon.agent.yaml. Usar `█` (U+2588) e `░` (U+2591).
+**Priority:** Must
+**Effort:** S
+
+---
+
+#### US-007 — Adicionar progress/compliance bar à Amy (review)
+
+**As a** reviewer generating a report,
+**I want to** mostrar uma compliance bar no review report,
+**So that** o resultado da review seja visualmente imediato.
+
+**Acceptance Criteria:**
+1. Given Amy gera review report, When 14/14 items passam, Then mostra `██████████ 100% (14/14 passed)`
+2. Given Amy gera review report, When 10/14 items passam, Then mostra `███████░░░ 71% (10/14 passed)`
+3. Given a review template é lida, When compliance bar é buscada, Then existe seção dedicada
+
+**Technical Notes:** Atualizar `5-review/template.md` e `amy.agent.yaml` (style section).
+**Priority:** Must
+**Effort:** S
+
+---
+
+#### US-008 — Enriquecer persona.style do Sheldon
 
 **As a** Sheldon (orchestrator),
-**I want to** que a fase design exista como opcional nos 3 tracks,
-**So that** o state machine reconheça e possa pular ou executar a fase.
+**I want to** ter formatting directives específicas na minha persona,
+**So that** meu output seja visualmente rico e consistente.
 
 **Acceptance Criteria:**
-1. Given overspec.yaml é lido, When greenfield_phases é inspecionado, Then contém `design` com order 3.5 e required: false
-2. Given overspec.yaml é lido, When brownfield_phases é inspecionado, Then contém `design` com order 2.5 e required: false
-3. Given overspec.yaml é lido, When newfeatures_phases é inspecionado, Then contém `design` com order 3.5 e required: false
-4. Given a fase design é optional, When o state machine processa, Then pergunta ao usuário se quer executar antes de pular
+1. Given sheldon.agent.yaml é lido, When `persona.style` é inspecionado, Then referencia `core/style-guide.md`
+2. Given sheldon.agent.yaml é lido, When `persona.style` é inspecionado, Then menciona progress bars, callouts `📋 Important` para Constitution principles
+3. Given Sheldon apresenta status, When callouts são usados, Then segue o padrão do style guide
 
-**Technical Notes:** O state machine já é dinâmico (lê fases do overspec.yaml), então adicionar a fase é transparente. A questão é o handling de "optional" — como discuss. Pode precisar de atualização no state-machine.md para documentar fases opcionais.
+**Technical Notes:** Adicionar ~3-5 linhas ao `persona.style` existente.
 **Priority:** Must
 **Effort:** S
 
 ---
 
-#### US-008 — Atualizar teams para incluir design-specialist
+#### US-009 — Enriquecer persona.style de Penny, Howard e Raj
 
 **As a** framework maintainer,
-**I want to** que os 3 team presets principais incluam a design specialist,
-**So that** a agente esteja disponível quando o projeto tem UI.
+**I want to** que Penny, Howard e Raj tenham formatting directives,
+**So that** cada agente formate output de forma rica e consistente.
 
 **Acceptance Criteria:**
-1. Given team-fullstack.yaml é lido, When os agentes são listados, Then inclui design-specialist
-2. Given team-newfeatures.yaml é lido, When os agentes são listados, Then inclui design-specialist
-3. Given team-brownfield.yaml é lido, When os agentes são listados, Then inclui design-specialist
-4. Given team-quick.yaml é lido, When os agentes são listados, Then NÃO inclui design-specialist
+1. Given penny.agent.yaml é lido, When `persona.style` é inspecionado, Then referencia style guide e menciona callouts `💡 Tip`, tabelas de summary
+2. Given howard.agent.yaml é lido, When `persona.style` é inspecionado, Then referencia style guide e menciona code blocks com syntax highlighting, file trees
+3. Given raj.agent.yaml é lido, When `persona.style` é inspecionado, Then referencia style guide e menciona impact matrices, risk callouts `⚠️ Warning`
 
-**Technical Notes:** Inserir design-specialist na posição correta (entre leonard e howard na lista).
+**Technical Notes:** Adicionar ~3-5 linhas ao `persona.style` existente de cada agente.
 **Priority:** Must
 **Effort:** S
 
 ---
 
-#### US-009 — Registrar agente e workflows em spec.yaml
+#### US-010 — Enriquecer persona.style de Leonard, Amy e Emily
 
 **As a** framework maintainer,
-**I want to** que spec.yaml liste o novo agente e todos os workflows de design,
-**So that** o framework reconheça os novos recursos.
+**I want to** que Leonard, Amy e Emily tenham formatting directives,
+**So that** cada agente formate output de forma rica e consistente.
 
 **Acceptance Criteria:**
-1. Given spec.yaml é lido, When components.agents é inspecionado, Then inclui design-specialist.agent.yaml
-2. Given spec.yaml é lido, When components.workflows é inspecionado, Then cada track lista o workflow de design correspondente
-3. Given spec.yaml é lido, When components.templates é inspecionado, Then cada track lista o template de design correspondente
+1. Given leonard.agent.yaml é lido, When `persona.style` é inspecionado, Then referencia style guide e menciona Mermaid diagrams, trade-off tables
+2. Given amy.agent.yaml é lido, When `persona.style` é inspecionado, Then referencia style guide e menciona compliance bars, severity indicators (🔴🟡🟢)
+3. Given design-specialist.agent.yaml é lido, When `persona.style` é inspecionado, Then referencia style guide e menciona design token code blocks, component state tables
 
-**Technical Notes:** Seguir o padrão dos registros existentes.
+**Technical Notes:** Adicionar ~3-5 linhas ao `persona.style` existente de cada agente.
 **Priority:** Must
 **Effort:** S
 
 ---
 
-#### US-010 — Atualizar phase maps do Sheldon
+### Epic 3 — Advanced (Mermaid Diagrams)
 
-**As a** Sheldon,
-**I want to** mostrar a fase de design nos phase maps visuais,
-**So that** o usuário veja a fase opcional de design no mapa do projeto.
+#### US-011 — Adicionar Mermaid ao template de architecture (greenfield)
+
+**As a** Leonard designing architecture,
+**I want to** ter seções de Mermaid diagram no template de architecture,
+**So that** componentes e data flow sejam visualizados graficamente.
 
 **Acceptance Criteria:**
-1. Given Sheldon apresenta o phase map greenfield, When renderizado, Then mostra: Discovery → Specification → Discuss (opt) → Architecture → Design (opt) → Implementation → Review
-2. Given Sheldon apresenta o phase map brownfield, When renderizado, Then mostra: Analysis → Planning → Design (opt) → Implementation → Review
-3. Given Sheldon apresenta o phase map new-features, When renderizado, Then mostra: Discovery → Specification → Architecture → Design (opt) → Implementation → Review
-4. Given Sheldon detecta um novo projeto, When explica as fases, Then menciona a design specialist e a fase opcional
+1. Given `3-architecture/template.md` é lido, When a seção Component Diagram é inspecionada, Then contém Mermaid flowchart placeholder com Handlebars
+2. Given o diagrama Mermaid é renderizado, When lido, Then mostra componentes e suas conexões
+3. Given o terminal não suporta Mermaid, When o output é lido, Then existe texto descritivo como fallback antes do diagrama
 
-**Technical Notes:** Atualizar sheldon.agent.yaml nos 3 blocos de phase map e no new_project_detection.
+**Technical Notes:** Substituir placeholder ASCII art por Mermaid flowchart. Manter texto descritivo como fallback.
+**Priority:** Should
+**Effort:** M
+
+---
+
+#### US-012 — Adicionar Mermaid aos templates de architecture (brownfield + new-features)
+
+**As a** Leonard/Raj designing changes,
+**I want to** ter Mermaid diagrams nos templates de brownfield e new-features,
+**So that** a visualização gráfica seja consistente entre tracks.
+
+**Acceptance Criteria:**
+1. Given `bf-2-planning/template.md` é lido, When seção de diagrama é buscada, Then contém Mermaid placeholder
+2. Given `nf-3-architecture/template.md` é lido, When seção de diagrama é buscada, Then contém Mermaid placeholder
+3. Given cada diagrama tem fallback texto, When Mermaid não renderiza, Then a informação não é perdida
+
+**Technical Notes:** Adaptar o padrão de US-011 para os outros tracks.
 **Priority:** Should
 **Effort:** S
 
 ---
 
-#### US-011 — Criar diretório de artifacts de design
+#### US-013 — Adicionar Mermaid guidance ao Leonard
 
-**As a** design specialist,
-**I want to** que o diretório `artifacts/design/` exista,
-**So that** meus outputs tenham onde ser salvos.
+**As a** Leonard (architect),
+**I want to** ter orientação no meu agent.yaml sobre como usar Mermaid,
+**So that** eu gere diagramas consistentes e úteis.
 
 **Acceptance Criteria:**
-1. Given o diretório `artifacts/design/` é verificado, When inspecionado, Then existe com `.gitkeep`
-2. Given um workflow de design é executado, When o output é salvo, Then o path `artifacts/design/` é válido
+1. Given leonard.agent.yaml é lido, When `persona.style` é inspecionado, Then menciona Mermaid diagrams como ferramenta esperada
+2. Given instructions de architecture são lidas, When Mermaid é buscado, Then encontra orientação sobre quando e como usar
 
-**Technical Notes:** Já criado durante a análise de impacto do Raj. Confirmar que existe.
-**Priority:** Should
+**Technical Notes:** Complementa US-010 com orientação mais detalhada no instructions.md de architecture.
+**Priority:** Must
 **Effort:** S
 
 ---
 
-#### US-012 — Documentar handling de fases opcionais no state-machine.md
+#### US-014 — Adicionar Mermaid workflow pipeline ao Sheldon
 
-**As a** framework maintainer,
-**I want to** que o state-machine.md documente como fases opcionais funcionam,
-**So that** fases como discuss e design tenham comportamento previsível.
+**As a** Sheldon (orchestrator),
+**I want to** poder mostrar o workflow pipeline como Mermaid flowchart,
+**So that** o usuário visualize o fluxo de fases graficamente.
 
 **Acceptance Criteria:**
-1. Given state-machine.md é lido, When a seção de fases opcionais é buscada, Then existe documentação sobre como o orchestrator deve lidar com fases `required: false`
-2. Given uma fase é optional, When o state machine processa a transição, Then a instrução diz: "Se a fase tem required: false, pergunte ao usuário se deseja executá-la antes de pular para a próxima"
+1. Given Sheldon usa o comando "map", When o mapa é apresentado, Then inclui opcionalmente um Mermaid flowchart do pipeline
+2. Given o flowchart é renderizado, When as fases são mostradas, Then indica visualmente a fase atual com styling
 
-**Technical Notes:** Atualmente discuss já é opcional mas o handling não está documentado no state-machine.md. Esta story corrige essa lacuna para discuss E design.
+**Technical Notes:** Adicionar na seção `show-map` do sheldon.agent.yaml. Mermaid é supplementary — o mapa texto continua existindo.
 **Priority:** Could
+**Effort:** S
+
+---
+
+#### US-015 — Atualizar party-mode instructions com callouts
+
+**As a** Sheldon moderating party mode,
+**I want to** que party-mode/instructions.md use callouts padronizados,
+**So that** a experiência visual seja consistente com o resto do framework.
+
+**Acceptance Criteria:**
+1. Given party-mode/instructions.md é lido, When regras de moderação existem, Then usam callouts padronizados
+2. Given o formato é comparado com outros instructions, When analisado, Then usa os mesmos padrões
+
+**Technical Notes:** 1 arquivo. Inclui formatação de agent roster e discussion rules.
+**Priority:** Must
 **Effort:** S
 
 ---
 
 ## Story Summary
 
-| ID | Story | Feature | Priority | Effort |
-|----|-------|---------|----------|--------|
-| US-001 | Adicionar model_role "designer" ao schema | F1 — Agent | Must | S |
-| US-002 | Criar design-specialist.agent.yaml | F1 — Agent | Must | L |
-| US-003 | Definir outputs e consumes | F1 — Agent | Must | S |
-| US-004 | Workflow greenfield (3.5-design) | F2 — Workflows | Must | L |
-| US-005 | Workflow brownfield (bf-2.5-design) | F2 — Workflows | Must | M |
-| US-006 | Workflow new-features (nf-3.5-design) | F2 — Workflows | Must | M |
-| US-007 | Adicionar fase design nos 3 tracks | F3 — Integration | Must | S |
-| US-008 | Atualizar teams | F3 — Integration | Must | S |
-| US-009 | Registrar em spec.yaml | F3 — Integration | Must | S |
-| US-010 | Atualizar phase maps do Sheldon | F3 — Integration | Should | S |
-| US-011 | Criar diretório artifacts/design | F3 — Integration | Should | S |
-| US-012 | Documentar fases opcionais no state-machine | F3 — Integration | Could | S |
+| ID | Story | Epic | Priority | Effort |
+|----|-------|------|----------|--------|
+| US-001 | Criar Visual Style Guide | 1 — Foundation | Must | M |
+| US-002 | Callouts instructions greenfield (7 files) | 2 — Application | Must | M |
+| US-003 | Callouts instructions brownfield (4 files) | 2 — Application | Must | S |
+| US-004 | Callouts instructions new-features (4+ files) | 2 — Application | Must | S |
+| US-005 | Callouts templates (todos os tracks, ~16 files) | 2 — Application | Should | M |
+| US-006 | Progress bars Sheldon (status) | 2 — Application | Must | S |
+| US-007 | Compliance bar Amy (review) | 2 — Application | Must | S |
+| US-008 | Enriquecer persona.style Sheldon | 2 — Application | Must | S |
+| US-009 | Enriquecer persona.style Penny, Howard, Raj | 2 — Application | Must | S |
+| US-010 | Enriquecer persona.style Leonard, Amy, Emily | 2 — Application | Must | S |
+| US-011 | Mermaid template architecture greenfield | 3 — Advanced | Should | M |
+| US-012 | Mermaid templates brownfield + new-features | 3 — Advanced | Should | S |
+| US-013 | Mermaid guidance Leonard (agent + instructions) | 3 — Advanced | Must | S |
+| US-014 | Mermaid workflow pipeline Sheldon | 3 — Advanced | Could | S |
+| US-015 | Callouts party-mode instructions | 2 — Application | Must | S |
+
+---
+
+## Implementation Order (Recommendation for Leonard)
+
+1. **US-001** primeiro — style guide fundamenta tudo
+2. **US-008, US-009, US-010** — agent formatting (aplica style guide)
+3. **US-006, US-007** — progress bars (self-contained)
+4. **US-002, US-003, US-004, US-015** — callouts em instructions
+5. **US-005** — callouts em templates
+6. **US-013, US-011, US-012** — Mermaid (Leonard + templates)
+7. **US-014** — Mermaid Sheldon (last, lowest priority)
 
 ---
 
 ## Next Steps
 
 - [x] Stories reviewed and approved by the user
-- [ ] Handoff created for Leonard (architecture)
-- [ ] State.json updated with status `completed`
+- [ ] Handoff to Leonard (architecture / feature design)
+- [ ] State.json updated

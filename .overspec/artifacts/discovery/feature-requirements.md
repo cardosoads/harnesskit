@@ -1,213 +1,270 @@
-# Feature Requirements: overspec-dev
+# Feature Requirements: Visual CLI Enhancement
 
 | Field    | Value                      |
 |----------|----------------------------|
 | Project  | overspec-dev               |
 | Date     | 2026-02-25                 |
-| Version  | 3.0                        |
+| Version  | 4.0                        |
 | Agent    | penny                      |
 | Phase    | Discovery (New Features)   |
+| Cycle    | 4                          |
 | Based on | Impact Analysis by raj     |
 
 ---
 
 ## Executive Summary
 
-Adicionar ao OverSpec uma **Design Specialist** — uma agente completa que combina **Atomic Design** (hierarquia de componentes), **art direction** (estética intencional, anti-genérica), **design tokens**, **especificação de UI/UX**, **acessibilidade (WCAG)**, **motion design** e **implementação frontend production-grade**. A agente opera numa fase opcional de design (entre architecture e implementation) e entrega artifacts que guiam Howard na implementação, incluindo código frontend funcional quando aplicável.
+Melhoria visual completa do framework OverSpec para ambiente CLI com Markdown rendering (Claude Code). O framework atual tem formatação básica mas funcional. O objetivo é elevar a experiência visual com: (1) um **Visual Style Guide** centralizado que define todos os padrões, (2) um sistema de **callouts/admonitions** para informações contextuais, (3) **progress bars** e indicadores visuais mais ricos, (4) **diagramas Mermaid** para visualização de workflows e arquitetura, e (5) **formatação enriquecida nos agentes** com padrões de output específicos por persona.
 
-**Mudança de escopo vs. análise do Raj:** O escopo expandiu. Além de especificação de design (documentação), a agente também produz **código frontend production-grade** — componentes, páginas, pequenas apps — com art direction distintiva. Isso a diferencia de uma agente de "spec only".
+**Contexto técnico:** O OverSpec é puramente YAML/Markdown — não tem runtime code. Toda formatação visual é definida em agent.yaml (seção `persona.style`), instructions.md (guia de como o agente formata) e template.md (estrutura dos artefatos). O ambiente de rendering é Claude Code (terminal com suporte a Markdown, incluindo code blocks, tabelas, Mermaid, e blockquotes).
 
 ---
 
 ## Features
 
-### F1 — Agent Definition: Design Specialist
+### F1 — Visual Style Guide
 
-**Description:** Criar a agente design-specialist com persona, princípios, activation sequence, behaviors, outputs e consumes. A agente combina dois domínios: (1) **Atomic Design** para estrutura de componentes e (2) **Frontend Design** para implementação visual com art direction.
+**Description:** Criar um documento de referência centralizado (`core/style-guide.md`) que define todos os padrões visuais do framework — quando usar cada elemento, com exemplos concretos e anti-patterns.
 
-**User/Persona:** Desenvolvedores e equipes que usam OverSpec para construir software com interfaces de usuário.
+**User/Persona:** Todos os agentes (consultam o style guide) e futuros autores de specs/agents.
 
-**Impact Summary (from Raj):** 1 arquivo novo (agent YAML ~300-400 linhas), 3 arquivos modificados (_schema.json, overspec.yaml, spec.yaml). Risco baixo.
+**Impact Summary (from Raj):** 1 arquivo novo. Risco baixo. Fundamenta todas as outras features.
 
 #### Functional Requirements
 
-- **FR-1.1:** A agente deve ter `model_role: "designer"` — novo role a ser adicionado ao schema e model_profiles
-- **FR-1.2:** A agente deve seguir a metodologia Atomic Design (atoms → molecules → organisms → templates → pages)
-- **FR-1.3:** A agente deve ter a skill completa de Frontend Design integrada na persona, incluindo:
-  - Estabelecer brief (propósito, usuário-alvo, ação primária, densidade de conteúdo)
-  - Definir art direction explícita (não "safe default") com nome, rationale e 3 motifs assinatura
-  - Criar design tokens primeiro (CSS variables: cores, tipografia, spacing, efeitos)
-  - Implementar layout e componentes (composition first, estados: hover, active, focus-visible, disabled, loading, empty)
-  - Motion pass (entrada orquestrada, prefers-reduced-motion)
-  - Accessibility & quality gates (semântica HTML, keyboard nav, contraste, responsivo, performance)
-- **FR-1.4:** A agente deve ter guardrails anti-genéricos — não usar padrões "AI UI" previsíveis, card grids genéricos, paletas tímidas ou gradientes purple-on-white
-- **FR-1.5:** A agente deve propor 2-3 opções de art direction quando requisitos são fracos, recomendar uma, e prosseguir
-- **FR-1.6:** A agente deve produzir código production-grade e funcional — não pseudo-código
-- **FR-1.7:** A agente deve incluir pelo menos um "memorability hook" em cada design — um detalhe que alguém consiga descrever de memória
-- **FR-1.8:** A agente deve respeitar convenções do codebase existente quando integra (CSS approach, naming, component structure)
-- **FR-1.9:** A agente deve ter phases: `[design]` e poder participar de party-mode para discussões de design
+- **FR-1.1:** O style guide deve definir **6 tipos de callouts** com emoji + formato:
+  - `> ⚠️ **Warning:**` — Riscos, breaking changes, ações irreversíveis
+  - `> 💡 **Tip:**` — Sugestões, boas práticas, atalhos
+  - `> 📌 **Note:**` — Informação contextual, esclarecimentos
+  - `> ✅ **Success:**` — Confirmações, resultados positivos
+  - `> ❌ **Error:**` — Falhas, erros, problemas encontrados
+  - `> 📋 **Important:**` — Informação crítica que não pode ser ignorada
+- **FR-1.2:** O style guide deve definir **progress bar format**:
+  - Formato: `████████░░ 80% (4/5 phases)`
+  - Caracteres: `█` (preenchido) e `░` (vazio)
+  - Sempre incluir percentual e contagem
+- **FR-1.3:** O style guide deve definir **padrões de Mermaid** para:
+  - Flowchart (workflow visualization)
+  - Sequence diagram (handoff chains)
+  - Class/ER diagrams (architecture components)
+- **FR-1.4:** O style guide deve definir **padrões de emphasis**:
+  - **Bold** — Termos-chave, nomes de agentes, nomes de fases, labels
+  - *Italic* — Termos técnicos na primeira menção, citações, ênfase suave
+  - `Code` — Paths, filenames, variáveis, comandos, IDs
+  - ~~Strikethrough~~ — Itens removidos, deprecated
+- **FR-1.5:** O style guide deve definir **separadores de seção**:
+  - `---` entre seções principais (como hoje)
+  - Uso consistente de H2 para seções, H3 para subseções, H4 para items
+- **FR-1.6:** O style guide deve incluir **anti-patterns** — o que NÃO fazer (formatação excessiva, emojis em excesso, tabelas onde listas bastam)
+- **FR-1.7:** O style guide deve ser referenciado no `persona.style` de cada agente como padrão base
 
 #### Non-Functional Requirements
 
-- **NFR-1.1:** A definição do agente deve seguir o padrão dos agentes existentes (formato YAML, seções obrigatórias)
-- **NFR-1.2:** A persona deve ter personalidade distinta inspirada em personagem do Big Bang Theory (manter coerência com o roster)
-- **NFR-1.3:** Activation sequence deve incluir context monitoring (como os outros 5 specialist agents)
+- **NFR-1.1:** O style guide deve ter no máximo ~200 linhas — conciso, não um manual
+- **NFR-1.2:** Exemplos devem ser copy-pasteable — agentes podem usar como referência direta
 
 #### Acceptance Criteria
 
-- **AC-1.1:** Given o arquivo `design-specialist.agent.yaml` existe, When validado contra `_schema.json`, Then passa sem erros
-- **AC-1.2:** Given a agente é ativada, When recebe um pedido de design, Then segue o workflow de 6 passos (brief → art direction → tokens → layout → motion → a11y)
-- **AC-1.3:** Given requisitos fracos do usuário, When a agente inicia, Then propõe 2-3 opções de art direction antes de prosseguir
-- **AC-1.4:** Given a agente produz código, When o código é entregue, Then inclui design tokens centralizados, estados de interação, responsividade e suporte a prefers-reduced-motion
-
-#### Business Rules
-
-- A fase de design é **opcional** — projetos que não têm UI podem pular
-- A agente **não substitui** Leonard (architect) — Leonard decide estrutura do sistema, a design specialist decide estrutura visual
-- Quando integra em codebase existente, a agente **preserva convenções** e isola tokens/theme ao escopo da feature
-- A agente **nunca produz design genérico** — cada output deve ter art direction intencional
+- **AC-1.1:** Given o style guide existe, When lido, Then cobre callouts, progress bars, Mermaid, emphasis e anti-patterns
+- **AC-1.2:** Given um agente consulta o style guide, When formata output, Then consegue encontrar o padrão correto em <30 segundos de leitura
+- **AC-1.3:** Given o style guide define um callout, When um agente usa, Then o formato visual é consistente em todos os agentes
 
 ---
 
-### F2 — Design Workflows: 3 Tracks
+### F2 — Callout/Admonition System
 
-**Description:** Criar workflows de design para os 3 tracks (greenfield, brownfield, new-features). Cada workflow tem 4 arquivos padrão e guia a agente pelo processo de design.
+**Description:** Aplicar o sistema de callouts definido no style guide a todos os instructions.md e template.md existentes. Adicionar callouts contextuais onde informação importante, warnings ou tips existem em formato plain text.
 
-**User/Persona:** A própria agente e Sheldon (para roteamento).
+**User/Persona:** Todos os agentes (seguem as instructions) e o usuário (lê os artefatos).
 
-**Impact Summary (from Raj):** 12 arquivos novos (4 por track), 3 arquivos modificados (overspec.yaml, spec.yaml, sheldon). Risco médio.
+**Impact Summary (from Raj):** 0 arquivos novos, ~40 arquivos modificados (instructions + templates). Risco baixo.
 
 #### Functional Requirements
 
-- **FR-2.1:** Workflow **greenfield** (`3.5-design/`) deve cobrir design system completo:
-  - Atomic Design hierarchy (atoms → pages)
-  - Design tokens (CSS variables)
-  - Art direction (nome, rationale, motifs)
-  - UI specification (layouts, componentes, estados, responsivo)
-  - Motion specification
-  - Accessibility requirements
-  - Código frontend de referência (componentes-chave)
-- **FR-2.2:** Workflow **brownfield** (`bf-2.5-design/`) deve cobrir:
-  - Audit do design existente (o que existe, o que está inconsistente)
-  - Plano de melhoria do design system
-  - Design tokens para padronizar o que já existe
-  - Recomendações de art direction para unificar
-- **FR-2.3:** Workflow **new-features** (`nf-3.5-design/`) deve cobrir:
-  - Design da feature integrando ao design system existente (ou criando um se não houver)
-  - UI specification da feature específica
-  - Componentes novos necessários (com código)
-  - Design tokens novos ou extensões dos existentes
-- **FR-2.4:** Cada workflow deve ter steps claros que seguem o fluxo: brief → art direction → tokens → layout/components → motion → a11y
-- **FR-2.5:** A fase de design deve ser `required: false` nos 3 tracks (opcional)
-- **FR-2.6:** A fase de design deve ficar na posição `order: 3.5` (greenfield/new-features) e `order: 2.5` (brownfield) — entre architecture e implementation
-- **FR-2.7:** Input dos workflows deve consumir artifacts de Leonard (architecture) e Penny (requirements/stories)
-- **FR-2.8:** Output dos workflows deve ir para `artifacts/design/` e ser consumido por Howard (implementation) e Amy (review)
+- **FR-2.1:** Todos os `instructions.md` devem usar callouts nos seguintes contextos:
+  - `> 📋 **Important:**` — Regras que o agente DEVE seguir (ex: language protocol, constitution principles)
+  - `> ⚠️ **Warning:**` — Ações que podem causar problemas se ignoradas (ex: não pular fases)
+  - `> 💡 **Tip:**` — Sugestões para melhor resultado (ex: "pergunte ao usuário se X está claro")
+- **FR-2.2:** Todos os `template.md` devem usar callouts nos seguintes contextos:
+  - `> 📌 **Note:**` — Informação contextual sobre a seção (ex: "preenchido automaticamente pelo sistema")
+  - `> 💡 **Tip:**` — Orientação para quem preenche o template
+- **FR-2.3:** Callouts existentes em formato plain text (ex: `> IMPORTANT: ...`) devem ser migrados para o novo formato padronizado
+- **FR-2.4:** Callouts devem ser usados com moderação — máximo 3-4 por arquivo, posicionados em pontos críticos
 
 #### Non-Functional Requirements
 
-- **NFR-2.1:** Workflows devem seguir o padrão de 4 arquivos (yaml + instructions + template + checklist)
-- **NFR-2.2:** Instructions devem incluir language protocol e communication tone
-- **NFR-2.3:** Checklists devem ter items required com critérios mensuráveis
+- **NFR-2.1:** Mudanças são aditivas — o conteúdo existente não é alterado, apenas formatado
+- **NFR-2.2:** Callouts devem render corretamente como blockquotes em Markdown padrão
 
 #### Acceptance Criteria
 
-- **AC-2.1:** Given os 3 diretórios de workflow existem, When cada um é inspecionado, Then contém 4 arquivos (workflow.yaml, instructions.md, template.md, checklist.md)
-- **AC-2.2:** Given o workflow greenfield é executado, When a agente conclui, Then produz artifacts em `artifacts/design/` com design system, tokens e UI spec
-- **AC-2.3:** Given a fase de design é skipped (usuário opta por pular), When o state machine avança, Then pula diretamente para implementation sem erros
-- **AC-2.4:** Given o workflow tem handoff_to, When a agente conclui, Then o handoff aponta para howard
-
-#### Business Rules
-
-- Brownfield design audit deve respeitar o princípio de "evolução, não revolução" — melhorar incrementalmente, não reescrever
-- New-features design deve integrar com design system existente quando possível
-- Se não existe design system prévio, o workflow de new-features deve criar um mínimo viável
+- **AC-2.1:** Given um instructions.md é lido, When contém regras críticas, Then usa callout `> 📋 **Important:**`
+- **AC-2.2:** Given todos os instructions.md são inspecionados, When callouts são contados, Then nenhum arquivo tem mais de 5 callouts
+- **AC-2.3:** Given callouts antigos existiam (formato `> IMPORTANT:`), When migrados, Then usam o novo formato padronizado
 
 ---
 
-### F3 — Integration: Teams, Sheldon, Artifacts
+### F3 — Progress Visualization
 
-**Description:** Integrar a design specialist no ecossistema: atualizar teams, phase maps do Sheldon, schema, model profiles e diretório de artifacts.
+**Description:** Adicionar progress bars visuais ASCII e indicadores de progresso enriquecidos à apresentação de status do Sheldon e aos templates de review.
 
-**User/Persona:** Sheldon (roteamento), Amy (review), Howard (consumir artifacts de design).
+**User/Persona:** Sheldon (apresentação de status) e Amy (review report).
 
-**Impact Summary (from Raj):** 4+ arquivos modificados (teams, sheldon, schema, overspec.yaml). Risco baixo.
+**Impact Summary (from Raj):** 0 arquivos novos, ~3 arquivos modificados. Risco baixo.
 
 #### Functional Requirements
 
-- **FR-3.1:** Adicionar `"designer"` ao enum `model_role` em `_schema.json`
-- **FR-3.2:** Adicionar `designer` aos 3 model_profiles em `overspec.yaml` (quality: opus, balanced: opus, budget: sonnet)
-- **FR-3.3:** Adicionar fase `design` com `required: false` e `order` correto nos 3 tracks de `overspec.yaml`
-- **FR-3.4:** Atualizar `team-fullstack.yaml`, `team-newfeatures.yaml` e `team-brownfield.yaml` para incluir design-specialist
-- **FR-3.5:** Registrar agente e workflows em `spec.yaml`
-- **FR-3.6:** Atualizar phase maps do Sheldon para mostrar a fase de design nos 3 tracks
-- **FR-3.7:** Atualizar `new_project_detection` do Sheldon para mencionar a design specialist quando relevante
-- **FR-3.8:** Diretório `artifacts/design/` deve existir com `.gitkeep`
+- **FR-3.1:** Sheldon deve mostrar **progress bar** no status do projeto:
+  ```
+  Progress: ████████░░ 80% (4/5 phases)
+  ```
+- **FR-3.2:** Sheldon deve mostrar **progress bar por fase** no status detalhado:
+  ```
+  Specification: ██████░░░░ 60% (3/5 steps)
+  ```
+- **FR-3.3:** Amy deve incluir progress bar no review report para indicar compliance:
+  ```
+  Compliance: ██████████ 100% (14/14 items passed)
+  ```
+- **FR-3.4:** O formato de progress bar deve ser definido na seção `activation` do Sheldon (visual status presentation)
+- **FR-3.5:** Progress bars devem ter **largura fixa** de 10 caracteres (`██████████`) para alinhamento visual
 
 #### Non-Functional Requirements
 
-- **NFR-3.1:** `team-quick.yaml` NÃO deve incluir design-specialist (quick fix não precisa de design)
-- **NFR-3.2:** Todas as mudanças devem ser backward-compatible — projetos existentes sem fase de design continuam funcionando
+- **NFR-3.1:** Progress bars devem usar Unicode block characters (`█` e `░`) — suportados em todos os terminais modernos
+- **NFR-3.2:** Self-contained — não depende de outras features
 
 #### Acceptance Criteria
 
-- **AC-3.1:** Given `_schema.json` é lido, When o campo model_role é inspecionado, Then inclui "designer"
-- **AC-3.2:** Given overspec.yaml é lido, When as fases são listadas, Then cada track tem fase `design` com `required: false`
-- **AC-3.3:** Given os 3 team presets são lidos, When os agentes são listados, Then incluem design-specialist
-- **AC-3.4:** Given Sheldon apresenta o phase map, When o track é greenfield, Then mostra: Discovery → Specification → Discuss (opt) → Architecture → Design (opt) → Implementation → Review
-- **AC-3.5:** Given um projeto sem fase de design completada, When Sheldon avança, Then pula design e vai para implementation (porque é opcional)
+- **AC-3.1:** Given Sheldon mostra status, When o projeto está 60% completo, Then mostra `██████░░░░ 60%`
+- **AC-3.2:** Given Amy completa review, When gera report, Then inclui compliance bar
+- **AC-3.3:** Given progress bar é renderizada, When vista no terminal, Then tem largura consistente de 10 chars
 
-#### Business Rules
+---
 
-- Model role `designer` recebe opus no perfil balanced (design exige criatividade comparável a architecture)
-- A fase de design é listada no phase map com indicador "(opt)" para sinalizar que é opcional
-- Sheldon deve perguntar ao usuário se quer executar a fase de design antes de pular
+### F4 — Mermaid Diagrams
+
+**Description:** Adicionar suporte a diagramas Mermaid nos templates de arquitetura, workflow visualizations e engine docs. Diagramas são supplementary (não substituem texto).
+
+**User/Persona:** Leonard (architecture), Sheldon (workflow visualization), documentação do engine.
+
+**Impact Summary (from Raj):** 0 arquivos novos, ~8 arquivos modificados. Risco médio.
+
+#### Functional Requirements
+
+- **FR-4.1:** Template de **architecture** (greenfield + brownfield + new-features) deve incluir seção de Mermaid para:
+  - Component diagram (flowchart mostrando componentes e suas conexões)
+  - Data flow diagram (sequence diagram mostrando fluxo de dados)
+- **FR-4.2:** Template de **architecture** deve ter instruções de como popular o Mermaid diagram com placeholders Handlebars
+- **FR-4.3:** Instructions do **Leonard** devem mencionar que diagramas Mermaid são esperados no output de arquitetura
+- **FR-4.4:** O **style guide** deve incluir exemplos de Mermaid para os 3 tipos (flowchart, sequence, class/ER)
+- **FR-4.5:** Diagramas Mermaid devem sempre ter um **fallback texto** — uma descrição em prosa antes ou depois do diagrama
+- **FR-4.6:** Sheldon pode usar Mermaid para visualizar o **workflow pipeline** (discovery → specification → architecture → implementation → review)
+
+#### Non-Functional Requirements
+
+- **NFR-4.1:** Mermaid é supplementary — se não renderiza, o texto alternativo cobre a informação
+- **NFR-4.2:** Diagramas devem ser simples — máximo 10-15 nós para manter legibilidade
+
+#### Acceptance Criteria
+
+- **AC-4.1:** Given o template de architecture é usado, When Leonard gera o artifact, Then inclui pelo menos 1 diagrama Mermaid
+- **AC-4.2:** Given um diagrama Mermaid está no output, When o terminal não suporta Mermaid, Then existe texto descritivo como fallback
+- **AC-4.3:** Given o style guide é consultado, When Mermaid é procurado, Then encontra exemplos dos 3 tipos
+
+---
+
+### F5 — Agent Output Formatting Enhancement
+
+**Description:** Enriquecer a seção `persona.style` de cada agente com padrões de formatação específicos — como cada agente formata suas respostas, quais elementos visuais usa, e como estrutura output. Referencia o style guide como base.
+
+**User/Persona:** Cada agente individualmente.
+
+**Impact Summary (from Raj):** 0 arquivos novos, ~7 agent.yaml modificados. Risco baixo.
+
+#### Functional Requirements
+
+- **FR-5.1:** Cada agente deve ter na seção `persona.style` uma referência ao style guide: "Follows formatting patterns from `core/style-guide.md`"
+- **FR-5.2:** **Sheldon** deve ter formatting directives adicionais:
+  - Progress bars no status e map
+  - Mermaid flowchart opcional para workflow pipeline
+  - Callouts `📋 Important` para principles do Constitution
+- **FR-5.3:** **Penny** deve ter formatting directives:
+  - Callouts `💡 Tip` para orientar o usuário nas respostas
+  - Tabelas de summary em feature requirements
+  - Listas numeradas para requirements (FRs)
+- **FR-5.4:** **Leonard** deve ter formatting directives:
+  - Mermaid diagrams para componentes e data flow
+  - Trade-off tables com pros/cons
+  - Callouts `⚠️ Warning` para riscos arquiteturais
+- **FR-5.5:** **Howard** deve ter formatting directives:
+  - Code blocks com syntax highlighting (language specifier)
+  - File trees com Unicode box-drawing
+  - Callouts `📋 Important` para regras de implementação
+- **FR-5.6:** **Amy** deve ter formatting directives:
+  - Progress/compliance bars no review report
+  - Severity indicators com emoji (🔴 Critical, 🟡 Warning, 🟢 Info)
+  - Callouts `❌ Error` para issues encontradas
+- **FR-5.7:** **Raj** deve ter formatting directives:
+  - Impact matrices com tabelas
+  - Risk callouts `⚠️ Warning` para áreas de alto impacto
+  - Callouts `📌 Note` para observações do codebase
+- **FR-5.8:** **Emily** deve ter formatting directives:
+  - Design token examples em code blocks
+  - Component state tables
+  - Callouts `💡 Tip` para orientação de art direction
+
+#### Non-Functional Requirements
+
+- **NFR-5.1:** Formatting directives são adições à `persona.style` — não substituem a personalidade existente
+- **NFR-5.2:** Cada agente mantém sua voz — o style guide é a base, a personalidade é o diferencial
+
+#### Acceptance Criteria
+
+- **AC-5.1:** Given cada agent.yaml é lido, When `persona.style` é inspecionado, Then referencia o style guide
+- **AC-5.2:** Given Sheldon apresenta status, When formatado, Then inclui progress bars
+- **AC-5.3:** Given Amy gera review, When issues são encontradas, Then usa severity indicators com emoji
+- **AC-5.4:** Given Leonard gera architecture, When componentes são descritos, Then inclui Mermaid diagram
 
 ---
 
 ## Summary Matrix
 
-| Feature | Priority | Effort | Risk | Functional Reqs | Acceptance Criteria |
-|---------|----------|--------|------|-----------------|---------------------|
-| F1 — Agent Definition | P0 | M | Baixo | 9 | 4 |
-| F2 — Design Workflows | P0 | L | Médio | 8 | 4 |
-| F3 — Integration | P1 | S | Baixo | 8 | 5 |
+| Feature | Priority | Effort | Risk | FRs | ACs |
+|---------|----------|--------|------|-----|-----|
+| F1 — Visual Style Guide | P0 | M | Baixo | 7 | 3 |
+| F2 — Callout System | P0 | M | Baixo | 4 | 3 |
+| F3 — Progress Visualization | P0 | S | Baixo | 5 | 3 |
+| F4 — Mermaid Diagrams | P1 | M | Médio | 6 | 3 |
+| F5 — Agent Output Enhancement | P0 | M | Baixo | 8 | 4 |
+
+**Total: 30 functional requirements, 16 acceptance criteria**
 
 ---
 
 ## Scope Decisions
 
-### Changes from Original Proposal
-
-O escopo expandiu significativamente em relação à análise do Raj:
-- **Adicionado:** Skill completa de Frontend Design (art direction, código production-grade, motion, guardrails anti-genéricos)
-- **Adicionado:** Produção de código funcional além de especificações
-- **Mantido:** Atomic Design, design tokens, acessibilidade, fase opcional
-- **Reduzido:** 1 workflow por track (em vez de 2 como Raj sugeriu inicialmente)
-
 ### In Scope
 
-- Agent YAML com persona completa e skill de Frontend Design
-- Atomic Design methodology (atoms → pages)
-- Art direction explícita com guardrails anti-genéricos
-- Design tokens (CSS variables)
-- UI specification (layouts, componentes, estados, responsivo)
-- Motion design com prefers-reduced-motion
-- Acessibilidade (HTML semântico, keyboard nav, contraste, responsivo)
-- Código frontend production-grade (componentes, páginas)
-- Workflows para 3 tracks
-- Integração (teams, Sheldon, schema, model profiles)
+- Visual Style Guide com padrões de callouts, progress, Mermaid, emphasis
+- Aplicação de callouts a todos os instructions.md e templates.md
+- Progress bars no Sheldon (status) e Amy (review)
+- Mermaid diagrams nos templates de architecture
+- Enrichment da seção `persona.style` de cada agente
+- Anti-patterns (o que não fazer)
 
 ### Out of Scope
 
-- Design de marca/branding completo (logo, identidade visual corporativa)
-- Ferramentas de design externas (Figma, Sketch) — a agente trabalha com código e markdown
-- Testes automatizados de UI (responsabilidade do Howard)
-- Design de APIs ou data models (responsabilidade do Leonard)
+- ANSI color codes (não portável entre terminais)
+- Animações/interatividade (CLI é estático)
+- Mudanças no Handlebars templating engine (só formatação)
+- Redesign de estrutura de seções (só enriquecimento visual)
+- Mudanças em checklists (formato checkbox funciona bem)
 
 ---
 
 ## Next Steps
 
-- [x] Requirements reviewed and approved by the user
-- [x] Handoff created for specification phase (penny)
-- [ ] State.json updated with status `completed`
+- [x] Feature requirements completed
+- [ ] Handoff to specification phase (penny)
+- [ ] State.json updated

@@ -1,41 +1,51 @@
-# Impact Analysis: overspec-dev
+# Impact Analysis: Visual CLI Enhancement
 
-| Field    | Value                |
-|----------|----------------------|
-| Project  | overspec-dev         |
-| Date     | 2026-02-25           |
-| Version  | 3.0                  |
-| Agent    | raj                  |
-| Phase    | Discovery (New Features) |
+| Field    | Value                          |
+|----------|--------------------------------|
+| Project  | overspec-dev                   |
+| Date     | 2026-02-25                     |
+| Version  | 4.0                            |
+| Agent    | raj                            |
+| Phase    | Discovery (New Features)       |
+| Cycle    | 4                              |
 
 ---
 
 ## Feature Overview
 
-Adicionar uma **agente especialista em design** ao OverSpec com expertise em **Atomic Design** — a metodologia que organiza componentes de UI em 5 níveis hierárquicos: atoms, molecules, organisms, templates e pages. A agente será responsável por criar design systems, especificações de UI e design tokens, posicionando-se entre a fase de arquitetura (Leonard) e implementação (Howard).
+Melhoria visual completa do framework OverSpec para ambiente CLI com suporte a Markdown rendering (Claude Code). O framework atual usa formatação básica — emojis de status, tabelas simples, headers. O objetivo é enriquecer a apresentação visual com progress bars, callouts/admonitions, diagramas Mermaid e formatação mais sofisticada, tanto nas respostas dos agentes quanto nos templates de artefatos.
 
 **Decisões do usuário:**
-- Fase de design é **opcional** (como discuss)
-- Persona inspirada em personagem do Big Bang Theory (a definir por Penny)
-- Sem constraints adicionais
+- Escopo: apresentação dos agentes **e** templates de artefatos
+- Ambiente: terminal com suporte a Markdown (Claude Code)
+- Prioridade: tudo — progress bars, callouts **e** diagramas
 
 ---
 
 ## Current Architecture Summary
 
-O OverSpec opera com 7 agentes especializados orquestrados por Sheldon, com 3 tracks de projeto (greenfield, brownfield, new-features). A comunicação é artifact-driven e o state.json controla o progresso. Cada fase tem workflows com 4 arquivos padrão (yaml + instructions + template + checklist).
+O OverSpec é um framework YAML/Markdown com 7 agentes e 3 tracks. A formatação visual atual inclui:
 
-**Agent roster atual:** Sheldon (orchestrator), Penny (analyst), Leonard (architect), Howard (developer), Amy (reviewer), Raj (analyst), Bernadette (spec designer).
+**Pontos fortes existentes:**
+- Emojis de identidade por agente (🧠🎯🏗️🔧🔬🔎🎨)
+- Indicadores de status (✅ ➡️ 🔒 ⬜)
+- Tabelas Markdown para metadata
+- Hierarquia de headers (H1-H4)
+- Code blocks, checklists, Handlebars templating
 
-**Model roles definidos:** orchestrator, analyst, architect, developer, reviewer — **não existe "designer"**.
-
-**Gap identificado:** Nenhum agente cobre design visual, UI/UX, design systems ou Atomic Design. Leonard foca em arquitetura de software (componentes, data model, tech stack), não em design de interfaces.
+**Gaps identificados:**
+- Sem progress bars visuais
+- Sem callouts/admonitions padronizados
+- Sem diagramas Mermaid
+- Sem separadores de seção ricos
+- Bold/italic sem padrão de uso definido
+- Sem visual style guide centralizado
 
 ---
 
 ## Impact Assessment
 
-### Feature 1: Agent Definition — Design Specialist
+### Feature 1: Visual Style Guide
 
 | Field | Value |
 |-------|-------|
@@ -43,124 +53,124 @@ O OverSpec opera com 7 agentes especializados orquestrados por Sheldon, com 3 tr
 | **Risk** | Baixo |
 | **Priority** | P0 |
 
-**Affected Components:**
-- `core/agents/_schema.json` — Adicionar "designer" ao enum model_role
-- `overspec.yaml` — Adicionar designer aos 3 model_profiles (quality, balanced, budget)
-- `specs/software/spec.yaml` — Registrar o novo agente
+**Descrição:** Documento de referência centralizado com todos os padrões visuais do framework — define quando e como usar cada elemento visual com exemplos concretos.
 
 **New Components:**
-- `core/agents/design-specialist.agent.yaml` — Definição completa da agente (~300 linhas)
+- `core/style-guide.md` — Guia de estilo visual (~200 linhas)
 
-**Dependencies:** Nenhuma dependência externa. Usa os mesmos padrões dos agentes existentes.
+**Affected Components:**
+- Referenciado por todos os agents e instructions (como padrão)
 
-**Integration Points:**
-- Sheldon roteia para a design specialist quando a fase de design é alcançada
-- Consome artifacts de Penny (requirements) e Leonard (architecture)
-- Produz artifacts consumidos por Howard (implementation) e Amy (review)
-
-**Risk Details:** Risco baixo — criação de agente segue padrão bem estabelecido. Único risco é a persona não capturar bem a expertise em Atomic Design.
-
-**Recommended Approach:** Criar o agent YAML seguindo o padrão de Leonard (architect) como base, adaptando para design. Incluir Atomic Design como framework core na persona e nos princípios.
+**Risk Details:** Risco baixo — documento novo, não modifica nada existente. Fundamenta todas as outras features.
 
 ---
 
-### Feature 2: Design Phase — Workflows para 3 Tracks
+### Feature 2: Callout/Admonition System
 
 | Field | Value |
 |-------|-------|
-| **Effort** | L |
-| **Risk** | Médio |
+| **Effort** | M |
+| **Risk** | Baixo |
 | **Priority** | P0 |
 
+**Descrição:** Definir e aplicar padrões de callouts para diferentes tipos de informação: warning, tip, note, success, error, important. Usar blockquotes com emojis como indicadores visuais.
+
 **Affected Components:**
-- `overspec.yaml` — Adicionar fase `design` (order 3.5, optional) nos 3 tracks
-- `specs/software/spec.yaml` — Registrar workflows e templates do design
-- `core/agents/sheldon.agent.yaml` — Atualizar phase maps para incluir design
+- `core/workflows/**/instructions.md` — Todos os tracks (~20 files)
+- `core/workflows/**/template.md` — Todos os templates (~20 files)
+- `core/agents/*.agent.yaml` — Seção `style` (~7 files)
 
-**New Components:**
-- `core/workflows/3.5-design/workflow.yaml` — Design system (greenfield)
-- `core/workflows/3.5-design/instructions.md` — Instruções para greenfield
-- `core/workflows/3.5-design/template.md` — Template do design system
-- `core/workflows/3.5-design/checklist.md` — Checklist de validação
-- `core/workflows/bf-2.5-design/workflow.yaml` — Design audit (brownfield)
-- `core/workflows/bf-2.5-design/instructions.md` — Instruções para brownfield
-- `core/workflows/bf-2.5-design/template.md` — Template do design audit
-- `core/workflows/bf-2.5-design/checklist.md` — Checklist de validação
-- `core/workflows/nf-3.5-design/workflow.yaml` — Feature UI design (new-features)
-- `core/workflows/nf-3.5-design/instructions.md` — Instruções para new-features
-- `core/workflows/nf-3.5-design/template.md` — Template do feature UI
-- `core/workflows/nf-3.5-design/checklist.md` — Checklist de validação
-
-**Dependencies:** Feature 1 (agent definition) deve ser feita antes.
-
-**Integration Points:**
-- Handoff chain: Leonard → Design Specialist → Howard (nos 3 tracks)
-- Amy precisa saber revisar artifacts de design
-- State machine já é dinâmica (lê fases do overspec.yaml)
-
-**Risk Details:** Risco médio — 12 novos arquivos de workflow. Principal risco é manter consistência com os workflows existentes. A fase opcional precisa de handling correto no state machine.
-
-**Recommended Approach:** Criar um workflow por track (não dois como sugerido inicialmente). Cada track tem um único workflow de design com escopo adaptado:
-- Greenfield: design system completo (Atomic Design + tokens + UI spec)
-- Brownfield: audit do design existente + plano de melhoria
-- New-features: design da feature integrando ao design system existente
+**Risk Details:** Risco baixo — mudanças aditivas em arquivos existentes.
 
 ---
 
-### Feature 3: Integration — Teams, Handoffs e Review
+### Feature 3: Progress Visualization
 
 | Field | Value |
 |-------|-------|
 | **Effort** | S |
 | **Risk** | Baixo |
-| **Priority** | P1 |
+| **Priority** | P0 |
+
+**Descrição:** Adicionar progress bars ASCII e indicadores de progresso mais ricos à apresentação de status do Sheldon e templates de review.
 
 **Affected Components:**
-- `teams/team-fullstack.yaml` — Adicionar design-specialist
-- `teams/team-newfeatures.yaml` — Adicionar design-specialist
-- `teams/team-brownfield.yaml` — Adicionar design-specialist
-- `core/agents/sheldon.agent.yaml` — Atualizar phase maps visuais
+- `core/agents/sheldon.agent.yaml` — Status e map presentation
+- `core/workflows/5-review/template.md` — Summary de review
 
-**New Components:**
-- `artifacts/design/.gitkeep` — Diretório para artifacts de design
+**Risk Details:** Risco baixo — self-contained, afeta poucos arquivos.
 
-**Dependencies:** Features 1 e 2 devem estar completas.
+---
 
-**Integration Points:**
-- Teams passam a incluir a design specialist
-- Sheldon mostra a fase de design no phase map
-- Amy verifica artifacts de design na review
+### Feature 4: Mermaid Diagrams
 
-**Risk Details:** Risco baixo — mudanças de configuração apenas.
+| Field | Value |
+|-------|-------|
+| **Effort** | M |
+| **Risk** | Médio |
+| **Priority** | P1 |
 
-**Recommended Approach:** Atualizar os 3 team presets e os phase maps do Sheldon. Não alterar team-quick (quick fix não precisa de design).
+**Descrição:** Adicionar diagramas Mermaid nos templates de arquitetura e workflow docs — flowcharts, sequence diagrams, class diagrams.
+
+**Affected Components:**
+- `core/workflows/3-architecture/template.md` — Component diagrams
+- `core/workflows/nf-3-architecture/template.md` — Feature design
+- `core/workflows/bf-2-planning/template.md` — Improvement plan
+- `core/agents/leonard.agent.yaml` — Style com Mermaid guidance
+
+**Risk Details:** Risco médio — depende de rendering do ambiente. Mitigação: diagramas são supplementary, não substituem texto.
+
+---
+
+### Feature 5: Agent Output Formatting Enhancement
+
+| Field | Value |
+|-------|-------|
+| **Effort** | M |
+| **Risk** | Baixo |
+| **Priority** | P0 |
+
+**Descrição:** Enriquecer a seção `persona.style` de cada agente com padrões de formatação específicos — como cada um formata respostas, que elementos visuais usa, como estrutura output.
+
+**Affected Components:**
+- `core/agents/sheldon.agent.yaml` — Progress bars, map enhancement
+- `core/agents/penny.agent.yaml` — Callouts para requirements
+- `core/agents/leonard.agent.yaml` — Mermaid diagrams, trade-off tables
+- `core/agents/howard.agent.yaml` — Code blocks, file trees, commit format
+- `core/agents/amy.agent.yaml` — Severity indicators, review formatting
+- `core/agents/raj.agent.yaml` — Impact matrices, risk callouts
+- `core/agents/design-specialist.agent.yaml` — Design tokens, component specs
+
+**Risk Details:** Risco baixo — enriquece a persona sem alterar comportamento.
 
 ---
 
 ## Summary Matrix
 
-| Feature | Effort | Risk | Affected Files | New Files |
-|---------|--------|------|----------------|-----------|
-| Agent Definition | M | Baixo | 3 | 1 |
-| Design Workflows (3 tracks) | L | Médio | 3 | 12 |
-| Integration (teams, handoffs) | S | Baixo | 4 | 1 |
+| Feature | Effort | Risk | New Files | Modified Files |
+|---------|--------|------|-----------|----------------|
+| F1: Visual Style Guide | M | Baixo | 1 | 0 |
+| F2: Callout System | M | Baixo | 0 | ~47 |
+| F3: Progress Visualization | S | Baixo | 0 | ~3 |
+| F4: Mermaid Diagrams | M | Médio | 0 | ~8 |
+| F5: Agent Output Enhancement | M | Baixo | 0 | ~7 |
 
-**Total: ~10 arquivos modificados, ~14 arquivos novos**
+**Total: ~1 arquivo novo, ~50+ arquivos modificados**
 
 ---
 
 ## Recommendations
 
-1. **Fase opcional:** Implementar design como fase opcional nos 3 tracks (order 3.5 / 2.5), com `required: false` como a fase discuss
-2. **Um workflow por track:** Simplificar para 1 workflow de design por track em vez de 2, mantendo foco e reduzindo complexidade
-3. **3 artifacts de output:** design-system.md (hierarquia Atomic Design), ui-specification.md (specs de UI), design-tokens.json (tokens programáticos)
-4. **Handoff explícito:** Leonard → Design Specialist → Howard, com artifacts de design como input obrigatório de Howard quando a fase de design é executada
-5. **Implementar em 3 épicos:** (1) Agent definition + schema, (2) Workflows dos 3 tracks, (3) Integração (teams, Sheldon, artifacts)
+1. **Style Guide primeiro** (F1) — fundamenta tudo; define os padrões antes de aplicar
+2. **Callouts + Agent Enhancement** (F2+F5) em sequência — aplicação prática do style guide
+3. **Progress** (F3) em paralelo — self-contained
+4. **Mermaid** (F4) por último — depende de validação de rendering
+5. **Implementar em 3 epics:** (1) Foundation (style guide), (2) Application (callouts, agents, progress), (3) Advanced (Mermaid)
 
 ---
 
 ## Next Steps
 
-- [x] Impact analysis reviewed and approved by the user
-- [x] Handoff created for Penny (feature requirements)
-- [ ] State.json updated with status `completed`
+- [x] Impact analysis completed
+- [ ] Handoff to Penny for feature requirements
+- [ ] State.json updated

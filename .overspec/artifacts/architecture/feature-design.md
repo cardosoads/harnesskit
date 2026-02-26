@@ -1,405 +1,346 @@
-# Feature Design: overspec-dev
+# Feature Design: Visual CLI Enhancement
 
 | Field    | Value                         |
 |----------|-------------------------------|
 | Project  | overspec-dev                  |
 | Date     | 2026-02-25                    |
-| Version  | 3.0                           |
+| Version  | 4.0                           |
 | Agent    | leonard                       |
 | Phase    | Architecture (New Features)   |
+| Cycle    | 4                             |
 
 ---
 
 ## Executive Summary
 
-Design para integrar a **Design Specialist** ao OverSpec — uma nova agente com fase opcional de design entre architecture e implementation. A abordagem segue o padrão existente: YAML agent definition + workflows de 4 arquivos + registro em spec/teams/overspec.yaml. O design principal é a agente em si, que combina Atomic Design + Frontend Design skill numa persona coerente. Nenhuma mudança estrutural no framework é necessária — apenas extensão dos patterns existentes.
+Design para melhoria visual completa do OverSpec em ambiente CLI com Markdown rendering. A abordagem é **enriquecimento incremental** — não altera estrutura existente, apenas adiciona padrões visuais. O eixo central é um **Visual Style Guide** (`core/style-guide.md`) que define todos os padrões e é referenciado pelos agentes. As mudanças são puramente aditivas em 3 camadas: (1) style guide como referência, (2) agent persona.style enriquecido, (3) templates e instructions com callouts/progress/Mermaid.
 
 ---
 
 ## Existing Architecture Overview
 
-O OverSpec é um framework de orquestração baseado em configuração (YAML/Markdown/JSON). Não há código runtime — tudo são definições que guiam agentes de IA.
+O OverSpec formata output via 3 mecanismos:
 
-**Estrutura atual:**
-- 7 agentes definidos em YAML (~150-350 linhas cada)
-- 3 tracks com fases dinâmicas (lidas de overspec.yaml)
-- Workflows com 4 arquivos padrão (yaml + instructions + template + checklist)
-- State machine dinâmica baseada em state.json
-- 5 model_roles: orchestrator, analyst, architect, developer, reviewer
-- 4 team presets com combinações de agentes
+1. **`persona.style`** (agent YAML) — Define como cada agente se expressa (3-6 linhas de texto descritivo)
+2. **`instructions.md`** (workflows) — Define como o agente executa e formata cada passo
+3. **`template.md`** (workflows) — Define a estrutura dos artefatos produzidos
 
-**Padrões que devemos respeitar:**
-- Agent YAML segue `_schema.json` (seções: agent, persona, language_protocol, phases, menu, activation, behaviors, outputs, consumes)
-- Workflows seguem `workflow-engine.md` (steps com actions: ask, generate, checklist, auto, party)
-- Fases opcionais existem como precedente (discuss, order 2.5)
+**Formatação atual:**
+- Emojis de identidade (🧠🎯🏗️🔧🔬🔎🎨) — consistente
+- Status indicators (✅➡️🔒⬜) — consistente, só no Sheldon
+- Tabelas Markdown — extensivo em templates
+- Headers H2/H3/H4 — consistente
+- Blockquotes — uso mínimo, sem padrão
+- Nenhum progress bar, callout padronizado, ou Mermaid
+
+**Princípio arquitetural:** O OverSpec não tem runtime — toda formatação é declarativa. Agentes "leem" as instruções e formatam output de acordo. Portanto, melhorar a formatação = melhorar as instruções de formatação.
 
 ---
 
 ## Feature Designs
 
-### Design 1: Agent Definition (US-001, US-002, US-003)
+### Design 1: Visual Style Guide (US-001)
 
 #### Current State
 
-Existem 7 agentes com model_roles fixos. O enum em `_schema.json` tem 5 valores. Não existe agente de design nem role "designer" nos model_profiles. A cadeia de handoff vai direto de Leonard → Howard.
+Não existe documento centralizado de padrões visuais. Cada agente tem `persona.style` independente. Consistência existe por padrão implícito, não por referência explícita.
 
 #### Proposed Changes
 
-- `core/agents/_schema.json` — Adicionar `"designer"` ao enum `model_role`
-- `overspec.yaml` — Adicionar `designer` aos 3 model_profiles:
-  - quality: `"opus"`
-  - balanced: `"opus"` (design requer criatividade de alto nível)
-  - budget: `"sonnet"`
+Nenhum arquivo existente modificado.
 
 #### New Components
 
-- `core/agents/design-specialist.agent.yaml` — Definição completa (~350 linhas)
+- `core/style-guide.md` — Documento de ~180 linhas com 6 seções:
 
-**Estrutura proposta da agente:**
+**Estrutura proposta:**
 
-```yaml
-agent:
-  id: design-specialist
-  name: "Emily"               # Emily Sweeney — neuroscientist, artistic
-  title: "Design Specialist"
-  icon: "🎨"
-  version: "1.0.0"
-  inspiration: "Emily Sweeney — The Big Bang Theory"
-  model_role: "designer"
+```markdown
+# OverSpec Visual Style Guide
 
-persona:
-  role: >
-    Design specialist for OverSpec. Creates design systems using Atomic
-    Design methodology, defines art direction, produces design tokens,
-    UI specifications, and production-grade frontend code.
+## 1. Callouts & Admonitions
+- 6 tipos com emoji + bold label + texto
+- Regras de uso (máximo 3-4 por arquivo)
+- Anti-patterns (não usar para decoração)
 
-  identity: >
-    Creative but methodical. Artistic sensibility with engineering
-    discipline. Refuses generic "safe" designs — every output has
-    intentional art direction with a memorability hook. Believes
-    interfaces should have personality, not just function. Respects
-    existing code conventions when integrating.
+## 2. Progress Bars
+- Formato: ████████░░ 80% (4/5 phases)
+- Largura fixa: 10 chars
+- Sempre com percentual e contagem
+- Fórmula: Math.round(completed/total * 10) blocos █
 
-  style: >
-    Visual and descriptive. Presents design options with clear
-    rationales. Uses structured hierarchy (Atomic Design levels) but
-    with creative flair. Shows, doesn't just tell.
+## 3. Mermaid Diagrams
+- Flowchart: componentes e conexões
+- Sequence: handoff chains e data flow
+- Regra: sempre com fallback texto
+- Máximo 10-15 nós
 
-  catchphrase: >
-    A generic interface is a missed opportunity. Every pixel should
-    have a reason to exist.
+## 4. Emphasis Patterns
+- **Bold**: termos-chave, labels, nomes
+- *Italic*: primeira menção de termos técnicos
+- `Code`: paths, filenames, comandos, IDs
+- ~~Strikethrough~~: deprecated
 
-  principles:
-    - "ART DIRECTION FIRST: No 'safe defaults'. Pick an explicit aesthetic."
-    - "ATOMIC STRUCTURE: atoms → molecules → organisms → templates → pages"
-    - "TOKENS ARE LAW: Colors, typography, spacing — all centralized in tokens"
-    - "ACCESSIBILITY IS NON-NEGOTIABLE: Semantic HTML, keyboard nav, contrast"
-    - "MOTION WITH RESTRAINT: One orchestrated entrance > many tiny animations"
-    - "ANTI-GENERIC: At least one memorability hook per design"
-    - "PRODUCTION-GRADE: Runnable code, not pseudo-code"
+## 5. Structural Conventions
+- H2 para seções, H3 para subseções, H4 para items
+- --- entre seções principais
+- Metadata table no topo de artefatos
 
-phases: [design]
-
-menu:
-  - trigger: "design-system"
-    action: "design-system"
-    description: "Create Atomic Design system (atoms → pages)"
-  - trigger: "art-direction"
-    action: "art-direction"
-    description: "Define art direction with named aesthetic"
-  - trigger: "tokens"
-    action: "design-tokens"
-    description: "Create design tokens (CSS variables)"
-  - trigger: "ui-spec"
-    action: "ui-specification"
-    description: "Specify UI: layouts, states, responsive, a11y"
-  - trigger: "audit"
-    action: "design-audit"
-    description: "Audit existing design system (brownfield)"
-```
-
-**Activation sequence (6 steps):**
-1. Load persona
-2. Read overspec.yaml + response_language
-3. Read state.json
-4. Read input artifacts (architecture/requirements)
-5. Monitor context usage (WARNING/CRITICAL thresholds)
-6. Present design approach and wait
-
-**Behaviors (5):**
-- `design-system`: Full Atomic Design hierarchy
-- `ui-specification`: Layouts, componentes, estados, responsivo
-- `design-tokens`: CSS variables (cores, tipografia, spacing, efeitos)
-- `design-audit`: Brownfield — audit + improvement plan
-- `feature-ui`: New-features — design integrado ao sistema existente
-
-**Outputs (3):**
-- `artifacts/design/design-system.md` — Hierarquia Atomic Design + componentes
-- `artifacts/design/ui-specification.md` — Specs de UI com estados e responsividade
-- `artifacts/design/design-tokens.md` — Design tokens documentados
-
-**Consumes:**
-- `artifacts/discovery/requirements.md` ou `feature-requirements.md` (de Penny)
-- `artifacts/architecture/architecture.md` ou `feature-design.md` (de Leonard)
-- `artifacts/discovery/impact-analysis.md` (de Raj, quando disponível)
-
-#### Interface Changes
-
-**Handoff chain atualizada:**
-```
-Antes:  Leonard → Howard → Amy
-Depois: Leonard → Emily (design) → Howard → Amy
-```
-
-A fase de design é opcional. Quando skipped, a chain continua como antes (Leonard → Howard).
-
-#### Data Flow
-
-```
-Penny (requirements/stories)
-    ↓
-Leonard (architecture/feature-design)
-    ↓
-Emily (design-system + ui-spec + tokens)  [OPTIONAL]
-    ↓
-Howard (implementation — consome artifacts de design quando existem)
-    ↓
-Amy (review — verifica design artifacts se foram produzidos)
+## 6. Anti-Patterns
+- Emojis em excesso (máx 1-2 por header)
+- Tabelas onde listas bastam
+- Callouts decorativos (sem informação útil)
+- Formatação inconsistente entre seções
+- Headers sem conteúdo abaixo
 ```
 
 #### Trade-offs
 
 | Option | Pros | Cons | Chosen? |
 |--------|------|------|---------|
-| Emily Sweeney como persona | Personagem artístico, encaixa bem com design; neuroscientista = metódica + criativa | Menos conhecida que outros personagens | **Sim** |
-| Stuart Bloom como persona | Dono de loja de quadrinhos, artista | Personagem cômico demais, pouca autoridade técnica | Não |
-| Persona não-TBBT | Liberdade total | Quebra o tema do roster | Não |
-
-| Option | Pros | Cons | Chosen? |
-|--------|------|------|---------|
-| 3 artifacts separados (system + spec + tokens) | Granularidade, cada um serve um propósito | Mais arquivos para gerenciar | **Sim** |
-| 1 artifact monolítico | Simples | Muito grande, difícil de revisar parcialmente | Não |
-
-#### Implementation Order
-1. Adicionar "designer" ao schema e model_profiles (US-001)
-2. Criar design-specialist.agent.yaml (US-002)
-3. Definir outputs/consumes no agent YAML (US-003 — junto com US-002)
+| Style guide em `core/style-guide.md` | Centralizado, versionado, referenciável | 1 arquivo extra | **Sim** |
+| Inline em cada agent.yaml | Sem arquivo extra | Duplicação, inconsistência | Não |
+| Seção em `overspec.yaml` | Junto com config | YAML não é bom para exemplos visuais | Não |
 
 ---
 
-### Design 2: Design Workflows (US-004, US-005, US-006)
+### Design 2: Agent Output Enhancement (US-008, US-009, US-010)
 
 #### Current State
 
-Existem 15 diretórios de workflow. Cada track tem seu conjunto. A fase de design não existe em nenhum track. O padrão é consolidado: 4 arquivos por workflow.
+Cada agente tem `persona.style` com 3-6 linhas descritivas. Funcionam como guia de tom/voz. Nenhum referencia padrões visuais específicos.
 
 #### Proposed Changes
 
-- Nenhuma mudança em workflows existentes
+Adicionar ~4-6 linhas à `persona.style` de cada agente, sem alterar o texto existente:
 
-#### New Components
-
-- `core/workflows/3.5-design/` — Greenfield design workflow (4 arquivos)
-- `core/workflows/bf-2.5-design/` — Brownfield design audit (4 arquivos)
-- `core/workflows/nf-3.5-design/` — New-features design (4 arquivos)
-
-#### Workflow Design: Greenfield (3.5-design)
-
+**Sheldon** (orchestrator):
 ```yaml
-workflow:
-  id: design-system
-  name: "Design System — Atomic Design & Art Direction"
-  phase: design
-  agent: design-specialist
-  required: false  # Phase is optional
+style: >
+  [texto existente mantido integralmente]
 
-  inputs:
-    - "artifacts/architecture/architecture.md"
-    - "artifacts/architecture/tech-stack.md"
-    - "artifacts/discovery/requirements.md"
-    - "artifacts/specification/user-stories.md"
-
-  output:
-    path: "artifacts/design/design-system.md"
-    handoff_to: [howard]
-
-  steps:
-    - id: "brief"
-      action: "ask"
-      prompt: "Vou criar o design system. Preciso entender: propósito, usuário-alvo, ação primária, densidade de conteúdo, constraints (framework, dark/light, a11y)."
-      required: true
-
-    - id: "art-direction"
-      action: "generate"
-      description: "Definir art direction explícita com nome, rationale e 3 motifs assinatura. Apresentar 2-3 opções quando requisitos são fracos."
-
-    - id: "design-tokens"
-      action: "generate"
-      description: "Criar design tokens: cores, tipografia (display + body), type scale, spacing scale, efeitos (shadows, borders, radius)."
-
-    - id: "components"
-      action: "generate"
-      description: "Definir hierarquia Atomic Design: atoms, molecules, organisms, templates, pages. Incluir estados (hover, active, focus-visible, disabled, loading, empty)."
-
-    - id: "motion-a11y"
-      action: "generate"
-      description: "Motion pass (entrada orquestrada, prefers-reduced-motion) e accessibility gates (HTML semântico, keyboard nav, contraste, responsivo)."
-
-    - id: "generate"
-      action: "generate"
-      save_to: "artifacts/design/design-system.md"
-
-    - id: "validate"
-      action: "checklist"
-      checklist: "checklist.md"
+  Formatting: Follows patterns from core/style-guide.md. Uses progress
+  bars (████░░ format) for project and phase status. Uses callout
+  📋 Important when citing Constitution principles. Optionally includes
+  Mermaid flowchart in map view.
 ```
 
-#### Workflow Design: Brownfield (bf-2.5-design)
-
+**Penny** (analyst):
 ```yaml
-workflow:
-  id: design-audit
-  name: "Design Audit & Improvement"
-  phase: design
-  agent: design-specialist
-  required: false
+style: >
+  [texto existente mantido]
 
-  inputs:
-    - "artifacts/analysis/codebase-analysis.md"
-    - "artifacts/planning/improvement-plan.md"
-
-  output:
-    path: "artifacts/design/design-audit.md"
-    handoff_to: [howard]
-
-  steps:
-    - id: "scan-existing"
-      action: "generate"
-      description: "Auditar o design existente: tokens, componentes, consistência, acessibilidade."
-
-    - id: "gaps"
-      action: "generate"
-      description: "Identificar gaps e inconsistências no design atual."
-
-    - id: "improvement-plan"
-      action: "generate"
-      description: "Plano de melhoria incremental com design tokens para padronizar."
-
-    - id: "generate"
-      action: "generate"
-      save_to: "artifacts/design/design-audit.md"
-
-    - id: "validate"
-      action: "checklist"
-      checklist: "checklist.md"
+  Formatting: Follows core/style-guide.md. Uses 💡 Tip callouts to
+  guide users in answering questions. Uses summary tables for
+  requirements and feature matrices. Numbers requirements (FR-X.X).
 ```
 
-#### Workflow Design: New-Features (nf-3.5-design)
-
+**Leonard** (architect):
 ```yaml
-workflow:
-  id: feature-ui-design
-  name: "Feature UI Design"
-  phase: design
-  agent: design-specialist
-  required: false
+style: >
+  [texto existente mantido]
 
-  inputs:
-    - "artifacts/architecture/feature-design.md"
-    - "artifacts/specification/feature-stories.md"
-    - "artifacts/discovery/impact-analysis.md"
+  Formatting: Follows core/style-guide.md. Uses Mermaid flowcharts
+  for component diagrams and data flow. Uses trade-off tables with
+  Pros/Cons columns. Uses ⚠️ Warning callouts for architectural risks.
+```
 
-  output:
-    path: "artifacts/design/feature-ui.md"
-    handoff_to: [howard]
+**Howard** (developer):
+```yaml
+style: >
+  [texto existente mantido]
 
-  steps:
-    - id: "context"
-      action: "generate"
-      description: "Analisar design system existente (se houver). Se não houver, criar mínimo viável."
+  Formatting: Follows core/style-guide.md. Uses code blocks with
+  language specifiers (```yaml, ```js). Uses 📋 Important callouts
+  for implementation rules. Shows file paths as `inline code`.
+```
 
-    - id: "feature-design"
-      action: "generate"
-      description: "Design da feature: art direction, tokens, componentes novos, UI specification."
+**Amy** (reviewer):
+```yaml
+style: >
+  [texto existente mantido]
 
-    - id: "integration"
-      action: "generate"
-      description: "Plano de integração com design system existente ou extensão dos tokens."
+  Formatting: Follows core/style-guide.md. Uses compliance bars
+  (████████░░ format) in review reports. Uses severity indicators:
+  🔴 Critical, 🟡 Warning, 🟢 Info. Uses ❌ Error callouts for
+  issues found.
+```
 
-    - id: "generate"
-      action: "generate"
-      save_to: "artifacts/design/feature-ui.md"
+**Raj** (analyst):
+```yaml
+style: >
+  [texto existente mantido]
 
-    - id: "validate"
-      action: "checklist"
-      checklist: "checklist.md"
+  Formatting: Follows core/style-guide.md. Uses impact matrices in
+  tables. Uses ⚠️ Warning callouts for high-impact areas. Uses
+  📌 Note callouts for codebase observations.
+```
+
+**Emily** (designer):
+```yaml
+style: >
+  [texto existente mantido]
+
+  Formatting: Follows core/style-guide.md. Uses code blocks for
+  design token examples (CSS variables). Uses component state tables.
+  Uses 💡 Tip callouts for art direction guidance.
 ```
 
 #### Trade-offs
 
 | Option | Pros | Cons | Chosen? |
 |--------|------|------|---------|
-| 1 workflow por track | Simples, foco claro | Workflow greenfield pode ficar grande | **Sim** |
-| 2 workflows por track (system + spec) | Granularidade | Mais complexidade, 24 arquivos em vez de 12 | Não |
-
-#### Implementation Order
-1. Workflow greenfield — 3.5-design/ (US-004)
-2. Workflow brownfield — bf-2.5-design/ (US-005)
-3. Workflow new-features — nf-3.5-design/ (US-006)
+| Append formatting directives ao style existente | Preserva personalidade, aditivo | Style section fica mais longo | **Sim** |
+| Seção separada `formatting:` no YAML | Separação clara | Muda schema, mais complexo | Não |
+| Inline nos instructions.md apenas | Não toca agent YAML | Agente "esquece" formatting fora do workflow | Não |
 
 ---
 
-### Design 3: Integration (US-007 a US-012)
+### Design 3: Callout Application (US-002, US-003, US-004, US-005, US-015)
 
 #### Current State
 
-3 tracks com fases configuradas em overspec.yaml. 4 team presets. Sheldon tem phase maps para 3 tracks. State machine dinâmica.
+~16 instructions.md e ~16 template.md existentes. Alguns usam `>` blockquotes mas sem padrão. Callouts como `> IMPORTANT:` existem esporadicamente.
 
 #### Proposed Changes
 
-- `overspec.yaml` — Adicionar fase `design` nos 3 tracks:
-  ```yaml
-  greenfield_phases:
-    design:
-      enabled: true
-      required: false
-      order: 3.5
-  brownfield_phases:
-    design:
-      enabled: true
-      required: false
-      order: 2.5
-  newfeatures_phases:
-    design:
-      enabled: true
-      required: false
-      order: 3.5
-  ```
-- `teams/team-fullstack.yaml` — Adicionar `design-specialist` entre leonard e howard
-- `teams/team-newfeatures.yaml` — Adicionar `design-specialist` entre leonard e howard
-- `teams/team-brownfield.yaml` — Adicionar `design-specialist` entre raj e howard
-- `core/agents/sheldon.agent.yaml` — Atualizar phase maps (3 blocos) e new_project_detection
-- `specs/software/spec.yaml` — Registrar agente + 3 workflows + 3 templates
-- `core/engine/state-machine.md` — Adicionar documentação sobre fases opcionais (required: false → Sheldon pergunta antes de pular)
+Modificar ~35-40 arquivos existentes (instructions + templates). Mudanças são **puramente aditivas** — conteúdo existente não é alterado, apenas formatado.
 
-#### New Components
+**Padrão de aplicação nos instructions.md:**
 
-- `artifacts/design/.gitkeep` — Já criado
+1. **Regras críticas** → `> 📋 **Important:** [regra]`
+   - Language protocol ("responda no idioma configurado")
+   - Constitution principles citados
+   - Handoff requirements
+
+2. **Riscos/cuidados** → `> ⚠️ **Warning:** [risco]`
+   - "Não pular esta verificação"
+   - "Verificar state.json antes de agir"
+
+3. **Sugestões** → `> 💡 **Tip:** [sugestão]`
+   - "Pergunte ao usuário se está claro"
+   - "Leia os artifacts anteriores primeiro"
+
+**Padrão de aplicação nos template.md:**
+
+1. **Notas contextuais** → `> 📌 **Note:** [contexto]`
+   - "Seção preenchida automaticamente"
+   - "Valores de placeholder — substituir"
+
+2. **Orientação** → `> 💡 **Tip:** [orientação]`
+   - "Use dados concretos, não estimativas"
+
+**Regra de moderação:** Máximo 3-4 callouts por instructions.md, máximo 2-3 por template.md.
 
 #### Trade-offs
 
 | Option | Pros | Cons | Chosen? |
 |--------|------|------|---------|
-| Design optional em todos os tracks | Flexibilidade máxima | Usuário pode não saber quando precisa de design | **Sim** |
-| Design required em greenfield, optional em brownfield/new-features | Garante design em projetos novos | Projetos simples sem UI teriam overhead | Não |
+| Callouts como blockquotes com emoji | Renderiza em todo Markdown, visualmente claro | Depende de emoji rendering | **Sim** |
+| Callouts como HTML `<div class="warning">` | Mais controle visual | Não renderiza em CLI/Markdown puro | Não |
+| GitHub-style `> [!WARNING]` | Padrão GitHub | Não suportado em todos os renderers | Não |
 
-#### Implementation Order
-1. overspec.yaml — fases + model profiles (US-001 parcial + US-007)
-2. Teams — 3 presets (US-008)
-3. spec.yaml — registro (US-009)
-4. Sheldon — phase maps e detection (US-010)
-5. artifacts/design — confirmar diretório (US-011)
-6. state-machine.md — documentar fases opcionais (US-012)
+---
+
+### Design 4: Progress Visualization (US-006, US-007)
+
+#### Current State
+
+Sheldon mostra status com emojis (✅➡️🔒). Amy mostra resultados em tabelas. Nenhum usa progress bar.
+
+#### Proposed Changes
+
+**Sheldon** — `sheldon.agent.yaml`, seção `activation` > "Present visual status":
+
+Adicionar progress bar ao layout de status:
+```
+## 🧠 Sheldon — Project Status
+
+**Project**: [name]
+**Progress**: ██████░░░░ 60% (3/5 phases)
+
+### Phase Map
+[mapa existente com ✅➡️🔒 mantido]
+
+### Current Phase
+**Specification**: ████████░░ 80% (4/5 steps)
+```
+
+**Amy** — `5-review/template.md`:
+
+Adicionar seção de compliance bar:
+```
+## Compliance Summary
+
+████████░░ 85% (12/14 items passed)
+
+🔴 Critical: 0 | 🟡 Warning: 2 | 🟢 Passed: 12
+```
+
+#### Trade-offs
+
+| Option | Pros | Cons | Chosen? |
+|--------|------|------|---------|
+| Unicode blocks █░ | Suportado universalmente, alinhamento consistente | Limitado a 10 "pixels" de resolução | **Sim** |
+| ASCII `[====    ]` | Mais compatível | Menos visual, parece antigo | Não |
+| Percentual apenas | Simples | Não visual | Não |
+
+---
+
+### Design 5: Mermaid Diagrams (US-011, US-012, US-013, US-014)
+
+#### Current State
+
+Template de architecture tem placeholder ASCII art para component diagram. Nenhum template usa Mermaid. Leonard menciona "uses diagrams" no style mas sem especificar formato.
+
+#### Proposed Changes
+
+**Templates de architecture** — Substituir ASCII placeholder por Mermaid + fallback:
+
+```markdown
+## Component Diagram
+
+{{#if component_diagram}}
+{{component_diagram}}
+{{else}}
+
+**Components and their connections:**
+
+[Texto descritivo do diagrama — fallback quando Mermaid não renderiza]
+
+```mermaid
+graph TD
+    A[Client Layer] --> B[API Layer]
+    B --> C[Service Layer]
+    C --> D[Data Layer]
+```
+
+_Replace with actual component diagram for the project._
+{{/if}}
+```
+
+**Leonard instructions** — Adicionar orientação sobre Mermaid:
+- Quando usar: component diagrams, data flow
+- Formato preferido: flowchart TD para componentes, sequenceDiagram para data flow
+- Regra: sempre com fallback texto antes
+
+**Sheldon** (opcional, US-014) — Mermaid pipeline no "map" command:
+```mermaid
+graph LR
+    A[Discovery ✅] --> B[Specification ✅]
+    B --> C[Architecture ➡️]
+    C --> D[Implementation 🔒]
+    D --> E[Review 🔒]
+    style C fill:#ff9,stroke:#333
+```
+
+#### Trade-offs
+
+| Option | Pros | Cons | Chosen? |
+|--------|------|------|---------|
+| Mermaid com fallback texto | Melhor de dois mundos | Informação duplicada | **Sim** |
+| Só Mermaid | Mais limpo | Perde info se não renderiza | Não |
+| Só texto/ASCII art | Universal | Menos visual | Não |
 
 ---
 
@@ -407,27 +348,32 @@ workflow:
 
 | Order | Story | What to Build | Effort |
 |-------|-------|---------------|--------|
-| 1 | US-001 | Adicionar "designer" ao _schema.json + model_profiles no overspec.yaml | S |
-| 2 | US-002 + US-003 | Criar design-specialist.agent.yaml completo (persona Emily, skill Frontend Design, activation, behaviors, outputs, consumes) | L |
-| 3 | US-007 | Adicionar fase design (required: false) nos 3 tracks do overspec.yaml | S |
-| 4 | US-004 | Criar workflow greenfield 3.5-design/ (4 arquivos) | L |
-| 5 | US-005 | Criar workflow brownfield bf-2.5-design/ (4 arquivos) | M |
-| 6 | US-006 | Criar workflow new-features nf-3.5-design/ (4 arquivos) | M |
-| 7 | US-009 | Registrar agente e workflows em spec.yaml | S |
-| 8 | US-008 | Atualizar 3 team presets | S |
-| 9 | US-010 | Atualizar phase maps e detection do Sheldon | S |
-| 10 | US-011 | Confirmar diretório artifacts/design/ | S |
-| 11 | US-012 | Documentar fases opcionais no state-machine.md | S |
+| 1 | US-001 | Criar `core/style-guide.md` (~180 linhas) | M |
+| 2 | US-008 | Enriquecer `persona.style` do Sheldon + progress bars na activation | S |
+| 3 | US-009 | Enriquecer `persona.style` de Penny, Howard, Raj | S |
+| 4 | US-010 | Enriquecer `persona.style` de Leonard, Amy, Emily | S |
+| 5 | US-006 | Adicionar progress bars ao status do Sheldon (activation section) | S |
+| 6 | US-007 | Adicionar compliance bar ao review template (5-review/template.md) + Amy agent | S |
+| 7 | US-002 | Aplicar callouts em instructions.md greenfield (7 files) | M |
+| 8 | US-003 | Aplicar callouts em instructions.md brownfield (4 files) | S |
+| 9 | US-004 | Aplicar callouts em instructions.md new-features (5+ files) | S |
+| 10 | US-015 | Aplicar callouts em party-mode instructions | S |
+| 11 | US-005 | Aplicar callouts em template.md (todos os tracks, ~16 files) | M |
+| 12 | US-013 | Adicionar Mermaid guidance ao Leonard (agent + instructions) | S |
+| 13 | US-011 | Adicionar Mermaid ao template architecture greenfield | M |
+| 14 | US-012 | Adicionar Mermaid aos templates brownfield + new-features | S |
+| 15 | US-014 | Mermaid workflow pipeline no Sheldon (opcional) | S |
 
 **Epics sugeridos:**
-- **Epic 1 (Foundation):** US-001, US-002+003, US-007 — schema, agente, fases
-- **Epic 2 (Workflows):** US-004, US-005, US-006 — 3 workflows
-- **Epic 3 (Integration):** US-009, US-008, US-010, US-011, US-012 — registro, teams, Sheldon, docs
+- **Epic 1 (Foundation):** US-001 — style guide
+- **Epic 2 (Agent Enhancement):** US-008, US-009, US-010, US-006, US-007 — agent formatting + progress bars
+- **Epic 3 (Callouts):** US-002, US-003, US-004, US-015, US-005 — callouts em instructions + templates
+- **Epic 4 (Mermaid):** US-013, US-011, US-012, US-014 — diagrams
 
 ---
 
 ## Next Steps
 
 - [x] Design reviewed and approved by the user
-- [ ] Handoff created for Howard (implementation)
-- [ ] State.json updated with status `completed`
+- [ ] Handoff to Howard (implementation)
+- [ ] State.json updated
