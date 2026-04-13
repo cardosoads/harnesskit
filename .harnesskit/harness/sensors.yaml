@@ -1,0 +1,118 @@
+version: 1
+
+policy:
+  required_sensors_block_completion: true
+  evaluator_policy: risk_based
+  evaluator_required_from_risk: medium
+  max_fix_rounds: 2
+  pre_existing_failure_policy: "document_baseline_and_ask_before_expanding_scope"
+
+sensor_groups:
+  implementation:
+    description: "Sensors to run before an implementation can be marked complete."
+    required:
+      - id: harnesskit-validate
+        type: command
+        command: "bash .harnesskit/scripts/validate.sh"
+        enabled_when: ".harnesskit/scripts/validate.sh exists"
+        evidence: "record pass/fail and any syntax, required-file, or required-directory failures"
+      - id: harness-doctor
+        type: command
+        command: "bash .harnesskit/scripts/harness-doctor.sh"
+        enabled_when: ".harnesskit/scripts/harness-doctor.sh exists"
+        evidence: "record feedforward/feedback errors, warnings, and info findings"
+      - id: harness-selftest
+        type: command
+        command: "bash .harnesskit/scripts/harness-selftest.sh"
+        enabled_when: ".harnesskit/scripts/harness-selftest.sh exists"
+        evidence: "record focused Harness doctor baseline regression test results"
+      - id: harnesskit-cli-status
+        type: command
+        command: "node bin/harnesskit.mjs status"
+        enabled_when: "bin/harnesskit.mjs exists"
+        evidence: "record whether the CLI can explain current process state"
+      - id: harnesskit-cli-next
+        type: command
+        command: "node bin/harnesskit.mjs next"
+        enabled_when: "bin/harnesskit.mjs exists"
+        evidence: "record whether the CLI can recommend the next process action"
+      - id: package-test
+        type: command
+        command: "npm run test"
+        enabled_when: "package.json has a test script"
+        evidence: "record npm test exit status and relevant output summary"
+      - id: package-pack-check
+        type: command
+        command: "npm run pack:check"
+        enabled_when: "package.json has a pack:check script"
+        evidence: "record npm package dry-run contents and warnings"
+    recommended:
+      - id: package-lint
+        type: command
+        command: "npm run lint"
+        enabled_when: "package.json has a lint script"
+        evidence: "paste command exit status and relevant output summary"
+      - id: package-typecheck
+        type: command
+        command: "npm run typecheck"
+        enabled_when: "package.json has a typecheck script"
+        evidence: "paste command exit status and relevant output summary"
+      - id: python-tests
+        type: command
+        command: "pytest"
+        enabled_when: "pyproject.toml, pytest.ini, or tests/ indicates pytest"
+        evidence: "paste command exit status and relevant output summary"
+      - id: ui-e2e
+        type: command
+        command: "npx playwright test"
+        enabled_when: "playwright config exists and the change is UI-visible"
+        evidence: "paste command exit status and relevant output summary"
+
+  artifact_quality:
+    description: "Sensors to catch low-substance or disconnected Harnesskit artifacts."
+    required:
+      - id: harnesskit-validate
+        type: command
+        command: "bash .harnesskit/scripts/validate.sh"
+        enabled_when: ".harnesskit/scripts/validate.sh exists"
+        evidence: "record pass/fail and any schema/checklist failures"
+      - id: harness-doctor
+        type: command
+        command: "bash .harnesskit/scripts/harness-doctor.sh"
+        enabled_when: ".harnesskit/scripts/harness-doctor.sh exists"
+        evidence: "record missing context, thin artifacts, missing contracts, and missing sensor coverage"
+    recommended:
+      - id: placeholder-scan
+        type: static
+        command: "rg '\\{\\{|TODO|TBD|placeholder' .harnesskit/artifacts .harnesskit/harness"
+        enabled_when: "artifact was generated from a template"
+        evidence: "list matches or state no unresolved placeholders found"
+
+  harness_evaluation:
+    description: "Sensors for verifying the Harness evaluation runner itself."
+    required:
+      - id: harness-evaluate-help
+        type: command
+        command: "bash .harnesskit/scripts/harness-evaluate.sh --help"
+        enabled_when: ".harnesskit/scripts/harness-evaluate.sh exists"
+        evidence: "record whether the evaluation runner can be invoked"
+    recommended: []
+
+  architecture:
+    description: "Sensors for architecture drift and boundary checks."
+    required: []
+    recommended:
+      - id: dependency-boundaries
+        type: command
+        command: "npm run depcruise"
+        enabled_when: "package.json has depcruise script"
+        evidence: "record pass/fail and violations"
+      - id: semgrep
+        type: command
+        command: "semgrep --config auto"
+        enabled_when: "semgrep is installed or configured"
+        evidence: "record findings or state unavailable"
+
+notes:
+  - "This file is intentionally conservative. Project-specific required sensors should be added after the codebase is mapped."
+  - "A missing recommended sensor is not a failure; it is evidence that the project lacks a check that may be worth adding."

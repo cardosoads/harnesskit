@@ -27,7 +27,7 @@ __pycache__/
 .env.local
 .env.*.local
 
-# OverHarness artifacts are tracked (they are part of the project)
+# Harnesskit artifacts are tracked (they are part of the project)
 # But you can uncomment this if you prefer not to track them:
-# .overharness/artifacts/
-# .overharness/handoffs/
+# .harnesskit/artifacts/
+# .harnesskit/handoffs/

@@ -1,9 +1,12 @@
 {
-  "name": "overharness",
-  "version": "0.1.2",
+  "name": "@cardosoads/harnesskit",
+  "version": "0.1.3",
   "description": "Harness-first agent workflow scaffold for software projects.",
   "type": "module",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "agents",
     "harness",
@@ -12,37 +15,37 @@
     "ai"
   ],
   "bin": {
-    "overharness": "bin/overharness.mjs"
+    "harnesskit": "bin/harnesskit.mjs"
   },
   "files": [
     "bin/",
     ".claude/commands/",
-    ".overharness/overharness.yaml",
-    ".overharness/core/",
-    ".overharness/harness/HARNESS.md",
-    ".overharness/harness/feedforward.yaml",
-    ".overharness/harness/sensors.yaml",
-    ".overharness/harness/templates/",
-    ".overharness/harness/baselines/README.md",
-    ".overharness/harness/contracts/README.md",
-    ".overharness/schemas/",
-    ".overharness/scripts/harness-doctor.sh",
-    ".overharness/scripts/harness-evaluate.sh",
-    ".overharness/scripts/harness-selftest.sh",
-    ".overharness/scripts/harness_doctor.py",
-    ".overharness/scripts/harness_evaluate.py",
-    ".overharness/scripts/harness_selftest.py",
-    ".overharness/scripts/validate.sh",
-    ".overharness/specs/",
-    ".overharness/teams/",
+    ".harnesskit/harnesskit.yaml",
+    ".harnesskit/core/",
+    ".harnesskit/harness/HARNESS.md",
+    ".harnesskit/harness/feedforward.yaml",
+    ".harnesskit/harness/sensors.yaml",
+    ".harnesskit/harness/templates/",
+    ".harnesskit/harness/baselines/README.md",
+    ".harnesskit/harness/contracts/README.md",
+    ".harnesskit/schemas/",
+    ".harnesskit/scripts/harness-doctor.sh",
+    ".harnesskit/scripts/harness-evaluate.sh",
+    ".harnesskit/scripts/harness-selftest.sh",
+    ".harnesskit/scripts/harness_doctor.py",
+    ".harnesskit/scripts/harness_evaluate.py",
+    ".harnesskit/scripts/harness_selftest.py",
+    ".harnesskit/scripts/validate.sh",
+    ".harnesskit/specs/",
+    ".harnesskit/teams/",
     "scripts/check-package-files.mjs",
     "CLAUDE.md",
     "AGENTS.md"
   ],
   "scripts": {
-    "overharness": "node bin/overharness.mjs",
-    "validate": "bash .overharness/scripts/validate.sh",
-    "test": "bash .overharness/scripts/validate.sh && bash .overharness/scripts/harness-selftest.sh",
+    "harnesskit": "node bin/harnesskit.mjs",
+    "validate": "bash .harnesskit/scripts/validate.sh",
+    "test": "bash .harnesskit/scripts/validate.sh && bash .harnesskit/scripts/harness-selftest.sh",
     "pack:check": "node scripts/check-package-files.mjs"
   },
   "engines": {
@@ -51,11 +54,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/cardosoads/overharness.git"
+    "url": "git+ssh://git@github.com/cardosoads/harnesskit.git"
   },
-  "homepage": "https://github.com/cardosoads/overharness#readme",
+  "homepage": "https://github.com/cardosoads/harnesskit#readme",
   "bugs": {
-    "url": "https://github.com/cardosoads/overharness/issues"
+    "url": "https://github.com/cardosoads/harnesskit/issues"
   },
   "dependencies": {
     "ajv-cli": "5.0.0"

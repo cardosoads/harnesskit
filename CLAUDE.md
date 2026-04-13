@@ -1,14 +1,14 @@
-# OverHarness — AI Agent Orchestration Framework
+# Harnesskit — AI Agent Orchestration Framework
 
-You are operating inside a project powered by **OverHarness**, a framework that orchestrates specialized AI agents to build complete systems through structured phases.
+You are operating inside a project powered by **Harnesskit**, a framework that orchestrates specialized AI agents to build complete systems through structured phases.
 
 ## How to Start
 
 **ALWAYS start by loading Sheldon** (the orchestrator agent).
 
-1. Read `.overharness/core/agents/sheldon.agent.yaml` — this is Sheldon's complete definition
-2. Read `.overharness/overharness.yaml` — global configuration
-3. Read `.overharness/state.json` — current project state
+1. Read `.harnesskit/core/agents/sheldon.agent.yaml` — this is Sheldon's complete definition
+2. Read `.harnesskit/harnesskit.yaml` — global configuration
+3. Read `.harnesskit/state.json` — current project state
 4. Follow Sheldon's `activation` sequence exactly
 
 Sheldon is the GPS of this project. He reads the state, determines the current phase, and directs you to the correct specialist agent. **Never skip Sheldon.**
@@ -16,12 +16,12 @@ Sheldon is the GPS of this project. He reads the state, determines the current p
 ## CLI Entrypoints
 
 ```bash
-npx overharness@latest init --type feature-work --name my-project
-npx overharness@latest status
-npx overharness@latest next
-npx overharness@latest codex
-npx overharness@latest doctor
-npx overharness@latest validate
+npx @cardosoads/harnesskit@latest init --type feature-work --name my-project
+npx @cardosoads/harnesskit@latest status
+npx @cardosoads/harnesskit@latest next
+npx @cardosoads/harnesskit@latest codex
+npx @cardosoads/harnesskit@latest doctor
+npx @cardosoads/harnesskit@latest validate
 ```
 
 User-facing track names are `new-product`, `existing-system`, and
@@ -30,17 +30,17 @@ User-facing track names are `new-product`, `existing-system`, and
 
 ## Codex Usage
 
-Codex does not run OverHarness agents as separate processes and does not use the
+Codex does not run Harnesskit agents as separate processes and does not use the
 Claude Code slash commands in `.claude/commands/`. In Codex, use natural
 language plus shell commands:
 
 ```bash
-npx overharness@latest codex
-npx overharness@latest status
-npx overharness@latest next
+npx @cardosoads/harnesskit@latest codex
+npx @cardosoads/harnesskit@latest status
+npx @cardosoads/harnesskit@latest next
 ```
 
-Treat `.overharness/core/agents/*.agent.yaml` as instruction files. Load
+Treat `.harnesskit/core/agents/*.agent.yaml` as instruction files. Load
 Sheldon first, let Sheldon route the work, and use the CLI for sensors,
 contracts, status, and validation.
 
@@ -49,10 +49,10 @@ contracts, status, and validation.
 If your agent environment reads `.claude/commands/`, these commands are
 available after `init`:
 
-- `/overharness-status`
-- `/overharness-next`
-- `/overharness-doctor`
-- `/overharness-contract`
+- `/harnesskit-status`
+- `/harnesskit-next`
+- `/harnesskit-doctor`
+- `/harnesskit-contract`
 
 ## Core Principles (Constitution)
 
@@ -66,8 +66,8 @@ available after `init`:
 ## Framework Structure
 
 ```
-.overharness/
-  overharness.yaml          — Global configuration
+.harnesskit/
+  harnesskit.yaml          — Global configuration
   state.json             — Project state (source of truth)
   core/
     constitution.md      — Non-negotiable principles
@@ -101,8 +101,8 @@ available after `init`:
 - Update `state.json` AFTER completing any step — follow `core/engine/state-machine.md`
 - Execute workflows following `core/engine/workflow-engine.md`
 - For non-trivial implementation work, route contract creation through Leslie using `core/workflows/harness-contract/`
-- For every new OverHarness feature from 2026-04-13 onward, treat Harness as the default implementation gate: Leslie contract, Howard implementation, sensors, then Amy review when risk requires
-- Save artifacts to `.overharness/artifacts/` using the templates
+- For every new Harnesskit feature from 2026-04-13 onward, treat Harness as the default implementation gate: Leslie contract, Howard implementation, sensors, then Amy review when risk requires
+- Save artifacts to `.harnesskit/artifacts/` using the templates
 - Create handoffs when transitioning between agents
-- Respond in the language configured in `overharness.yaml > user_preferences.response_language`
+- Respond in the language configured in `harnesskit.yaml > user_preferences.response_language`
 - If `response_language` is null, ask the user first (Sheldon handles this)

@@ -1,0 +1,60 @@
+workflow:
+  id: brownfield-setup
+  name: "Prepare Brownfield Implementation"
+  phase: implementation (brownfield)
+  agent: howard
+  required: true
+
+  description: "Guides the user through preparing and executing changes in an existing codebase based on the improvement plan"
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "artifacts/planning/improvement-plan.md"
+    - "artifacts/analysis/codebase-analysis.md"
+
+  output:
+    path: "artifacts/implementation/bf-setup-report.md"
+    handoff_to: [amy]
+
+  steps:
+    - id: "review-plan"
+      action: "ask"
+      prompt: "I've reviewed the improvement plan. Let me confirm the priorities with you."
+      required: true
+
+    - id: "safety-net"
+      action: "ask"
+      prompt: "Before we start changing things: what's the current test coverage and backup strategy?"
+      required: true
+
+    - id: "first-change"
+      action: "ask"
+      prompt: "Which epic/story should we tackle first?"
+      required: true
+
+    - id: "approach"
+      action: "ask"
+      prompt: "For this change, here's my approach: [describe]. Does this look right?"
+      required: true
+
+    - id: "create-harness-contract"
+      action: "generate"
+      description: "Create a harness contract in .harnesskit/harness/contracts/active/ using .harnesskit/harness/templates/contract-template.md. The contract must capture the selected brownfield change, safety net, expected files, rollback expectations, sensors, risk level, and exit criteria."
+      required: true
+
+    - id: "record-harness-sensors"
+      action: "generate"
+      description: "Read .harnesskit/harness/sensors.yaml and establish the sensor baseline for this brownfield change. Record which sensors are required, which are recommended, which can run now, and any pre-existing failures that need user approval before implementation proceeds."
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the brownfield setup report based on the plan, collected responses, harness contract, and sensor baseline"
+      save_to: "artifacts/implementation/bf-setup-report.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

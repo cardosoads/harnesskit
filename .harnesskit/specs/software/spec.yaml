@@ -1,0 +1,101 @@
+# =============================================================================
+# Harnesskit Spec — Software Development
+# =============================================================================
+# The default built-in spec for full-stack software development.
+# Covers greenfield (new projects), brownfield (existing projects),
+# and new-features (adding features to existing projects).
+# =============================================================================
+
+spec:
+  name: software
+  version: "1.0.0"
+  description: "Full-stack software development spec with greenfield, brownfield, and new-features support"
+  domain: "software-engineering"
+  author: "Harnesskit Core Team"
+  license: "MIT"
+  harnesskit_min_version: "1.0.0"
+  icon: "💻"
+  tags: [software, development, fullstack, greenfield, brownfield, new-features]
+
+# -----------------------------------------------------------------------------
+# COMPONENTS — Agents, workflows, and templates included in this spec
+# -----------------------------------------------------------------------------
+components:
+  agents:
+    - penny.agent.yaml      # Requirements Analyst
+    - leonard.agent.yaml     # Software Architect
+    - leslie.agent.yaml      # Harness Contract Designer
+    - howard.agent.yaml      # Developer
+    - amy.agent.yaml         # Quality Reviewer
+    - raj.agent.yaml         # Brownfield Analyst
+    - design-specialist.agent.yaml  # Design Specialist
+  workflows:
+    greenfield:
+      - 1-discovery/workflow.yaml
+      - 1-discovery/requirements-workflow.yaml
+      - 2-specification/workflow.yaml
+      - 2.5-discuss/workflow.yaml
+      - 3-architecture/workflow.yaml
+      - 3.5-design/workflow.yaml
+      - harness-contract/workflow.yaml
+      - 4-implementation/workflow.yaml
+      - 5-review/workflow.yaml
+    brownfield:
+      - bf-1-analysis/workflow.yaml
+      - bf-1-analysis/tech-debt-workflow.yaml
+      - bf-2-planning/workflow.yaml
+      - bf-2.5-design/workflow.yaml
+      - harness-contract/workflow.yaml
+      - bf-3-implementation/workflow.yaml
+      - 5-review/workflow.yaml
+    newfeatures:
+      - nf-1-discovery/impact-analysis-workflow.yaml
+      - nf-1-discovery/feature-requirements-workflow.yaml
+      - nf-2-specification/workflow.yaml
+      - nf-3-architecture/workflow.yaml
+      - nf-3.5-design/workflow.yaml
+      - harness-contract/workflow.yaml
+      - nf-4-implementation/workflow.yaml
+      - 5-review/workflow.yaml
+  templates:
+    greenfield:
+      - 1-discovery/template.md
+      - 1-discovery/requirements-template.md
+      - 2-specification/template.md
+      - 2.5-discuss/template.md
+      - 3-architecture/template.md
+      - 3.5-design/template.md
+      - harness-contract/template.md
+      - 4-implementation/template.md
+      - 5-review/template.md
+    brownfield:
+      - bf-1-analysis/template.md
+      - bf-1-analysis/tech-debt-template.md
+      - bf-2-planning/template.md
+      - bf-2.5-design/template.md
+      - harness-contract/template.md
+      - bf-3-implementation/template.md
+      - 5-review/template.md
+    newfeatures:
+      - nf-1-discovery/impact-analysis-template.md
+      - nf-1-discovery/feature-requirements-template.md
+      - nf-2-specification/template.md
+      - nf-3-architecture/template.md
+      - nf-3.5-design/template.md
+      - harness-contract/template.md
+      - nf-4-implementation/template.md
+      - 5-review/template.md
+
+# -----------------------------------------------------------------------------
+# CONFIG — How this spec integrates with others
+# -----------------------------------------------------------------------------
+config:
+  extends: "none"    # This is the base spec, doesn't extend anything
+  phases_override: null
+
+# -----------------------------------------------------------------------------
+# DEPENDENCIES — External requirements
+# -----------------------------------------------------------------------------
+dependencies:
+  specs: []          # No dependencies on other specs
+  tools: []
