@@ -196,7 +196,7 @@ function writeText(file, text) {
 function findProjectRoot(start = process.cwd()) {
   let current = path.resolve(start);
   while (true) {
-    if (existsSync(path.join(current, ".overspec"))) return current;
+    if (existsSync(path.join(current, ".overharness"))) return current;
     const parent = path.dirname(current);
     if (parent === current) return "";
     current = parent;
@@ -204,7 +204,7 @@ function findProjectRoot(start = process.cwd()) {
 }
 
 function loadState(root) {
-  const statePath = path.join(root, ".overspec", "state.json");
+  const statePath = path.join(root, ".overharness", "state.json");
   if (!existsSync(statePath)) return null;
   return JSON.parse(readText(statePath));
 }
@@ -217,7 +217,7 @@ function normalizeType(value) {
 
 function readProjectType(root, state) {
   if (state?.project_type) return normalizeType(state.project_type);
-  const config = path.join(root, ".overspec", "overspec.yaml");
+  const config = path.join(root, ".overharness", "overharness.yaml");
   if (!existsSync(config)) return "new-features";
   const text = readText(config);
   const match = text.match(/project_type:\s*["']?([^"'\n]+)["']?/);
@@ -226,7 +226,7 @@ function readProjectType(root, state) {
 
 function projectName(root, state) {
   if (state?.project) return state.project;
-  const config = path.join(root, ".overspec", "overspec.yaml");
+  const config = path.join(root, ".overharness", "overharness.yaml");
   if (!existsSync(config)) return path.basename(root);
   const match = readText(config).match(/name:\s*["']?([^"'\n]+)["']?/);
   return match?.[1]?.trim() || path.basename(root);
@@ -265,7 +265,7 @@ function nextStep(state, ordered) {
 }
 
 function activeContracts(root) {
-  const activeDir = path.join(root, ".overspec", "harness", "contracts", "active");
+  const activeDir = path.join(root, ".overharness", "harness", "contracts", "active");
   if (!existsSync(activeDir)) return [];
   return readdirSync(activeDir)
     .filter((file) => file.endsWith(".md"))
@@ -381,7 +381,7 @@ function ensureCleanDirs(root) {
     "harness/progress",
     "harness/drift",
   ];
-  for (const dir of dirs) writeText(path.join(root, ".overspec", dir, ".gitkeep"), "");
+  for (const dir of dirs) writeText(path.join(root, ".overharness", dir, ".gitkeep"), "");
 }
 
 function freshState(name, track) {
@@ -413,29 +413,29 @@ function freshState(name, track) {
 }
 
 function writeConfig(targetRoot, name, track) {
-  const templatePath = path.join(packageRoot, ".overspec", "overspec.yaml");
+  const templatePath = path.join(packageRoot, ".overharness", "overharness.yaml");
   let text = existsSync(templatePath) ? readText(templatePath) : "";
-  if (!text) throw new Error("Missing packaged .overspec/overspec.yaml template.");
+  if (!text) throw new Error("Missing packaged .overharness/overharness.yaml template.");
   text = text.replace(/name:\s*"[^"]*"/, `name: "${name}"`);
   text = text.replace(/description:\s*"[^"]*"/, 'description: "OverHarness project scaffold"');
   text = text.replace(/project_type:\s*"[^"]*"/, `project_type: "${track}"`);
   text = text.replace(/active:\s*"team-[^"]*"/, `active: "${TRACKS[track].team}"`);
-  writeText(path.join(targetRoot, ".overspec", "overspec.yaml"), text);
+  writeText(path.join(targetRoot, ".overharness", "overharness.yaml"), text);
 }
 
 function writeEmptyBaselines(targetRoot) {
   writeText(
-    path.join(targetRoot, ".overspec", "harness", "baselines", "current.yaml"),
+    path.join(targetRoot, ".overharness", "harness", "baselines", "current.yaml"),
     'version: 1\nupdated_at: ""\ndescription: "Accepted Harness findings for this project."\n\naccepted_issues: []\n',
   );
 }
 
 function writeSlashCommands(targetRoot) {
   const commands = {
-    "overharness-status.md": "Read `.overspec/state.json`, run `node bin/overharness.mjs status` if available, and explain where the project is in the OverHarness process. Respond in the configured user language.\n",
+    "overharness-status.md": "Read `.overharness/state.json`, run `node bin/overharness.mjs status` if available, and explain where the project is in the OverHarness process. Respond in the configured user language.\n",
     "overharness-next.md": "Run or emulate `node bin/overharness.mjs next`, then recommend the next OverHarness action. If work is non-trivial, route through Sheldon -> Leslie contract -> Howard -> sensors -> Amy.\n",
-    "overharness-doctor.md": "Run `bash .overspec/scripts/harness-doctor.sh` and summarize feedforward/feedback findings. Do not hide baseline debt.\n",
-    "overharness-contract.md": "Guide the user through Leslie's Harness contract workflow for the requested work unit. Create or revise a contract in `.overspec/harness/contracts/active/` before implementation.\n",
+    "overharness-doctor.md": "Run `bash .overharness/scripts/harness-doctor.sh` and summarize feedforward/feedback findings. Do not hide baseline debt.\n",
+    "overharness-contract.md": "Guide the user through Leslie's Harness contract workflow for the requested work unit. Create or revise a contract in `.overharness/harness/contracts/active/` before implementation.\n",
   };
   for (const [name, body] of Object.entries(commands)) {
     writeText(path.join(targetRoot, ".claude", "commands", name), body);
@@ -448,7 +448,7 @@ async function initProject(args) {
     return;
   }
   const targetRoot = process.cwd();
-  if (existsSync(path.join(targetRoot, ".overspec")) && !hasFlag(args, "--force")) {
+  if (existsSync(path.join(targetRoot, ".overharness")) && !hasFlag(args, "--force")) {
     console.error("OverHarness already exists here. Use --force only when you intend to replace the scaffold.");
     process.exit(1);
   }
@@ -457,22 +457,22 @@ async function initProject(args) {
     console.error(`Unknown project type: ${argValue(args, "--type")}`);
     help(1);
   }
-  const templateRoot = path.join(packageRoot, ".overspec");
+  const templateRoot = path.join(packageRoot, ".overharness");
 
   for (const dir of ["core", "schemas", "scripts", "specs", "teams"]) {
-    copyDirectory(path.join(templateRoot, dir), path.join(targetRoot, ".overspec", dir));
+    copyDirectory(path.join(templateRoot, dir), path.join(targetRoot, ".overharness", dir));
   }
-  copyDirectory(path.join(templateRoot, "harness", "templates"), path.join(targetRoot, ".overspec", "harness", "templates"));
-  copyDirectory(path.join(templateRoot, "harness", "baselines"), path.join(targetRoot, ".overspec", "harness", "baselines"));
+  copyDirectory(path.join(templateRoot, "harness", "templates"), path.join(targetRoot, ".overharness", "harness", "templates"));
+  copyDirectory(path.join(templateRoot, "harness", "baselines"), path.join(targetRoot, ".overharness", "harness", "baselines"));
   for (const file of ["HARNESS.md", "feedforward.yaml", "sensors.yaml"]) {
-    cpSync(path.join(templateRoot, "harness", file), path.join(targetRoot, ".overspec", "harness", file));
+    cpSync(path.join(templateRoot, "harness", file), path.join(targetRoot, ".overharness", "harness", file));
   }
   if (existsSync(path.join(templateRoot, "harness", "contracts", "README.md"))) {
-    mkdirSync(path.join(targetRoot, ".overspec", "harness", "contracts"), { recursive: true });
-    cpSync(path.join(templateRoot, "harness", "contracts", "README.md"), path.join(targetRoot, ".overspec", "harness", "contracts", "README.md"));
+    mkdirSync(path.join(targetRoot, ".overharness", "harness", "contracts"), { recursive: true });
+    cpSync(path.join(templateRoot, "harness", "contracts", "README.md"), path.join(targetRoot, ".overharness", "harness", "contracts", "README.md"));
   }
   writeConfig(targetRoot, name, track);
-  writeText(path.join(targetRoot, ".overspec", "state.json"), `${JSON.stringify(freshState(name, track), null, 2)}\n`);
+  writeText(path.join(targetRoot, ".overharness", "state.json"), `${JSON.stringify(freshState(name, track), null, 2)}\n`);
   writeEmptyBaselines(targetRoot);
   ensureCleanDirs(targetRoot);
   writeSlashCommands(targetRoot);
@@ -490,7 +490,7 @@ function createContract(root, args) {
   const slug = workUnit.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "work-unit";
   const today = new Date().toISOString().slice(0, 10).replaceAll("-", "");
   const contractId = `HC-${today}-${slug}`;
-  const file = path.join(root, ".overspec", "harness", "contracts", "active", `${contractId}.md`);
+  const file = path.join(root, ".overharness", "harness", "contracts", "active", `${contractId}.md`);
   if (existsSync(file)) {
     console.log(`Contract already exists: ${path.relative(root, file)}`);
     return;
@@ -506,7 +506,7 @@ function createContract(root, args) {
 | Evaluator | amy |
 | Risk | medium |
 | Source Spec | CLI contract draft |
-| Source Design | .overspec/harness/HARNESS.md |
+| Source Design | .overharness/harness/HARNESS.md |
 | Status | active |
 
 ## Work Unit
@@ -539,9 +539,9 @@ expected files, sensors, risk, and exit criteria before Howard implements.
 
 ### Required
 
-- **overharness-validate**: \`bash .overspec/scripts/validate.sh\`
-- **harness-doctor**: \`bash .overspec/scripts/harness-doctor.sh\`
-- **harness-selftest**: \`bash .overspec/scripts/harness-selftest.sh\`
+- **overharness-validate**: \`bash .overharness/scripts/validate.sh\`
+- **harness-doctor**: \`bash .overharness/scripts/harness-doctor.sh\`
+- **harness-selftest**: \`bash .overharness/scripts/harness-selftest.sh\`
 
 ## Exit Criteria
 
@@ -561,17 +561,17 @@ async function main() {
 
   const root = findProjectRoot();
   if (!root) {
-    console.error("No .overspec directory found. Run: npx overharness init --type feature-work");
+    console.error("No .overharness directory found. Run: npx overharness init --type feature-work");
     process.exit(1);
   }
 
   if (command === "status") return printStatus(root);
   if (command === "next") return printNext(root);
-  if (command === "doctor") return runProjectCommand(root, ["bash", ".overspec/scripts/harness-doctor.sh"]);
+  if (command === "doctor") return runProjectCommand(root, ["bash", ".overharness/scripts/harness-doctor.sh"]);
   if (command === "validate") {
     const ajvBin = packageAjvBin();
-    const env = existsSync(ajvBin) ? { OVERSPEC_AJV_BIN: ajvBin } : {};
-    return runProjectCommand(root, ["bash", ".overspec/scripts/validate.sh"], env);
+    const env = existsSync(ajvBin) ? { OVERHARNESS_AJV_BIN: ajvBin } : {};
+    return runProjectCommand(root, ["bash", ".overharness/scripts/validate.sh"], env);
   }
   if (command === "contract") return createContract(root, args);
   help(1);

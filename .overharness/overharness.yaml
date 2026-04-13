@@ -1,0 +1,129 @@
+# OverHarness — Main Project Configuration
+# This file defines the global settings for the OverHarness framework.
+
+project:
+  name: "overharness-dev"
+  description: "Improving and evolving the OverHarness framework itself"
+  language: "en"
+  spec: "software"
+  project_type: "new-features"
+
+user_preferences:
+  # The language Sheldon and other agents use to communicate with the user.
+  response_language: "pt-BR"
+
+paths:
+  artifacts: "artifacts/"
+  handoffs: "handoffs/"
+
+# Greenfield phases (new project from scratch)
+greenfield_phases:
+  discovery:
+    enabled: true
+    order: 1
+  specification:
+    enabled: true
+    order: 2
+  discuss:
+    enabled: true
+    required: false  # Optional but recommended
+    order: 2.5
+  architecture:
+    enabled: true
+    order: 3
+  design:
+    enabled: true
+    required: false  # Optional — skip for projects without UI
+    order: 3.5
+  implementation:
+    enabled: true
+    order: 4
+  review:
+    enabled: true
+    order: 5
+
+# Brownfield phases (existing project improvements)
+brownfield_phases:
+  analysis:
+    enabled: true
+    order: 1
+  planning:
+    enabled: true
+    order: 2
+  design:
+    enabled: true
+    required: false  # Optional — skip for projects without UI
+    order: 2.5
+  implementation:
+    enabled: true
+    order: 3
+  review:
+    enabled: true
+    order: 4
+
+# New Features phases (adding features to existing projects)
+newfeatures_phases:
+  discovery:
+    enabled: true
+    order: 1
+    agents: [raj, penny]  # Raj does impact analysis, Penny gathers requirements
+  specification:
+    enabled: true
+    order: 2
+  architecture:
+    enabled: true
+    order: 3
+  design:
+    enabled: true
+    required: false  # Optional — skip for features without UI
+    order: 3.5
+  implementation:
+    enabled: true
+    order: 4
+  review:
+    enabled: true
+    order: 5
+
+# Model profiles — which model each agent uses
+# Profiles: quality (best results), balanced (good results, lower cost), budget (fast, cheapest)
+model_profiles:
+  active_profile: "balanced"
+  profiles:
+    quality:
+      orchestrator: "opus"    # Sheldon
+      analyst: "opus"         # Penny, Raj
+      architect: "opus"       # Leonard
+      designer: "opus"        # Emily
+      developer: "opus"       # Howard
+      reviewer: "sonnet"      # Amy
+    balanced:
+      orchestrator: "sonnet"  # Sheldon
+      analyst: "sonnet"       # Penny, Raj
+      architect: "opus"       # Leonard
+      designer: "opus"        # Emily
+      developer: "sonnet"     # Howard
+      reviewer: "sonnet"      # Amy
+    budget:
+      orchestrator: "sonnet"  # Sheldon
+      analyst: "sonnet"       # Penny, Raj
+      architect: "sonnet"     # Leonard
+      designer: "sonnet"      # Emily
+      developer: "sonnet"     # Howard
+      reviewer: "haiku"       # Amy
+
+# Active specs
+specs:
+  active: ["software"]    # List of active spec names
+  custom_path: "custom-specs/"
+
+# Active team
+teams:
+  active: "team-newfeatures"    # New Features team for adding features to existing projects
+  path: "teams/"
+
+# Context monitoring configuration
+context_monitoring:
+  enabled: true
+  warning_threshold: 40    # percentage remaining
+  critical_threshold: 25   # percentage remaining
+  auto_checkpoint: true    # auto-create checkpoint at critical level

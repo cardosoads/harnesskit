@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://overharness.dev/schemas/spec-schema.json",
+  "title": "OverHarness Spec Schema",
+  "description": "JSON Schema for validating OverHarness spec.yaml files — modular, versioned, distributable packages of agents/tasks/workflows.",
+  "type": "object",
+  "required": ["spec", "components"],
+  "properties": {
+    "spec": {
+      "type": "object",
+      "description": "Metadata about the spec package.",
+      "required": ["name", "version", "description", "domain", "author"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Unique kebab-case identifier for the spec."
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Semantic version of the spec (MAJOR.MINOR.PATCH)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of what this spec covers."
+        },
+        "domain": {
+          "type": "string",
+          "description": "The domain this spec belongs to (e.g., software-engineering, data-science)."
+        },
+        "author": {
+          "type": "string",
+          "description": "Author or team who created the spec."
+        },
+        "license": {
+          "type": "string",
+          "enum": ["MIT", "Apache-2.0", "GPL-3.0", "UNLICENSED"],
+          "description": "License under which the spec is distributed."
+        },
+        "overharness_min_version": {
+          "type": "string",
+          "description": "Minimum OverHarness framework version required to use this spec."
+        },
+        "icon": {
+          "type": "string",
+          "description": "Emoji or icon representing this spec."
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Searchable tags for discovery and categorization."
+        }
+      },
+      "additionalProperties": false
+    },
+    "components": {
+      "type": "object",
+      "description": "References to all agents, workflows, and templates included in this spec.",
+      "properties": {
+        "agents": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of agent definition file paths relative to the spec."
+        },
+        "workflows": {
+          "description": "Workflow definitions. Can be a flat array of paths (simple specs) or an object with named tracks like 'greenfield'/'brownfield' (multi-track specs).",
+          "oneOf": [
+            {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "type": "array",
+                "items": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "templates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of template file paths relative to the spec."
+        }
+      },
+      "additionalProperties": false
+    },
+    "config": {
+      "type": "object",
+      "description": "Configuration for how this spec integrates with others.",
+      "properties": {
+        "extends": {
+          "type": "string",
+          "enum": ["extend", "override", "none"],
+          "description": "How this spec interacts with existing configurations. 'extend' merges, 'override' replaces, 'none' is standalone."
+        },
+        "phases_override": {
+          "type": ["array", "null"],
+          "description": "Custom phase order. Null means use the default phases from the base spec."
+        }
+      },
+      "additionalProperties": false
+    },
+    "dependencies": {
+      "type": "object",
+      "description": "External dependencies required by this spec.",
+      "properties": {
+        "specs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Other specs that must be loaded before this one (format: name@version)."
+        },
+        "tools": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "External tools required (e.g., CLI tools, runtimes)."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

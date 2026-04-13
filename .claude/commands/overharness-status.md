@@ -1,4 +1,4 @@
-Read `.overspec/state.json` and `.overspec/overspec.yaml`, then show where this
+Read `.overharness/state.json` and `.overharness/overharness.yaml`, then show where this
 project is in the OverHarness process. Prefer running `node bin/overharness.mjs status`
 when the CLI exists. Respond in the configured user language.
 

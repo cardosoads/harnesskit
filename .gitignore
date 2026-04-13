@@ -18,6 +18,10 @@ node_modules/
 dist/
 build/
 
+# Python caches
+__pycache__/
+*.pyc
+
 # Environment
 .env
 .env.local
@@ -25,5 +29,5 @@ build/
 
 # OverHarness artifacts are tracked (they are part of the project)
 # But you can uncomment this if you prefer not to track them:
-# .overspec/artifacts/
-# .overspec/handoffs/
+# .overharness/artifacts/
+# .overharness/handoffs/
