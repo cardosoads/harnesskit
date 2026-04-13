@@ -1,4 +1,4 @@
-Run `bash .overharness/scripts/harness-doctor.sh` and summarize the feedforward and
+Run `npx overharness@latest doctor` and summarize the feedforward and
 feedback findings.
 
 Do not hide baseline debt. If the doctor reports warnings or expired baselines,

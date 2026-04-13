@@ -1,6 +1,6 @@
 {
   "name": "overharness",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Harness-first agent workflow scaffold for software projects.",
   "type": "module",
   "private": false,

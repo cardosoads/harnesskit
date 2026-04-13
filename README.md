@@ -8,21 +8,21 @@ next.
 ## Install In A Project
 
 ```bash
-npx overharness init
+npx overharness@latest init
 ```
 
 For scripted setup:
 
 ```bash
-npx overharness init --type feature-work --name my-project
-npx overharness init --type existing-system --name legacy-app
-npx overharness init --type new-product --name new-app
+npx overharness@latest init --type feature-work --name my-project
+npx overharness@latest init --type existing-system --name legacy-app
+npx overharness@latest init --type new-product --name new-app
 ```
 
 For non-interactive defaults:
 
 ```bash
-npx overharness init --yes --name my-project
+npx overharness@latest init --yes --name my-project
 ```
 
 ## Project Tracks
@@ -38,15 +38,18 @@ Internal IDs are kept for compatibility with existing OverHarness workflows.
 ## Daily Commands
 
 ```bash
-overharness status
-overharness next
-overharness doctor
-overharness validate
-overharness contract "describe the work unit"
+npx overharness@latest status
+npx overharness@latest next
+npx overharness@latest codex
+npx overharness@latest doctor
+npx overharness@latest validate
+npx overharness@latest contract "describe the work unit"
 ```
 
 `overharness status` explains the current phase, progress, active Harness
 contracts, and next pending step. `overharness next` recommends the next action.
+`overharness codex` prints a Codex-ready route with shell commands and the
+prompt to give the agent.
 
 For non-trivial implementation work, use the Harness loop:
 
@@ -56,13 +59,23 @@ Sheldon -> Leslie contract -> Howard implementation -> sensors -> Amy review
 
 ## Slash Commands
 
-When using an agent environment that reads `.claude/commands/`, the scaffold
-adds:
+Claude Code slash commands live in `.claude/commands/`. When using an agent
+environment that reads those files, the scaffold adds:
 
 - `/overharness-status`
 - `/overharness-next`
 - `/overharness-doctor`
 - `/overharness-contract`
+
+Codex does not use those Claude Code slash commands. In Codex, tell the agent to
+read `AGENTS.md`, then run the shell flow:
+
+```bash
+npx overharness@latest codex
+```
+
+OverHarness agents are instruction files in `.overharness/core/agents/`; they
+are not separate local processes that Codex has to execute.
 
 ## Package Checks
 

@@ -16,16 +16,43 @@ Sheldon is the GPS of this project. He reads the state, determines the current p
 ## CLI Entrypoints
 
 ```bash
-npx overharness init --type feature-work --name my-project
-node bin/overharness.mjs status
-node bin/overharness.mjs next
-node bin/overharness.mjs doctor
-node bin/overharness.mjs validate
+npx overharness@latest init --type feature-work --name my-project
+npx overharness@latest status
+npx overharness@latest next
+npx overharness@latest codex
+npx overharness@latest doctor
+npx overharness@latest validate
 ```
 
 User-facing track names are `new-product`, `existing-system`, and
 `feature-work`. Internal IDs remain `greenfield`, `brownfield`, and
 `new-features` for compatibility with existing workflows and config.
+
+## Codex Usage
+
+Codex does not run OverHarness agents as separate processes and does not use the
+Claude Code slash commands in `.claude/commands/`. In Codex, use natural
+language plus shell commands:
+
+```bash
+npx overharness@latest codex
+npx overharness@latest status
+npx overharness@latest next
+```
+
+Treat `.overharness/core/agents/*.agent.yaml` as instruction files. Load
+Sheldon first, let Sheldon route the work, and use the CLI for sensors,
+contracts, status, and validation.
+
+## Claude Code Slash Commands
+
+If your agent environment reads `.claude/commands/`, these commands are
+available after `init`:
+
+- `/overharness-status`
+- `/overharness-next`
+- `/overharness-doctor`
+- `/overharness-contract`
 
 ## Core Principles (Constitution)
 

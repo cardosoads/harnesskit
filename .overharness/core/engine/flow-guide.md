@@ -5,14 +5,15 @@ This guide defines the first user-facing execution layer for OverHarness.
 ## Entry Points
 
 ```bash
-npx overharness init --type feature-work --name my-project
-npx overharness init
-npx overharness init --yes --name my-project
-overharness status
-overharness next
-overharness doctor
-overharness validate
-overharness contract "describe the work unit"
+npx overharness@latest init --type feature-work --name my-project
+npx overharness@latest init
+npx overharness@latest init --yes --name my-project
+npx overharness@latest status
+npx overharness@latest next
+npx overharness@latest codex
+npx overharness@latest doctor
+npx overharness@latest validate
+npx overharness@latest contract "describe the work unit"
 ```
 
 The CLI is intentionally small. Its job is to make the process visible, point to
@@ -45,6 +46,17 @@ The default slash commands live in `.claude/commands/`:
 - `/overharness-next` - suggest the next process action.
 - `/overharness-doctor` - run Harness feedforward/feedback checks.
 - `/overharness-contract` - guide Leslie's contract creation workflow.
+
+These are Claude Code slash commands. Codex should use `AGENTS.md` plus shell
+commands instead:
+
+```bash
+npx overharness@latest codex
+```
+
+`overharness codex` prints the current project route, the shell commands to run,
+and the prompt to give Codex. It treats agents as instruction files under
+`.overharness/core/agents/`, not as separate executable processes.
 
 ## Process Intelligence
 

@@ -100,6 +100,7 @@ Usage:
   overharness init [--type <new-product|existing-system|feature-work>] [--name <name>] [--yes]
   overharness status
   overharness next
+  overharness codex
   overharness doctor
   overharness validate
   overharness contract "<work unit>"
@@ -277,7 +278,7 @@ function printStatus(root) {
   const state = loadState(root);
   if (!state) {
     console.log("OverHarness is not initialized here.");
-    console.log("Run: npx overharness init --type feature-work --name <project-name>");
+    console.log("Run: npx overharness@latest init --type feature-work --name <project-name>");
     return;
   }
   const track = readProjectType(root, state);
@@ -321,18 +322,76 @@ function printNext(root) {
   console.log("Recommended action:");
   if (contracts.length) {
     console.log(`  Continue the active Harness contract: ${path.relative(root, contracts[0])}`);
-    console.log("  Run: overharness doctor");
+    console.log("  Run: npx overharness@latest doctor");
     console.log("  Then route implementation through Leslie -> Howard -> sensors -> Amy.");
     return;
   }
   if (next?.step) {
     console.log(`  Ask Sheldon to route ${next.phase}/${next.step.id} to ${next.step.agent || "the responsible agent"}.`);
-    console.log("  Slash command: /overharness-next");
+    console.log("  Claude Code slash command: /overharness-next");
     return;
   }
   console.log("  Create the next Harness contract for the feature or improvement you want.");
-  console.log('  Run: overharness contract "describe the work unit"');
-  console.log("  Slash command: /overharness-contract");
+  console.log('  Run: npx overharness@latest contract "describe the work unit"');
+  console.log("  Claude Code slash command: /overharness-contract");
+}
+
+function printCodexGuide(root) {
+  const state = loadState(root);
+  if (!state) {
+    console.log("OverHarness is not initialized here.");
+    console.log("Run in your project shell: npx overharness@latest init --type feature-work --name <project-name>");
+    return;
+  }
+
+  const track = readProjectType(root, state);
+  const trackInfo = TRACKS[track] || { label: track, alias: track };
+  const ordered = orderedPhases(track, state);
+  const next = nextStep(state, ordered);
+  const contracts = activeContracts(root).map((file) => path.relative(root, file));
+
+  console.log("OverHarness for Codex");
+  console.log("");
+  console.log(`Project: ${projectName(root, state)}`);
+  console.log(`Track: ${trackInfo.label} (${trackInfo.alias}; internal: ${track})`);
+  console.log(`Current phase: ${state.current_phase || "unknown"}`);
+  console.log(`Active contracts: ${contracts.length}`);
+  if (contracts.length) {
+    for (const contract of contracts) console.log(`  - ${contract}`);
+  } else if (next?.step) {
+    console.log(`Next state step: ${next.phase}/${next.step.id} by ${next.step.agent || "unknown"}`);
+    if (next.step.artifact) console.log(`Expected artifact: ${next.step.artifact}`);
+  } else {
+    console.log("Next state step: no pending state step. Start a new work unit with a Harness contract.");
+  }
+
+  console.log("");
+  console.log("How to use this from Codex:");
+  console.log("  Codex does not run OverHarness agents as separate processes.");
+  console.log("  Treat .overharness/core/agents/*.agent.yaml as instruction files.");
+  console.log("  Use the shell for sensors, status, and contracts.");
+
+  console.log("");
+  console.log("Shell commands:");
+  console.log("  npx overharness@latest status");
+  console.log("  npx overharness@latest next");
+  console.log("  npx overharness@latest codex");
+  console.log("  npx overharness@latest doctor");
+  console.log("  npx overharness@latest validate");
+  console.log('  npx overharness@latest contract "describe the work unit"');
+
+  console.log("");
+  console.log("Prompt to give Codex:");
+  console.log("  Use OverHarness in this project. Read AGENTS.md, .overharness/core/agents/sheldon.agent.yaml, .overharness/overharness.yaml, and .overharness/state.json. Follow Sheldon's activation, route the next step to the responsible agent instructions, and for non-trivial implementation create or continue a Harness contract before editing files. Run the relevant npx overharness@latest sensors and record Amy review when risk is medium or higher.");
+
+  console.log("");
+  if (contracts.length) {
+    console.log(`Recommended next action: continue ${contracts[0]} and run npx overharness@latest doctor.`);
+  } else if (next?.step) {
+    console.log(`Recommended next action: ask Codex to route ${next.phase}/${next.step.id} to ${next.step.agent || "the responsible agent"}.`);
+  } else {
+    console.log('Recommended next action: run npx overharness@latest contract "describe the work unit".');
+  }
 }
 
 function packageAjvBin() {
@@ -438,10 +497,10 @@ function writeEmptyBaselines(targetRoot) {
 
 function writeSlashCommands(targetRoot) {
   const commands = {
-    "overharness-status.md": "Read `.overharness/state.json`, run `node bin/overharness.mjs status` if available, and explain where the project is in the OverHarness process. Respond in the configured user language.\n",
-    "overharness-next.md": "Run or emulate `node bin/overharness.mjs next`, then recommend the next OverHarness action. If work is non-trivial, route through Sheldon -> Leslie contract -> Howard -> sensors -> Amy.\n",
-    "overharness-doctor.md": "Run `bash .overharness/scripts/harness-doctor.sh` and summarize feedforward/feedback findings. Do not hide baseline debt.\n",
-    "overharness-contract.md": "Guide the user through Leslie's Harness contract workflow for the requested work unit. Create or revise a contract in `.overharness/harness/contracts/active/` before implementation.\n",
+    "overharness-status.md": "Read `.overharness/state.json`, run `npx overharness@latest status`, and explain where the project is in the OverHarness process. Respond in the configured user language.\n",
+    "overharness-next.md": "Run or emulate `npx overharness@latest next`, then recommend the next OverHarness action. If work is non-trivial, route through Sheldon -> Leslie contract -> Howard -> sensors -> Amy.\n",
+    "overharness-doctor.md": "Run `npx overharness@latest doctor` and summarize feedforward/feedback findings. Do not hide baseline debt.\n",
+    "overharness-contract.md": "Guide the user through Leslie's Harness contract workflow for the requested work unit. If the work unit is known, run `npx overharness@latest contract \"describe the work unit\"`; otherwise draft the questions Leslie needs before implementation.\n",
   };
   for (const [name, body] of Object.entries(commands)) {
     writeText(path.join(targetRoot, ".claude", "commands", name), body);
@@ -487,7 +546,7 @@ async function initProject(args) {
   }
   console.log(`OverHarness initialized for ${name}.`);
   console.log(`Track: ${TRACKS[track].label} (${TRACKS[track].alias}; internal: ${track})`);
-  console.log("Next: overharness status");
+  console.log("Next: npx overharness@latest status");
 }
 
 function createContract(root, args) {
@@ -570,12 +629,13 @@ async function main() {
 
   const root = findProjectRoot();
   if (!root) {
-    console.error("No .overharness directory found. Run: npx overharness init --type feature-work");
+    console.error("No .overharness directory found. Run: npx overharness@latest init --type feature-work");
     process.exit(1);
   }
 
   if (command === "status") return printStatus(root);
   if (command === "next") return printNext(root);
+  if (command === "codex") return printCodexGuide(root);
   if (command === "doctor") return runProjectCommand(root, ["bash", ".overharness/scripts/harness-doctor.sh"]);
   if (command === "validate") {
     const ajvBin = packageAjvBin();

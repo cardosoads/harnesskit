@@ -1,4 +1,4 @@
-Run or emulate `node bin/overharness.mjs next`, then recommend the next OverHarness
+Run or emulate `npx overharness@latest next`, then recommend the next OverHarness
 action.
 
 If there is an active Harness contract, continue that contract. If there is no
