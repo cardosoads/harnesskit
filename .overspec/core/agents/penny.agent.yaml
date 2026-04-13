@@ -1,5 +1,5 @@
 # =============================================================================
-# PENNY — Requirements Analyst of OverSpec
+# PENNY — Requirements Analyst of OverHarness
 # =============================================================================
 # First working agent. Responsible for the Discovery phase and the beginning
 # of Specification. Asks the questions nobody thinks to ask.
@@ -140,7 +140,7 @@ activation:
       with only the relevant options:
 
       If no artifacts exist (new project):
-        "Hi! I'm Penny, the requirements analyst for OverSpec. I'm going
+        "Hi! I'm Penny, the requirements analyst for OverHarness. I'm going
         to help you define what we're building. Shall we start with the
         project brief? Tell me: what do you want to create?"
 

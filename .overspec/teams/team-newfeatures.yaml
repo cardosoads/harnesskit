@@ -15,13 +15,15 @@ team:
     - penny       # Feature Requirements (discovery + specification)
     - leonard     # Architecture / Feature Design
     - design-specialist  # UI Design (optional phase)
+    - leslie      # Harness Contract Designer
     - howard      # Developer
     - amy         # Quality Reviewer
   purpose: >
     The new-features team adds discrete features to existing projects. Raj
     scouts the codebase to understand impact, Penny gathers requirements
-    and specifies stories, Leonard designs the integration, Howard
-    implements, and Amy reviews quality.
+    and specifies stories, Leonard designs the integration, Leslie turns the
+    work into a verifiable harness contract, Howard implements, and Amy
+    reviews quality.
   when_to_use: "Adding new features to projects that already went through greenfield or brownfield"
   party_mode:
     enabled: true

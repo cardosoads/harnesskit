@@ -1,4 +1,4 @@
-# OverSpec Spec Loader
+# OverHarness Spec Loader
 
 ## Purpose
 
@@ -59,7 +59,7 @@ Multiple specs CAN be active simultaneously if they don't conflict:
 1. Create directory: `.overspec/custom-specs/my-spec/`
 2. Create `spec.yaml` following the schema (`schemas/spec-schema.json`)
 3. Add agents, tasks, workflows, templates in the spec directory
-4. Validate: `overspec validate-spec my-spec`
+4. Validate: `overharness validate-spec my-spec`
 5. Activate: set `project.spec` in `overspec.yaml`
 
 ### Minimal spec.yaml Example
@@ -111,4 +111,4 @@ The loader emits events that other parts of the framework can hook into:
 | `MISSING_COMPONENT` | Referenced file does not exist | Create the missing file or remove the reference |
 | `AGENT_CONFLICT` | Duplicate agent ID across specs | Rename one of the conflicting agents |
 | `DEPENDENCY_NOT_FOUND` | Required spec is not available | Install or create the dependency spec |
-| `VERSION_MISMATCH` | OverSpec version too old for spec | Update OverSpec to meet `overspec_min_version` |
+| `VERSION_MISMATCH` | OverHarness version too old for spec | Update OverHarness to meet `overspec_min_version` |

@@ -1,6 +1,6 @@
-# OverSpec Workflow Engine
+# OverHarness Workflow Engine
 
-This document defines how any AI agent must process and execute an OverSpec workflow. Follow these instructions exactly.
+This document defines how any AI agent must process and execute an OverHarness workflow. Follow these instructions exactly.
 
 ---
 
@@ -22,6 +22,17 @@ The Workflow Engine is the execution engine that transforms a `workflow.yaml` in
 7. Save artifact
 8. Update state.json
 9. Create handoff
+```
+
+Implementation workflows add a harness layer before completion:
+
+```
+1. Read .overspec/harness/HARNESS.md
+2. Read .overspec/harness/sensors.yaml
+3. Delegate contract creation to Leslie via .overspec/core/workflows/harness-contract/
+4. Record applicable sensor evidence
+5. Include contract and sensor evidence in the implementation artifact
+6. Route to Amy when risk level requires evaluator review
 ```
 
 ---
@@ -79,7 +90,14 @@ Objective: generate the output artifact using collected responses + template.
    - `{{#each list}}...{{/each}}` — repeat the block for each item
 4. Expand short responses into well-structured text when necessary
 5. Fill in metadata automatically (date, version, agent)
-6. Keep the generated artifact in memory for the validation step
+6. If the step description asks for a harness contract, prefer delegating to
+   Leslie by loading `.overspec/core/agents/leslie.agent.yaml` and executing
+   `.overspec/core/workflows/harness-contract/workflow.yaml`. The final
+   contract is saved in `.overspec/harness/contracts/active/`.
+7. If the step description asks for harness sensor evidence, read
+   `.overspec/harness/sensors.yaml`, run or document applicable sensors, and
+   keep the evidence available for the output artifact
+8. Keep the generated artifact in memory for the validation step
 
 ### action: "checklist"
 
@@ -98,6 +116,15 @@ Objective: validate the generated artifact against quality criteria.
    - Inform the user
    - Ask if they want to fix it now or move forward
 5. When all required items pass, the artifact is approved
+
+For implementation artifacts, checklist validation must also confirm harness
+coverage when the workflow includes harness steps:
+
+1. A contract ID and path are present
+2. Risk level is explicit
+3. Must-haves are observable
+4. Required sensor results are present or a baseline exception is documented
+5. Amy review is routed when risk is `medium`, `high`, or `critical`
 
 ### action: "auto"
 

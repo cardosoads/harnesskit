@@ -40,9 +40,19 @@ workflow:
       prompt: "For this change, here's my approach: [describe]. Does this look right?"
       required: true
 
+    - id: "create-harness-contract"
+      action: "generate"
+      description: "Create a harness contract in .overspec/harness/contracts/active/ using .overspec/harness/templates/contract-template.md. The contract must capture the selected brownfield change, safety net, expected files, rollback expectations, sensors, risk level, and exit criteria."
+      required: true
+
+    - id: "record-harness-sensors"
+      action: "generate"
+      description: "Read .overspec/harness/sensors.yaml and establish the sensor baseline for this brownfield change. Record which sensors are required, which are recommended, which can run now, and any pre-existing failures that need user approval before implementation proceeds."
+      required: true
+
     - id: "generate"
       action: "generate"
-      description: "Generate the brownfield setup report based on the plan and collected responses"
+      description: "Generate the brownfield setup report based on the plan, collected responses, harness contract, and sensor baseline"
       save_to: "artifacts/implementation/bf-setup-report.md"
 
     - id: "validate"

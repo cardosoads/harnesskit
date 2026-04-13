@@ -21,6 +21,12 @@ Validate each item below against the generated report. Items marked as **require
 - [ ] **Rollback possible** — Can the proposed changes be reverted if something goes wrong?
   - Criterion: a rollback plan is documented and each implementation step has a rollback note.
 
+- [ ] **Harness contract created** — Was a brownfield harness contract created and referenced?
+  - Criterion: the report includes a contract ID, contract path, risk level, must-haves, expected files or affected areas, rollback expectations, and exit criteria.
+
+- [ ] **Sensor baseline documented** — Were required and applicable recommended sensors from `harness/sensors.yaml` baselined before implementation?
+  - Criterion: the report lists each sensor with current status, whether it blocks progress, and any user decision for pre-existing failures.
+
 ---
 
 ## Optional Items (recommended)
@@ -30,6 +36,9 @@ Validate each item below against the generated report. Items marked as **require
 
 - [ ] **Impact on other components assessed** — Is the impact on other parts of the codebase documented?
   - Criterion: affected components are listed with their expected impact.
+
+- [ ] **Evaluator policy documented** — Does the report state whether Amy review is required by risk level?
+  - Criterion: the harness section includes `Evaluator Required` and explains the decision.
 
 ---
 

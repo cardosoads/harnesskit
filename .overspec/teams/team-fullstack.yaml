@@ -14,12 +14,14 @@ team:
     - penny       # Requirements Analyst
     - leonard     # Software Architect
     - design-specialist  # Design Specialist (optional phase)
+    - leslie      # Harness Contract Designer
     - howard      # Developer
     - amy         # Quality Reviewer
   purpose: >
     The full-stack team covers the entire software development lifecycle.
     Use this team for greenfield projects that need the complete cycle:
-    discovery, specification, architecture, implementation, and review.
+    discovery, specification, architecture, harness contract design,
+    implementation, and review.
   when_to_use: "New projects requiring full lifecycle coverage"
   party_mode:
     enabled: true

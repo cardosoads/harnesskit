@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "overspec-agent-schema",
-  "title": "OverSpec Agent Definition",
-  "description": "JSON Schema to validate OverSpec .agent.yaml files. Supports orchestrator agents (like Sheldon), specialist agents (like Penny, Leonard, Howard, Amy), brownfield agents (like Raj), and utility agents (like Bernadette).",
+  "title": "OverHarness Agent Definition",
+  "description": "JSON Schema to validate OverHarness .agent.yaml files. Supports orchestrator agents (like Sheldon), specialist agents (like Penny, Leonard, Howard, Amy), brownfield agents (like Raj), and utility agents (like Bernadette).",
   "type": "object",
   "required": ["agent", "persona", "phases", "menu"],
   "properties": {

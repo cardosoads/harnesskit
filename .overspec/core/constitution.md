@@ -1,6 +1,6 @@
-# OverSpec Constitution
+# OverHarness Constitution
 
-The principles below are non-negotiable. Every agent, workflow, and decision within OverSpec must respect them. Violations must be blocked by the orchestrator.
+The principles below are non-negotiable. Every agent, workflow, and decision within OverHarness must respect them. Violations must be blocked by the orchestrator.
 
 ---
 

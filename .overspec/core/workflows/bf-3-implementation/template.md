@@ -115,10 +115,53 @@
 
 ---
 
+## Harness Contract
+
+| Field | Value |
+|-------|-------|
+| Contract ID | {{harness_contract_id}} |
+| Contract Path | `{{harness_contract_path}}` |
+| Risk Level | {{harness_risk_level}} |
+| Evaluator Required | {{harness_evaluator_required}} |
+
+**Must-haves:**
+
+{{#each harness_must_haves}}
+- [ ] {{this}}
+{{/each}}
+
+**Out of scope:**
+
+{{#each harness_out_of_scope}}
+- {{this}}
+{{/each}}
+
+---
+
+## Harness Sensor Baseline
+
+{{#each harness_sensors}}
+### {{id}} — {{status}}
+
+**Command:** `{{command}}`
+
+**Required:** {{required}}
+
+**Baseline:** {{baseline}}
+
+**Proceed decision:** {{proceed_decision}}
+
+---
+{{/each}}
+
+---
+
 ## Next Steps
 
 > 📌 **Note:** Section automatically filled by the system.
 
 - [ ] Setup report reviewed and approved by the user
+- [ ] Harness contract created and referenced
+- [ ] Brownfield sensor baseline documented
 - [ ] Handoff created for the next agent ({{handoff_to}})
 - [ ] State.json updated with status `completed`

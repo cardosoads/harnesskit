@@ -11,9 +11,11 @@ team:
   icon: "⚡"
   spec: "software"
   agents:
+    - leslie      # Harness Contract Designer (optional for non-trivial quick fixes)
     - howard      # Developer
   purpose: >
     For small, surgical changes that don't need the full workflow.
+    Leslie can guide a lightweight contract when the quick fix is not trivial;
     Howard handles quick fixes with atomic commits and self-verification.
   when_to_use: "Bug fixes, small features, config changes, dependency updates"
   party_mode:

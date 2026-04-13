@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# OverSpec Validation Script
+# OverHarness Validation Script
 # =============================================================================
 # Validates all YAML and JSON files in the .overspec directory for syntax
 # correctness. Optionally validates agent YAML files against _schema.json
@@ -12,6 +12,7 @@
 set -euo pipefail
 
 OVERSPEC_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+PROJECT_ROOT="$(cd "$OVERSPEC_DIR/.." && pwd)"
 ERRORS=0
 WARNINGS=0
 CHECKED=0
@@ -76,14 +77,27 @@ fi
 echo ""
 AGENT_SCHEMA="$OVERSPEC_DIR/core/agents/_schema.json"
 if [ -f "$AGENT_SCHEMA" ]; then
-  if command -v ajv &>/dev/null; then
+  AJV_BIN="${OVERSPEC_AJV_BIN:-}"
+  if [ -n "$AJV_BIN" ] && [ ! -x "$AJV_BIN" ]; then
+    log_warn "Configured OVERSPEC_AJV_BIN is not executable: $AJV_BIN"
+    AJV_BIN=""
+  fi
+  if [ -z "$AJV_BIN" ] && [ -x "$PROJECT_ROOT/node_modules/.bin/ajv" ]; then
+    AJV_BIN="$PROJECT_ROOT/node_modules/.bin/ajv"
+  fi
+  if [ -z "$AJV_BIN" ] && command -v ajv &>/dev/null; then
+    AJV_BIN="$(command -v ajv)"
+  fi
+
+  if [ -n "$AJV_BIN" ]; then
     echo "Validating agent files against schema..."
     while IFS= read -r -d '' file; do
       rel="${file#"$OVERSPEC_DIR"/}"
       # Convert YAML to JSON for validation
-      json_tmp=$(mktemp)
+      json_tmp_dir=$(mktemp -d)
+      json_tmp="$json_tmp_dir/agent.json"
       if python3 -c "import yaml,json,sys; json.dump(yaml.safe_load(open('$file')),open('$json_tmp','w'))" 2>/dev/null; then
-        if ajv validate -s "$AGENT_SCHEMA" -d "$json_tmp" --spec=draft7 2>/dev/null; then
+        if "$AJV_BIN" validate -s "$AGENT_SCHEMA" -d "$json_tmp" --spec=draft7 >/dev/null 2>&1; then
           log_ok "$rel — schema valid"
         else
           log_err "$rel — schema validation failed"
@@ -91,12 +105,12 @@ if [ -f "$AGENT_SCHEMA" ]; then
       else
         log_warn "$rel — could not convert to JSON for schema validation"
       fi
-      rm -f "$json_tmp"
+      rm -rf "$json_tmp_dir"
       CHECKED=$((CHECKED + 1))
     done < <(find "$OVERSPEC_DIR/core/agents" -name '*.agent.yaml' -print0)
   else
     echo "Schema validation (agent files)..."
-    log_warn "ajv-cli not installed — skipping schema validation (npm install -g ajv-cli)"
+    log_warn "ajv-cli not installed — skipping schema validation (npm install ajv-cli)"
   fi
 fi
 
@@ -110,9 +124,27 @@ REQUIRED_FILES=(
   "overspec.yaml"
   "state.json"
   "core/agents/sheldon.agent.yaml"
+  "core/agents/leslie.agent.yaml"
   "core/engine/workflow-engine.md"
   "core/engine/state-machine.md"
+  "core/engine/flow-guide.md"
   "core/constitution.md"
+  "core/workflows/harness-contract/workflow.yaml"
+  "core/workflows/harness-contract/instructions.md"
+  "core/workflows/harness-contract/template.md"
+  "core/workflows/harness-contract/checklist.md"
+  "harness/HARNESS.md"
+  "harness/feedforward.yaml"
+  "harness/sensors.yaml"
+  "harness/baselines/README.md"
+  "harness/baselines/current.yaml"
+  "harness/templates/contract-template.md"
+  "scripts/harness_doctor.py"
+  "scripts/harness-doctor.sh"
+  "scripts/harness_evaluate.py"
+  "scripts/harness-evaluate.sh"
+  "scripts/harness_selftest.py"
+  "scripts/harness-selftest.sh"
   "schemas/spec-schema.json"
 )
 
@@ -121,6 +153,31 @@ for req in "${REQUIRED_FILES[@]}"; do
     log_ok "$req"
   else
     log_err "$req — missing required file"
+  fi
+  CHECKED=$((CHECKED + 1))
+done
+
+# ---------------------------------------------------------------------------
+# 4b. Check required project-level entrypoints exist
+# ---------------------------------------------------------------------------
+echo ""
+echo "Checking project entrypoint files..."
+
+REQUIRED_ROOT_FILES=(
+  "README.md"
+  "package.json"
+  "bin/overharness.mjs"
+  ".claude/commands/overharness-status.md"
+  ".claude/commands/overharness-next.md"
+  ".claude/commands/overharness-doctor.md"
+  ".claude/commands/overharness-contract.md"
+)
+
+for req in "${REQUIRED_ROOT_FILES[@]}"; do
+  if [ -f "$PROJECT_ROOT/$req" ]; then
+    log_ok "$req"
+  else
+    log_err "$req — missing required project entrypoint file"
   fi
   CHECKED=$((CHECKED + 1))
 done
@@ -137,6 +194,10 @@ REQUIRED_DIRS=(
   "core/engine"
   "core/workflows"
   "handoffs"
+  "harness"
+  "harness/baselines"
+  "harness/contracts"
+  "harness/templates"
   "schemas"
   "specs"
   "teams"

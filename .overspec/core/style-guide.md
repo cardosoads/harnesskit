@@ -1,4 +1,4 @@
-# OverSpec Visual Style Guide
+# OverHarness Visual Style Guide
 
 Reference for all agents and templates. Defines formatting patterns for
 consistent, rich CLI output in Markdown-rendering terminals (Claude Code).

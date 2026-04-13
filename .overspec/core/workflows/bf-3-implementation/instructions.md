@@ -19,6 +19,9 @@ Guide the user through preparing and executing the first changes in the existing
 5. **Read both input artifacts:**
    - `artifacts/planning/improvement-plan.md` — the prioritized plan
    - `artifacts/analysis/codebase-analysis.md` — the codebase analysis
+6. Read `.overspec/harness/HARNESS.md` and `.overspec/harness/sensors.yaml`
+   before selecting or preparing changes. Brownfield work must establish a
+   sensor baseline before implementation proceeds.
 
 ## Reading the Input Artifacts
 
@@ -55,6 +58,32 @@ For each step with `action: "ask"`:
 3. **first-change** (required) — Select the first epic/story to implement
 4. **approach** (required) — Present and validate the implementation approach
 
+### Step "create-harness-contract"
+
+Before implementation proceeds:
+
+1. Prefer delegating this step to Leslie, the Harness Contract Designer
+2. Load `.overspec/core/agents/leslie.agent.yaml`
+3. Execute `.overspec/core/workflows/harness-contract/workflow.yaml`
+4. Save the contract in `.overspec/harness/contracts/active/`
+5. Use a stable ID such as `HC-YYYYMMDD-bf-<slug>`
+6. Include:
+   - selected epic/story
+   - brownfield safety net
+   - expected changed files or affected areas
+   - rollback expectations
+   - sensors and pre-change baseline
+   - risk level and exit criteria
+
+### Step "record-harness-sensors"
+
+1. Read `.overspec/harness/sensors.yaml`
+2. Identify required and recommended sensors for the selected change
+3. Run safe baseline sensors before changing code when possible
+4. Document pre-existing failures separately from failures introduced by the current work
+5. If a required sensor cannot run or fails at baseline, ask the user whether to proceed, fix baseline first, or narrow scope
+6. Include this evidence in the Brownfield Setup Report
+
 ### Working Safely in Existing Codebases
 
 Follow these principles for every change:
@@ -85,8 +114,9 @@ After collecting all responses:
 2. Fill in each section of the template
 3. Be specific about files, functions, and components that will be changed
 4. Include clear, ordered implementation steps
-5. Fill in the metadata: project name, date, version 1.0, agent "howard"
-6. Save the artifact at the path defined in `output.path`: `artifacts/implementation/bf-setup-report.md`
+5. Include the harness contract ID, risk level, expected sensors, and baseline status
+6. Fill in the metadata: project name, date, version 1.0, agent "howard"
+7. Save the artifact at the path defined in `output.path`: `artifacts/implementation/bf-setup-report.md`
 
 ### Step "validate"
 

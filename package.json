@@ -1,0 +1,63 @@
+{
+  "name": "overharness",
+  "version": "0.1.0",
+  "description": "Harness-first agent workflow scaffold for software projects.",
+  "type": "module",
+  "private": false,
+  "keywords": [
+    "agents",
+    "harness",
+    "spec-driven",
+    "workflow",
+    "ai"
+  ],
+  "bin": {
+    "overharness": "bin/overharness.mjs",
+    "overspec": "bin/overharness.mjs"
+  },
+  "files": [
+    "bin/",
+    ".claude/commands/",
+    ".overspec/core/",
+    ".overspec/harness/HARNESS.md",
+    ".overspec/harness/feedforward.yaml",
+    ".overspec/harness/sensors.yaml",
+    ".overspec/harness/templates/",
+    ".overspec/harness/baselines/README.md",
+    ".overspec/harness/contracts/README.md",
+    ".overspec/schemas/",
+    ".overspec/scripts/harness-doctor.sh",
+    ".overspec/scripts/harness-evaluate.sh",
+    ".overspec/scripts/harness-selftest.sh",
+    ".overspec/scripts/harness_doctor.py",
+    ".overspec/scripts/harness_evaluate.py",
+    ".overspec/scripts/harness_selftest.py",
+    ".overspec/scripts/validate.sh",
+    ".overspec/specs/",
+    ".overspec/teams/",
+    "CLAUDE.md",
+    "AGENTS.md"
+  ],
+  "scripts": {
+    "overharness": "node bin/overharness.mjs",
+    "overspec": "node bin/overharness.mjs",
+    "validate": "bash .overspec/scripts/validate.sh",
+    "test": "bash .overspec/scripts/validate.sh && bash .overspec/scripts/harness-selftest.sh",
+    "pack:check": "npm pack --dry-run --json"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cardosoads/overharness.git"
+  },
+  "homepage": "https://github.com/cardosoads/overharness#readme",
+  "bugs": {
+    "url": "https://github.com/cardosoads/overharness/issues"
+  },
+  "dependencies": {
+    "ajv-cli": "5.0.0"
+  }
+}

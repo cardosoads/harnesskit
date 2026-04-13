@@ -24,6 +24,7 @@ components:
   agents:
     - penny.agent.yaml      # Requirements Analyst
     - leonard.agent.yaml     # Software Architect
+    - leslie.agent.yaml      # Harness Contract Designer
     - howard.agent.yaml      # Developer
     - amy.agent.yaml         # Quality Reviewer
     - raj.agent.yaml         # Brownfield Analyst
@@ -36,6 +37,7 @@ components:
       - 2.5-discuss/workflow.yaml
       - 3-architecture/workflow.yaml
       - 3.5-design/workflow.yaml
+      - harness-contract/workflow.yaml
       - 4-implementation/workflow.yaml
       - 5-review/workflow.yaml
     brownfield:
@@ -43,6 +45,7 @@ components:
       - bf-1-analysis/tech-debt-workflow.yaml
       - bf-2-planning/workflow.yaml
       - bf-2.5-design/workflow.yaml
+      - harness-contract/workflow.yaml
       - bf-3-implementation/workflow.yaml
       - 5-review/workflow.yaml
     newfeatures:
@@ -51,6 +54,7 @@ components:
       - nf-2-specification/workflow.yaml
       - nf-3-architecture/workflow.yaml
       - nf-3.5-design/workflow.yaml
+      - harness-contract/workflow.yaml
       - nf-4-implementation/workflow.yaml
       - 5-review/workflow.yaml
   templates:
@@ -61,6 +65,7 @@ components:
       - 2.5-discuss/template.md
       - 3-architecture/template.md
       - 3.5-design/template.md
+      - harness-contract/template.md
       - 4-implementation/template.md
       - 5-review/template.md
     brownfield:
@@ -68,6 +73,7 @@ components:
       - bf-1-analysis/tech-debt-template.md
       - bf-2-planning/template.md
       - bf-2.5-design/template.md
+      - harness-contract/template.md
       - bf-3-implementation/template.md
       - 5-review/template.md
     newfeatures:
@@ -76,6 +82,7 @@ components:
       - nf-2-specification/template.md
       - nf-3-architecture/template.md
       - nf-3.5-design/template.md
+      - harness-contract/template.md
       - nf-4-implementation/template.md
       - 5-review/template.md
 

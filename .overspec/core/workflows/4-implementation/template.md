@@ -100,6 +100,45 @@ _No specific coding standards defined. Default language conventions apply._
 
 ---
 
+## Harness Contract
+
+| Field | Value |
+|-------|-------|
+| Contract ID | {{harness_contract_id}} |
+| Contract Path | `{{harness_contract_path}}` |
+| Risk Level | {{harness_risk_level}} |
+| Evaluator Required | {{harness_evaluator_required}} |
+
+**Must-haves:**
+
+{{#each harness_must_haves}}
+- [ ] {{this}}
+{{/each}}
+
+**Out of scope:**
+
+{{#each harness_out_of_scope}}
+- {{this}}
+{{/each}}
+
+---
+
+## Harness Sensor Evidence
+
+{{#each harness_sensors}}
+### {{id}} — {{status}}
+
+**Command:** `{{command}}`
+
+**Required:** {{required}}
+
+**Evidence:** {{evidence}}
+
+---
+{{/each}}
+
+---
+
 ## Next Steps
 
 > 📌 **Note:** Section automatically filled by the system.
@@ -108,5 +147,7 @@ _No specific coding standards defined. Default language conventions apply._
 - [ ] Dependencies installed successfully
 - [ ] Dev environment verified (builds and runs)
 - [ ] First user story ready for implementation
+- [ ] Harness contract created and referenced
+- [ ] Harness sensor evidence recorded
 - [ ] Handoff created for the next agent ({{handoff_to}})
 - [ ] State.json updated with status `completed`

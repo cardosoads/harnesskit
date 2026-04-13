@@ -21,6 +21,9 @@ Validate each item below against the generated review report. Items marked as **
 - [ ] **No subjective opinions without backing** — Are all findings supported by specific references to the artifact content?
   - Criterion: there are no statements like "this feels incomplete" or "this seems wrong" without a concrete reference to what is incomplete or wrong.
 
+- [ ] **Harness evidence checked when applicable** — If the reviewed artifact is an implementation artifact, did the review verify its contract and sensor evidence?
+  - Criterion: the report references contract ID/path, risk level, required sensor status, and evaluator routing, or explicitly states why harness review is not applicable.
+
 ---
 
 ## Optional Items (recommended)

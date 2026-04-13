@@ -3,7 +3,7 @@
 ## What is Party Mode
 
 Party Mode is a collaborative discussion format where Sheldon orchestrates
-a conversation between 2-3 OverSpec agents. Each agent responds in full
+a conversation between 2-3 OverHarness agents. Each agent responds in full
 character — with their unique persona, communication style, catchphrase,
 and principles. The goal is to bring diverse expert perspectives to a topic.
 
@@ -18,6 +18,7 @@ Before starting, Sheldon must know all available agents and their expertise:
 |-------|-----------|-------------------|
 | Penny 🎯 | Requirements, user needs, simplicity | User experience, requirements clarity, value proposition |
 | Leonard 🏗️ | Architecture, trade-offs, pragmatism | Technical decisions, system design, tech stack choices |
+| Leslie 📐 | Harness contracts, scope, must-haves, sensors | Contract creation, verification targets, risk routing |
 | Howard 🔧 | Implementation, engineering, hands-on | Feasibility, effort estimation, coding approaches |
 | Amy 🔬 | Quality, rigor, finding flaws | Risk assessment, quality concerns, validation strategies |
 | Raj 🔎 | Existing systems, legacy, analysis | Brownfield decisions, migration strategies, tech debt |
@@ -33,11 +34,13 @@ Given the user's topic, Sheldon selects agents using these rules:
 Selection heuristics:
 - Topic about requirements/users → Penny (Primary)
 - Topic about architecture/design → Leonard (Primary)
+- Topic about harness contracts/verifiability/sensors → Leslie (Primary)
 - Topic about implementation/code → Howard (Primary)
 - Topic about quality/testing → Amy (Primary)
 - Topic about existing code/migration → Raj (Primary)
 - Topic about trade-offs → Leonard + Howard (different angles)
 - Topic about feasibility → Howard + Amy (build vs. quality)
+- Topic about contract quality → Leslie + Amy (target vs. verification)
 - Topic about user value vs. technical → Penny + Leonard
 - General/broad topic → Pick 3 diverse agents
 

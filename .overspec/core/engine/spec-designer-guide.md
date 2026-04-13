@@ -1,4 +1,4 @@
-# OverSpec Spec Designer Guide
+# OverHarness Spec Designer Guide
 
 ## Overview
 

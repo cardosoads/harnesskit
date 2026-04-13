@@ -9,7 +9,9 @@ Thumbs.db
 *.swo
 
 # Claude Code
-.claude/
+.claude/*
+!.claude/commands/
+!.claude/commands/**
 
 # Node (if applicable)
 node_modules/
@@ -21,7 +23,7 @@ build/
 .env.local
 .env.*.local
 
-# OverSpec artifacts are tracked (they are part of the project)
+# OverHarness artifacts are tracked (they are part of the project)
 # But you can uncomment this if you prefer not to track them:
 # .overspec/artifacts/
 # .overspec/handoffs/

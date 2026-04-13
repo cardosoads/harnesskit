@@ -13,12 +13,14 @@ team:
   agents:
     - raj         # Brownfield Analyst
     - design-specialist  # Design Audit (optional phase)
+    - leslie      # Harness Contract Designer
     - howard      # Developer
     - amy         # Quality Reviewer
   purpose: >
     The brownfield team focuses on existing projects that need analysis,
     improvement planning, and incremental implementation. Raj leads the
-    analysis, Howard implements changes safely, and Amy reviews quality.
+    analysis, Leslie turns the selected change into a verifiable contract,
+    Howard implements changes safely, and Amy reviews quality.
   when_to_use: "Existing projects needing improvements, refactoring, or new features"
   party_mode:
     enabled: true

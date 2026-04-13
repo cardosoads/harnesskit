@@ -1,4 +1,4 @@
-# OverSpec Context Monitor
+# OverHarness Context Monitor
 
 ## Purpose
 Monitors context window usage during agent execution and triggers

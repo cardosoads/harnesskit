@@ -25,6 +25,11 @@ workflow:
       prompt: "I've reviewed Leonard's design and the feature stories. Here's my implementation plan. Want to adjust the order or approach for any story?"
       required: true
 
+    - id: "create-harness-contract"
+      action: "generate"
+      description: "Create a harness contract in .overspec/harness/contracts/active/ using .overspec/harness/templates/contract-template.md. The contract must map feature stories to must-haves, expected files, verification sensors, risk level, out-of-scope items, and exit criteria."
+      required: true
+
     - id: "setup"
       action: "generate"
       description: "Set up the implementation environment: create feature branch, verify dependencies, confirm the safety net (backup strategy, rollback plan)."
@@ -32,12 +37,17 @@ workflow:
 
     - id: "implement"
       action: "generate"
-      description: "Implement each story following the implementation plan. Use atomic commits (one per story). Follow existing code patterns and conventions."
+      description: "Implement each story following the implementation plan and the active harness contract. Use atomic commits (one per story). Follow existing code patterns and conventions."
+      required: true
+
+    - id: "run-harness-sensors"
+      action: "generate"
+      description: "Read .overspec/harness/sensors.yaml and run or document all enabled required sensors plus applicable recommended sensors. Record evidence for each sensor and block completion if a required sensor fails without an approved baseline or user decision."
       required: true
 
     - id: "generate"
       action: "generate"
-      description: "Generate the implementation report: what was built, commits made, verification results, and any deviations from the plan."
+      description: "Generate the implementation report: what was built, commits made, harness contract ID, sensor results, verification results, and any deviations from the plan."
       save_to: "artifacts/implementation/feature-report.md"
 
     - id: "validate"

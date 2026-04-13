@@ -1,6 +1,6 @@
-# OverSpec State Machine
+# OverHarness State Machine
 
-This document defines the rules of the OverSpec state machine. Every agent that reads or updates `state.json` must follow these rules.
+This document defines the rules of the OverHarness state machine. Every agent that reads or updates `state.json` must follow these rules.
 
 ---
 

@@ -1,0 +1,61 @@
+workflow:
+  id: create-harness-contract
+  name: "Create Harness Contract"
+  phase: implementation
+  agent: leslie
+  required: false
+
+  description: "Leslie guides creation of a verifiable harness contract before implementation work starts."
+
+  instructions: "instructions.md"
+  template: "template.md"
+  checklist: "checklist.md"
+
+  inputs:
+    - "harness/HARNESS.md"
+    - "harness/feedforward.yaml"
+    - "harness/sensors.yaml"
+
+  output:
+    path: "harness/contracts/active/{{contract_id}}.md"
+    handoff_to: [howard, amy]
+
+  steps:
+    - id: "select-work"
+      action: "ask"
+      prompt: "What work should this harness contract cover? Reference the feature, story, bug, or improvement."
+      required: true
+
+    - id: "collect-context"
+      action: "generate"
+      description: "Read state.json and relevant artifacts. Infer source spec/design/planning artifacts, affected area, known constraints, and open questions."
+      required: true
+
+    - id: "define-scope"
+      action: "ask"
+      prompt: "Here is the inferred scope and out-of-scope boundary. What needs correction before we lock it?"
+      required: true
+
+    - id: "define-must-haves"
+      action: "ask"
+      prompt: "Here are the proposed observable must-haves. Which are wrong, missing, or not verifiable enough?"
+      required: true
+
+    - id: "select-sensors"
+      action: "generate"
+      description: "Read harness/sensors.yaml and select required/recommended sensors that apply to the work. Explain missing sensors as feedback gaps."
+      required: true
+
+    - id: "assess-risk"
+      action: "ask"
+      prompt: "Here is the proposed risk level and evaluator routing. Confirm or adjust the risk before contract generation."
+      required: true
+
+    - id: "generate"
+      action: "generate"
+      description: "Generate the active harness contract using the template. The contract must be self-contained enough for Howard and Amy to use without chat history."
+      save_to: "harness/contracts/active/{{contract_id}}.md"
+
+    - id: "validate"
+      action: "checklist"
+      checklist: "checklist.md"

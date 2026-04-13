@@ -21,6 +21,12 @@ Validate each item below against the generated setup report. Items marked as **r
 - [ ] **No conflicting or redundant dependencies** — Are there any dependencies that conflict with each other or serve the same purpose?
   - Criterion: no two dependencies solve the same problem; no known version conflicts exist.
 
+- [ ] **Harness contract created** — Was an active harness contract created and referenced in the setup report?
+  - Criterion: the report includes a contract ID, contract path, risk level, must-haves, and exit criteria.
+
+- [ ] **Harness sensor evidence recorded** — Were required and applicable recommended sensors from `harness/sensors.yaml` considered?
+  - Criterion: the report lists each applicable sensor with status, evidence, and any approved baseline or reason it could not run.
+
 ---
 
 ## Optional Items (recommended)
@@ -36,6 +42,9 @@ Validate each item below against the generated setup report. Items marked as **r
 
 - [ ] **Environment variables documented** — Are required environment variables listed with descriptions?
   - Criterion: a table or list of env vars with name, description, and example values.
+
+- [ ] **Evaluator policy documented** — Does the report state whether Amy review is required by risk level?
+  - Criterion: the harness section includes `Evaluator Required` and explains the decision.
 
 ---
 

@@ -51,6 +51,32 @@ _No issues found. All criteria passed._
 
 ---
 
+## Harness Review
+
+{{#if harness_review_applicable}}
+| Field | Value |
+|-------|-------|
+| Contract ID | {{harness_contract_id}} |
+| Contract Path | `{{harness_contract_path}}` |
+| Risk Level | {{harness_risk_level}} |
+| Evaluator Required | {{harness_evaluator_required}} |
+| Required Sensors Passed | {{harness_required_sensors_passed}} |
+
+**Contract coverage:** {{harness_contract_coverage}}
+
+**Sensor evidence:** {{harness_sensor_evidence_summary}}
+
+**Harness findings:**
+
+{{#each harness_findings}}
+- **{{severity}}:** {{description}} — {{recommendation}}
+{{/each}}
+{{else}}
+_Harness review not applicable to this artifact._
+{{/if}}
+
+---
+
 ## Strengths Identified
 
 {{#each strengths}}
