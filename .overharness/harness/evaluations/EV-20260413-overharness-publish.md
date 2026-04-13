@@ -5,7 +5,7 @@
 | Project | overharness-dev |
 | Evaluation | EV-20260413-overharness-publish |
 | Contract | HC-20260413-overharness-publish |
-| Contract Path | `/Users/wesleycardoso/Wesley/Harness/overharness-dev/.overharness/harness/contracts/active/HC-20260413-overharness-publish.md` |
+| Contract Path | `/Users/wesleycardoso/Wesley/Harness/overharness-dev/.overharness/harness/contracts/completed/HC-20260413-overharness-publish.md` |
 | Date | 2026-04-13 |
 | Evaluator | harness-evaluate |
 | Risk | medium |

@@ -11,7 +11,7 @@
 | Source Spec | User request: rename to OverHarness and publish to GitHub/npm |
 | Source Design | `package.json`, `README.md`, `bin/` |
 | Source Review | `.overharness/artifacts/review/overharness-publish-review.md` |
-| Status | blocked-on-npm-auth |
+| Status | completed |
 
 ## Work Unit
 
@@ -117,12 +117,12 @@ documents `overharness` commands.
 
 - [x] All required must-haves are satisfied
 - [x] Required sensors pass or blockers are documented
-- [x] npm auth blocker is documented if publish cannot run
+- [x] npm publish completed
 - [x] Amy review is recorded
 
 ## Next Handoff
 
-GitHub push is approved.
+GitHub push and npm publish are complete.
 
 Evaluation artifact:
 `.overharness/harness/evaluations/EV-20260413-overharness-publish.md`
@@ -130,26 +130,21 @@ Evaluation artifact:
 Amy review artifact:
 `.overharness/artifacts/review/overharness-publish-review.md`
 
-npm publish was attempted with:
+npm publish completed with:
 
 ```bash
 npm publish --access public
 ```
 
-The registry returned:
-
-```text
-E404 Not Found - PUT https://registry.npmjs.org/overharness
-```
-
-`npm whoami` also returns `E401 Unauthorized`, so npm publish is blocked until
-this machine is authenticated with an npm account that can create or publish the
-`overharness` package:
+Registry confirmation:
 
 ```bash
-npm login
-npm whoami
-npm publish --access public
+npm view overharness version dist-tags.latest --json
 ```
 
-Leave this contract active until the npm publish step is completed.
+```json
+{
+  "version": "0.1.0",
+  "dist-tags.latest": "0.1.0"
+}
+```
