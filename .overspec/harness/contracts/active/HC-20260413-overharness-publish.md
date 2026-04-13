@@ -130,7 +130,21 @@ Evaluation artifact:
 Amy review artifact:
 `.overspec/artifacts/review/overharness-publish-review.md`
 
-npm publish is blocked until this machine is authenticated with npm:
+npm publish was attempted with:
+
+```bash
+npm publish --access public
+```
+
+The registry returned:
+
+```text
+E404 Not Found - PUT https://registry.npmjs.org/overharness
+```
+
+`npm whoami` also returns `E401 Unauthorized`, so npm publish is blocked until
+this machine is authenticated with an npm account that can create or publish the
+`overharness` package:
 
 ```bash
 npm login

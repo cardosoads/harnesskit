@@ -40,9 +40,14 @@ the public npm registry.
 `npm publish --dry-run --access public` passed for `overharness@0.1.0` and no
 longer reports the prior `bin` autocorrection warning.
 
-Real npm publish is blocked in this environment because `npm whoami` returns
-`E401 Unauthorized`. The next npm step is authentication on this machine,
-followed by `npm publish --access public`.
+Real npm publish is blocked in this environment. `npm whoami` returns
+`E401 Unauthorized`, and the real `npm publish --access public` attempt returns
+`E404 Not Found - PUT https://registry.npmjs.org/overharness`, which indicates
+the current npm session does not have permission or authentication sufficient to
+create/publish `overharness@0.1.0`.
+
+The next npm step is authentication on this machine with an npm account that can
+publish the package, followed by `npm publish --access public`.
 
 ## GitHub State
 
@@ -65,6 +70,8 @@ successfully and returns no HEAD, consistent with an empty remote repository.
   warnings after the sensor id rename.
 - `npm run pack:check` passed for `overharness@0.1.0`.
 - `npm publish --dry-run --access public` passed for `overharness@0.1.0`.
+- Real `npm publish --access public` was attempted and blocked by npm registry
+  auth/permission (`E404 Not Found - PUT .../overharness`).
 - Temporary init test generated `.claude/commands/overharness-*.md` and
   reported the expected next step.
 - `git diff --check` passed.
