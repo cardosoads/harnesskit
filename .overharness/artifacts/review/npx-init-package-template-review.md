@@ -4,8 +4,8 @@
 | --- | --- |
 | Date | 2026-04-13 |
 | Reviewer | amy |
-| Contract | `.overharness/harness/contracts/active/HC-20260413-npx-init-package-template.md` |
-| Verdict | approved locally; npm publish blocked by auth |
+| Contract | `.overharness/harness/contracts/completed/HC-20260413-npx-init-package-template.md` |
+| Verdict | approved; npm publish and npx latest smoke test complete |
 
 ## Scope Reviewed
 
@@ -48,6 +48,9 @@ Both are corrected in the patch. Fresh projects now receive `CLAUDE.md` and
   scaffold files.
 - `npm run test` passed.
 - `npm publish --dry-run --access public` passed for `overharness@0.1.1`.
+- `npm publish --access public` passed for `overharness@0.1.1`.
+- `npm view overharness version dist-tags.latest --json` confirms `latest` is
+  `0.1.1`.
 - Disposable test project created at
   `/Users/wesleycardoso/Wesley/Harness/overharness-npx-test`.
 - `npx --yes --package /tmp/overharness-0.1.1.tgz overharness init --type feature-work --name overharness-npx-test --yes` passed.
@@ -55,10 +58,14 @@ Both are corrected in the patch. Fresh projects now receive `CLAUDE.md` and
 - `npx --yes --package /tmp/overharness-0.1.1.tgz overharness doctor` passed with
   one expected baseline-content warning and one informational no-runner finding.
 - `npx --yes --package /tmp/overharness-0.1.1.tgz overharness validate` passed.
+- Disposable test project created from the real npm `latest` package at
+  `/Users/wesleycardoso/Wesley/Harness/overharness-npx-latest-test`.
+- `npx --yes overharness@latest init --type feature-work --name overharness-npx-latest-test --yes` passed.
+- `npx --yes overharness@latest status` passed.
+- `npx --yes overharness@latest doctor` passed with one expected
+  baseline-content warning and one informational no-runner finding.
+- `npx --yes overharness@latest validate` passed.
 
 ## Publish State
 
-Publishing `overharness@0.1.1` with the current token is blocked. `npm whoami`
-using that token returns unauthorized, and publish returns a package access
-error. Complete the publish with a valid OTP on the authenticated npm session or
-with a new token that has publish rights for `overharness`.
+`overharness@0.1.1` is published and tagged as `latest`.

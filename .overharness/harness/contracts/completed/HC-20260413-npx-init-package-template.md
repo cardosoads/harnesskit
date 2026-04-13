@@ -11,7 +11,7 @@
 | Source Spec | User request: create a test project and use OverHarness via npx |
 | Source Design | `package.json`, `scripts/check-package-files.mjs`, `bin/overharness.mjs` |
 | Source Review | `.overharness/artifacts/review/npx-init-package-template-review.md` |
-| Status | blocked-on-npm-auth |
+| Status | completed |
 
 ## Work Unit
 
@@ -96,16 +96,30 @@ test project when invoked through `npx overharness@latest`.
 
 ## Exit Criteria
 
-- [x] All required must-haves are satisfied locally with the packaged tarball
+- [x] All required must-haves are satisfied with the published package
 - [x] Required sensors pass or blockers are documented
-- [ ] Patch version is published to npm
+- [x] Patch version is published to npm
 - [x] Amy review is recorded
 
-## Current Blocker
+## Completion Evidence
 
-The local package tarball for `overharness@0.1.1` fixes the `npx init` failure
-and passes the disposable-project smoke test. Publishing `0.1.1` to npm is
-blocked because the current token is not accepted for this package update.
+`overharness@0.1.1` is published as the `latest` npm dist-tag.
 
-The next required action is to publish with an authenticated npm session using a
-valid OTP or a granular token with publish rights for `overharness`.
+Registry confirmation:
+
+```json
+{
+  "version": "0.1.1",
+  "dist-tags.latest": "0.1.1"
+}
+```
+
+The disposable project at
+`/Users/wesleycardoso/Wesley/Harness/overharness-npx-latest-test` was created
+with `npx --yes overharness@latest init --type feature-work --name overharness-npx-latest-test --yes`.
+
+The following commands passed in that project:
+
+- `npx --yes overharness@latest status`
+- `npx --yes overharness@latest doctor`
+- `npx --yes overharness@latest validate`
