@@ -269,7 +269,7 @@ def check_feedforward(root: Path, issues: list[Issue]) -> None:
                 step_id = step.get("id", "unknown-step")
                 if status == "completed" and artifact is None:
                     issues.append(Issue("warning", "feedforward", "completed_step_without_artifact", f"Completed step '{phase}/{step_id}' has no artifact recorded", "state.json"))
-                if artifact:
+                if artifact and status in {"completed", "in_progress"}:
                     artifact_path = overharness / str(artifact)
                     if not artifact_path.exists():
                         add_missing_file(issues, root, "feedforward", artifact_path)

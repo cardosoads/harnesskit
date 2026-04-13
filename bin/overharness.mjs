@@ -362,6 +362,12 @@ function copyDirectory(source, target) {
   });
 }
 
+function copyFileIfMissing(source, target) {
+  if (!existsSync(source) || existsSync(target)) return;
+  mkdirSync(path.dirname(target), { recursive: true });
+  cpSync(source, target);
+}
+
 function ensureCleanDirs(root) {
   const dirs = [
     "artifacts/analysis",
@@ -476,6 +482,9 @@ async function initProject(args) {
   writeEmptyBaselines(targetRoot);
   ensureCleanDirs(targetRoot);
   writeSlashCommands(targetRoot);
+  for (const file of ["CLAUDE.md", "AGENTS.md"]) {
+    copyFileIfMissing(path.join(packageRoot, file), path.join(targetRoot, file));
+  }
   console.log(`OverHarness initialized for ${name}.`);
   console.log(`Track: ${TRACKS[track].label} (${TRACKS[track].alias}; internal: ${track})`);
   console.log("Next: overharness status");

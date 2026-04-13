@@ -158,15 +158,12 @@ for req in "${REQUIRED_FILES[@]}"; do
 done
 
 # ---------------------------------------------------------------------------
-# 4b. Check required project-level entrypoints exist
+# 4b. Check generated project-level command entrypoints exist
 # ---------------------------------------------------------------------------
 echo ""
-echo "Checking project entrypoint files..."
+echo "Checking project command files..."
 
 REQUIRED_ROOT_FILES=(
-  "README.md"
-  "package.json"
-  "bin/overharness.mjs"
   ".claude/commands/overharness-status.md"
   ".claude/commands/overharness-next.md"
   ".claude/commands/overharness-doctor.md"
@@ -177,7 +174,7 @@ for req in "${REQUIRED_ROOT_FILES[@]}"; do
   if [ -f "$PROJECT_ROOT/$req" ]; then
     log_ok "$req"
   else
-    log_err "$req — missing required project entrypoint file"
+    log_err "$req — missing required project command file"
   fi
   CHECKED=$((CHECKED + 1))
 done

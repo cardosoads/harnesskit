@@ -1,6 +1,6 @@
 {
   "name": "overharness",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Harness-first agent workflow scaffold for software projects.",
   "type": "module",
   "private": false,
@@ -17,6 +17,7 @@
   "files": [
     "bin/",
     ".claude/commands/",
+    ".overharness/overharness.yaml",
     ".overharness/core/",
     ".overharness/harness/HARNESS.md",
     ".overharness/harness/feedforward.yaml",
@@ -34,6 +35,7 @@
     ".overharness/scripts/validate.sh",
     ".overharness/specs/",
     ".overharness/teams/",
+    "scripts/check-package-files.mjs",
     "CLAUDE.md",
     "AGENTS.md"
   ],
@@ -41,7 +43,7 @@
     "overharness": "node bin/overharness.mjs",
     "validate": "bash .overharness/scripts/validate.sh",
     "test": "bash .overharness/scripts/validate.sh && bash .overharness/scripts/harness-selftest.sh",
-    "pack:check": "npm pack --dry-run --json"
+    "pack:check": "node scripts/check-package-files.mjs"
   },
   "engines": {
     "node": ">=18"
