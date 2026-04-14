@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 
 const requiredFiles = [
   "bin/harnesskit.mjs",
+  ".codex/skills/harnesskit/SKILL.md",
   ".harnesskit/harnesskit.yaml",
   ".harnesskit/harness/HARNESS.md",
   ".harnesskit/harness/feedforward.yaml",

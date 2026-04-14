@@ -48,8 +48,8 @@ npx @cardosoads/harnesskit@latest contract "describe the work unit"
 
 `harnesskit status` explains the current phase, progress, active Harness
 contracts, and next pending step. `harnesskit next` recommends the next action.
-`harnesskit codex` prints a Codex-ready route with shell commands and the
-prompt to give the agent.
+`harnesskit codex` installs or repairs the project-local Codex skill at
+`.codex/skills/harnesskit/SKILL.md` and prints the current route.
 
 For non-trivial implementation work, use the Harness loop:
 
@@ -57,7 +57,35 @@ For non-trivial implementation work, use the Harness loop:
 Sheldon -> Leslie contract -> Howard implementation -> sensors -> Amy review
 ```
 
-## Slash Commands
+## Codex Skill
+
+Codex should use Harnesskit as a skill, not as a list of slash commands to run
+manually. After `init`, the project includes:
+
+```text
+.codex/skills/harnesskit/SKILL.md
+```
+
+Use it from Codex with natural language:
+
+```text
+Use Harnesskit to implement this feature.
+Harnesskit status.
+What's next in Harnesskit?
+Create a Harness contract for this change.
+```
+
+For user-scoped discovery in new Codex sessions, run:
+
+```bash
+npx @cardosoads/harnesskit@latest codex --global
+```
+
+Harnesskit agents are instruction files in `.harnesskit/core/agents/`; they
+are not separate local processes that Codex has to execute. The CLI remains the
+sensor runner for `status`, `next`, `doctor`, `validate`, and `contract`.
+
+## Claude Code Slash Commands
 
 Claude Code slash commands live in `.claude/commands/`. When using an agent
 environment that reads those files, the scaffold adds:
@@ -66,16 +94,6 @@ environment that reads those files, the scaffold adds:
 - `/harnesskit-next`
 - `/harnesskit-doctor`
 - `/harnesskit-contract`
-
-Codex does not use those Claude Code slash commands. In Codex, tell the agent to
-read `AGENTS.md`, then run the shell flow:
-
-```bash
-npx @cardosoads/harnesskit@latest codex
-```
-
-Harnesskit agents are instruction files in `.harnesskit/core/agents/`; they
-are not separate local processes that Codex has to execute.
 
 ## Package Checks
 

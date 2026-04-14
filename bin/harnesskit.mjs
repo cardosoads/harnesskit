@@ -11,11 +11,13 @@ import {
   statSync,
   writeFileSync,
 } from "node:fs";
+import { homedir } from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const __filename = fileURLToPath(import.meta.url);
 const packageRoot = path.resolve(path.dirname(__filename), "..");
+const CODEX_SKILL_RELATIVE_DIR = path.join(".codex", "skills", "harnesskit");
 
 const TRACKS = {
   greenfield: {
@@ -100,7 +102,7 @@ Usage:
   harnesskit init [--type <new-product|existing-system|feature-work>] [--name <name>] [--yes]
   harnesskit status
   harnesskit next
-  harnesskit codex
+  harnesskit codex [--global]
   harnesskit doctor
   harnesskit validate
   harnesskit contract "<work unit>"
@@ -336,13 +338,44 @@ function printNext(root) {
   console.log("  Claude Code slash command: /harnesskit-contract");
 }
 
-function printCodexGuide(root) {
+function codexHome() {
+  return process.env.CODEX_HOME ? path.resolve(process.env.CODEX_HOME) : path.join(homedir(), ".codex");
+}
+
+function codexSkillTemplateDir() {
+  return path.join(packageRoot, CODEX_SKILL_RELATIVE_DIR);
+}
+
+function codexSkillProjectDir(root) {
+  return path.join(root, CODEX_SKILL_RELATIVE_DIR);
+}
+
+function installCodexSkill(targetRoot) {
+  const source = codexSkillTemplateDir();
+  const target = codexSkillProjectDir(targetRoot);
+  if (!existsSync(source)) throw new Error(`Missing packaged Codex skill template: ${path.relative(packageRoot, source)}`);
+  if (path.resolve(source) === path.resolve(target)) return { target, installed: false };
+  copyDirectory(source, target);
+  return { target, installed: true };
+}
+
+function installUserCodexSkill() {
+  const source = codexSkillTemplateDir();
+  const target = path.join(codexHome(), "skills", "harnesskit");
+  if (!existsSync(source)) throw new Error(`Missing packaged Codex skill template: ${path.relative(packageRoot, source)}`);
+  copyDirectory(source, target);
+  return target;
+}
+
+function printCodexGuide(root, args = []) {
   const state = loadState(root);
   if (!state) {
     console.log("Harnesskit is not initialized here.");
     console.log("Run in your project shell: npx @cardosoads/harnesskit@latest init --type feature-work --name <project-name>");
     return;
   }
+  const skillResult = installCodexSkill(root);
+  const userSkill = hasFlag(args, "--global") || hasFlag(args, "--user") ? installUserCodexSkill() : "";
 
   const track = readProjectType(root, state);
   const trackInfo = TRACKS[track] || { label: track, alias: track };
@@ -355,6 +388,8 @@ function printCodexGuide(root) {
   console.log(`Project: ${projectName(root, state)}`);
   console.log(`Track: ${trackInfo.label} (${trackInfo.alias}; internal: ${track})`);
   console.log(`Current phase: ${state.current_phase || "unknown"}`);
+  console.log(`Codex project skill: ${path.relative(root, skillResult.target)}${skillResult.installed ? " (installed)" : " (present)"}`);
+  if (userSkill) console.log(`Codex user skill: ${userSkill} (installed)`);
   console.log(`Active contracts: ${contracts.length}`);
   if (contracts.length) {
     for (const contract of contracts) console.log(`  - ${contract}`);
@@ -367,22 +402,21 @@ function printCodexGuide(root) {
 
   console.log("");
   console.log("How to use this from Codex:");
-  console.log("  Codex does not run Harnesskit agents as separate processes.");
-  console.log("  Treat .harnesskit/core/agents/*.agent.yaml as instruction files.");
-  console.log("  Use the shell for sensors, status, and contracts.");
+  console.log("  Say: Use Harnesskit to implement <work unit>.");
+  console.log("  Or: Harnesskit status / What's next in Harnesskit? / Create a Harness contract.");
+  console.log("  Codex should load .codex/skills/harnesskit/SKILL.md, then route through Sheldon.");
+  console.log("  If the current Codex session does not see project-local skills yet, run:");
+  console.log("    npx @cardosoads/harnesskit@latest codex --global");
+  console.log("  Then start a new Codex session so the user-scoped skill is discovered.");
 
   console.log("");
-  console.log("Shell commands:");
+  console.log("Sensor commands:");
   console.log("  npx @cardosoads/harnesskit@latest status");
   console.log("  npx @cardosoads/harnesskit@latest next");
   console.log("  npx @cardosoads/harnesskit@latest codex");
   console.log("  npx @cardosoads/harnesskit@latest doctor");
   console.log("  npx @cardosoads/harnesskit@latest validate");
   console.log('  npx @cardosoads/harnesskit@latest contract "describe the work unit"');
-
-  console.log("");
-  console.log("Prompt to give Codex:");
-  console.log("  Use Harnesskit in this project. Read AGENTS.md, .harnesskit/core/agents/sheldon.agent.yaml, .harnesskit/harnesskit.yaml, and .harnesskit/state.json. Follow Sheldon's activation, route the next step to the responsible agent instructions, and for non-trivial implementation create or continue a Harness contract before editing files. Run the relevant npx @cardosoads/harnesskit@latest sensors and record Amy review when risk is medium or higher.");
 
   console.log("");
   if (contracts.length) {
@@ -541,12 +575,15 @@ async function initProject(args) {
   writeEmptyBaselines(targetRoot);
   ensureCleanDirs(targetRoot);
   writeSlashCommands(targetRoot);
+  const codexSkill = installCodexSkill(targetRoot);
   for (const file of ["CLAUDE.md", "AGENTS.md"]) {
     copyFileIfMissing(path.join(packageRoot, file), path.join(targetRoot, file));
   }
   console.log(`Harnesskit initialized for ${name}.`);
   console.log(`Track: ${TRACKS[track].label} (${TRACKS[track].alias}; internal: ${track})`);
+  console.log(`Codex skill: ${path.relative(targetRoot, codexSkill.target)}`);
   console.log("Next: npx @cardosoads/harnesskit@latest status");
+  console.log('Codex: say "Use Harnesskit" or run npx @cardosoads/harnesskit@latest codex --global for user-scoped discovery.');
 }
 
 function createContract(root, args) {
@@ -635,7 +672,7 @@ async function main() {
 
   if (command === "status") return printStatus(root);
   if (command === "next") return printNext(root);
-  if (command === "codex") return printCodexGuide(root);
+  if (command === "codex") return printCodexGuide(root, args);
   if (command === "doctor") return runProjectCommand(root, ["bash", ".harnesskit/scripts/harness-doctor.sh"]);
   if (command === "validate") {
     const ajvBin = packageAjvBin();

@@ -1,6 +1,6 @@
 {
   "name": "@cardosoads/harnesskit",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Harness-first agent workflow scaffold for software projects.",
   "type": "module",
   "private": false,
@@ -19,6 +19,7 @@
   },
   "files": [
     "bin/",
+    ".codex/skills/harnesskit/SKILL.md",
     ".claude/commands/",
     ".harnesskit/harnesskit.yaml",
     ".harnesskit/core/",

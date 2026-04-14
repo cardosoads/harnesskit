@@ -30,14 +30,35 @@ User-facing track names are `new-product`, `existing-system`, and
 
 ## Codex Usage
 
-Codex does not run Harnesskit agents as separate processes and does not use the
-Claude Code slash commands in `.claude/commands/`. In Codex, use natural
-language plus shell commands:
+Codex should use Harnesskit through the project skill at
+`.codex/skills/harnesskit/SKILL.md`. If the skill is not present, run:
 
 ```bash
 npx @cardosoads/harnesskit@latest codex
+```
+
+For user-scoped discovery in new Codex sessions, run:
+
+```bash
+npx @cardosoads/harnesskit@latest codex --global
+```
+
+Then use natural language inside Codex:
+
+```text
+Use Harnesskit to implement this feature.
+Harnesskit status.
+What's next in Harnesskit?
+Create a Harness contract for this change.
+```
+
+The CLI remains the sensor runner:
+
+```bash
 npx @cardosoads/harnesskit@latest status
 npx @cardosoads/harnesskit@latest next
+npx @cardosoads/harnesskit@latest doctor
+npx @cardosoads/harnesskit@latest validate
 ```
 
 Treat `.harnesskit/core/agents/*.agent.yaml` as instruction files. Load
